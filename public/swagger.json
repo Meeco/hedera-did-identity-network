@@ -18,143 +18,113 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Post": {
+			"VerificationMethod": {
 				"properties": {
 					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"title": {
 						"type": "string"
 					},
-					"content": {
+					"controller": {
 						"type": "string"
 					},
-					"userId": {
-						"type": "number",
-						"format": "double"
+					"type": {
+						"type": "string"
 					},
-					"user": {
-						"$ref": "#/components/schemas/User"
-					},
-					"comments": {
-						"items": {
-							"$ref": "#/components/schemas/Comment"
-						},
-						"type": "array"
-					},
-					"createdAt": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"updatedAt": {
-						"type": "string",
-						"format": "date-time"
+					"publicKeyMultibase": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"id",
-					"title",
-					"content",
-					"userId",
-					"user",
-					"comments",
-					"createdAt",
-					"updatedAt"
+					"controller",
+					"type",
+					"publicKeyMultibase"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"User": {
+			"Service": {
 				"properties": {
 					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"firstName": {
 						"type": "string"
 					},
-					"lastName": {
+					"type": {
 						"type": "string"
 					},
-					"email": {
+					"serviceEndpoint": {
 						"type": "string"
-					},
-					"posts": {
-						"items": {
-							"$ref": "#/components/schemas/Post"
-						},
-						"type": "array"
-					},
-					"comments": {
-						"items": {
-							"$ref": "#/components/schemas/Comment"
-						},
-						"type": "array"
-					},
-					"createdAt": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"updatedAt": {
-						"type": "string",
-						"format": "date-time"
 					}
 				},
 				"required": [
 					"id",
-					"firstName",
-					"lastName",
-					"email",
-					"posts",
-					"comments",
-					"createdAt",
-					"updatedAt"
+					"type",
+					"serviceEndpoint"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Comment": {
+			"DidDocument": {
 				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
+					"@context": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
 					},
-					"content": {
+					"controller": {
 						"type": "string"
 					},
-					"userId": {
-						"type": "number",
-						"format": "double"
+					"verificationMethod": {
+						"items": {
+							"$ref": "#/components/schemas/VerificationMethod"
+						},
+						"type": "array"
 					},
-					"user": {
-						"$ref": "#/components/schemas/User"
+					"authentication": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
 					},
-					"postId": {
-						"type": "number",
-						"format": "double"
+					"assertionMethod": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
 					},
-					"post": {
-						"$ref": "#/components/schemas/Post"
+					"keyAgreement": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
 					},
-					"createdAt": {
-						"type": "string",
-						"format": "date-time"
+					"capabilityInvocation": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
 					},
-					"updatedAt": {
-						"type": "string",
-						"format": "date-time"
+					"capabilityDelegation": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"service": {
+						"items": {
+							"$ref": "#/components/schemas/Service"
+						},
+						"type": "array"
+					},
+					"id": {
+						"type": "string"
 					}
 				},
 				"required": [
-					"id",
-					"content",
-					"userId",
-					"user",
-					"postId",
-					"post",
-					"createdAt",
-					"updatedAt"
+					"@context",
+					"verificationMethod",
+					"authentication",
+					"assertionMethod",
+					"id"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -163,11 +133,8 @@
 		"securitySchemes": {}
 	},
 	"info": {
-		"title": "express-typescript",
-		"version": "1.1.1",
-		"license": {
-			"name": "ISC"
-		},
+		"title": "hedera-appnet",
+		"version": "1.0.0",
 		"contact": {}
 	},
 	"openapi": "3.0.0",
@@ -191,34 +158,31 @@
 				"parameters": []
 			}
 		},
-		"/posts": {
+		"/did": {
 			"get": {
-				"operationId": "GetPosts",
+				"operationId": "Resolve",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/Post"
-									},
-									"type": "array"
+									"$ref": "#/components/schemas/DidDocument"
 								}
 							}
 						}
 					}
 				},
 				"tags": [
-					"Post"
+					"Document"
 				],
 				"security": [],
 				"parameters": []
 			}
 		},
-		"/posts/{id}": {
+		"/did/{id}": {
 			"get": {
-				"operationId": "GetPost",
+				"operationId": "Remove",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -227,7 +191,7 @@
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/Post"
+											"$ref": "#/components/schemas/DidDocument"
 										}
 									],
 									"nullable": true
@@ -237,7 +201,7 @@
 					}
 				},
 				"tags": [
-					"Post"
+					"Document"
 				],
 				"security": [],
 				"parameters": [
