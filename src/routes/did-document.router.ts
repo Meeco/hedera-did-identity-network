@@ -3,23 +3,19 @@ import DidDocumentController from "../controllers/did-document.controller";
 
 const router = express.Router();
 
-router.get("/:did", async (req, res) => {
+router.get("/:did", async (req, res, next) => {
   const controller = new DidDocumentController();
-  const response = await controller.resolve(req.params.did);
-  return res.send(response);
+  return controller.resolve(req.params.did).then(res.send).catch(next);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   const controller = new DidDocumentController();
-  const response = await controller.register(req.body);
-  return res.send(response);
+  return controller.register(req.body).then(res.send).catch(next);
 });
 
-router.delete("/:did", async (req, res) => {
+router.delete("/:did", async (req, res, next) => {
   const controller = new DidDocumentController();
-  const response = await controller.remove(req.params.did);
-  if (!response) res.status(404).send({ message: "No post found" });
-  return res.send(response);
+  return controller.remove(req.params.did).then(res.send).catch(next);
 });
 
 export default router;

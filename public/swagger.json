@@ -132,6 +132,166 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"IServiceRegisterPayload": {
+				"properties": {
+					"service": {
+						"$ref": "#/components/schemas/Service"
+					}
+				},
+				"required": [
+					"service"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IServiceUpdateBody": {
+				"properties": {
+					"type": {
+						"type": "string"
+					},
+					"serviceEndpoint": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"type",
+					"serviceEndpoint"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IServiceUpdatePayload": {
+				"properties": {
+					"service": {
+						"$ref": "#/components/schemas/IServiceUpdateBody"
+					}
+				},
+				"required": [
+					"service"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IVerificationMethodRegisterPayload": {
+				"properties": {
+					"verificationMethod": {
+						"$ref": "#/components/schemas/VerificationMethod"
+					}
+				},
+				"required": [
+					"verificationMethod"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IVerificationMethodUpdateBody": {
+				"properties": {
+					"controller": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					},
+					"publicKeyMultibase": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"controller",
+					"type",
+					"publicKeyMultibase"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IVerificationMethodUpdatePayload": {
+				"properties": {
+					"verificationMethod": {
+						"$ref": "#/components/schemas/IVerificationMethodUpdateBody"
+					}
+				},
+				"required": [
+					"verificationMethod"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IVerificationRelationship": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"controller": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					},
+					"relationshipType": {
+						"type": "string"
+					},
+					"publicKeyMultibase": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"controller",
+					"type",
+					"relationshipType",
+					"publicKeyMultibase"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IVerificationRelationshipRegisterPayload": {
+				"properties": {
+					"verificationRelationship": {
+						"$ref": "#/components/schemas/IVerificationRelationship"
+					}
+				},
+				"required": [
+					"verificationRelationship"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IVerificationRelationshipUpdateBody": {
+				"properties": {
+					"controller": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					},
+					"relationshipType": {
+						"type": "string"
+					},
+					"publicKeyMultibase": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"controller",
+					"type",
+					"relationshipType",
+					"publicKeyMultibase"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IVerificationRelationshipUpdatePayload": {
+				"properties": {
+					"verificationRelationship": {
+						"$ref": "#/components/schemas/IVerificationRelationshipUpdateBody"
+					}
+				},
+				"required": [
+					"verificationRelationship"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -200,7 +360,7 @@
 				"security": [],
 				"parameters": [
 					{
-						"description": "DID Identifier as defined in DID specification",
+						"description": "Identifier as defined in DID specification",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -213,20 +373,8 @@
 			"delete": {
 				"operationId": "Remove",
 				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"allOf": [
-										{
-											"$ref": "#/components/schemas/DidDocument"
-										}
-									],
-									"nullable": true
-								}
-							}
-						}
+					"204": {
+						"description": "No content"
 					}
 				},
 				"description": "Permanently remove DID Document from Appnet registry. In addition to that, new messages will be written to the DID topic stating that document has been removed.",
@@ -240,6 +388,426 @@
 						"description": "DID Identifier as defined in DID specification",
 						"in": "path",
 						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/did/{did}/services": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					}
+				},
+				"description": "Register a new service to the DID Document",
+				"summary": "Register a new service to the DID Document",
+				"tags": [
+					"Service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Identifier as defined in DID specification",
+						"in": "path",
+						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Register service payload",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IServiceRegisterPayload"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/did/{did}/services/{id}": {
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					}
+				},
+				"description": "Update service information on the DID Document",
+				"summary": "Update service information on the DID Document",
+				"tags": [
+					"Service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Identifier as defined in DID specification",
+						"in": "path",
+						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Service ID string",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Update service payload",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IServiceUpdatePayload"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "Remove",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					}
+				},
+				"description": "Remove service information from the DID Document",
+				"summary": "Remove service information from the DID Document",
+				"tags": [
+					"Service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Identifier as defined in DID specification",
+						"in": "path",
+						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Service ID string",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/did/{did}/verification-methods": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					}
+				},
+				"description": "Register a new verification method to the DID document",
+				"summary": "Register a new verification method to the DID document",
+				"tags": [
+					"Verification Method"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Identifier as defined in DID specification",
+						"in": "path",
+						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Register verification method payload",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IVerificationMethodRegisterPayload"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/did/{did}/verification-methods/{id}": {
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					}
+				},
+				"description": "Update verification method on a DID document",
+				"summary": "Update verification method on a DID document",
+				"tags": [
+					"Verification Method"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Identifier as defined in DID specification",
+						"in": "path",
+						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Verification method ID string",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Update verification method payload",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IVerificationMethodUpdatePayload"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "Remove",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					}
+				},
+				"description": "Remove verification method from the DID document",
+				"summary": "Remove verification method from the DID document",
+				"tags": [
+					"Verification Method"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Identifier as defined in DID specification",
+						"in": "path",
+						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Verification method ID string",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/did/{did}/verification-relationships": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					}
+				},
+				"description": "Register a new verification relationship to the DID document",
+				"summary": "Register a new verification relationship to the DID document",
+				"tags": [
+					"Verification Relationship"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Identifier as defined in DID specification",
+						"in": "path",
+						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Register verification relationship payload",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IVerificationRelationshipRegisterPayload"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/did/{did}/verification-relationships/{id}": {
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					}
+				},
+				"description": "Update verification relationship on the DID document",
+				"summary": "Update verification relationship on the DID document",
+				"tags": [
+					"Verification Relationship"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Identifier as defined in DID specification",
+						"in": "path",
+						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Verification relationship ID string",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Update verification relationship payload",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IVerificationRelationshipUpdatePayload"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "Remove",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					}
+				},
+				"description": "Remove verification relationship from the DID document",
+				"summary": "Remove verification relationship from the DID document",
+				"tags": [
+					"Verification Relationship"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Identifier as defined in DID specification",
+						"in": "path",
+						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Verification relationship ID string",
+						"in": "path",
+						"name": "id",
 						"required": true,
 						"schema": {
 							"type": "string"
