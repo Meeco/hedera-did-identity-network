@@ -5,15 +5,15 @@ export interface IDidDocumentRegisterPayload {
 }
 
 export const resolve = async (did: string): Promise<DidDocument> => {
-  throw new Error("Method not implemented.");
+  return Promise.reject(new Error("Method not implemented."));
 };
 
 export const register = async (
   payload: IDidDocumentRegisterPayload
 ): Promise<DidDocument> => {
-  throw new Error("Method not implemented.");
+  return Promise.reject(new Error("Method not implemented."));
 };
 
 export const remove = async (did: string): Promise<DidDocument | null> => {
-  throw new Error("Method not implemented.");
+  return Promise.reject(new Error("Method not implemented."));
 };
