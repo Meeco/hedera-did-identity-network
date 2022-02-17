@@ -128,6 +128,22 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"IDidDocumentRegisterPayload": {
+				"properties": {
+					"publicKeyMultibase": {
+						"type": "string",
+						"enum": [
+							"string"
+						],
+						"nullable": false
+					}
+				},
+				"required": [
+					"publicKeyMultibase"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -159,6 +175,40 @@
 			}
 		},
 		"/did": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					}
+				},
+				"description": "Register a new DID document. User provides public key that is going to be added as a delegate key that allows user to modify created DID document later.",
+				"summary": "Register a new DID Document.",
+				"tags": [
+					"Document"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IDidDocumentRegisterPayload"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/did/{did}": {
 			"get": {
 				"operationId": "Resolve",
 				"responses": {
@@ -173,15 +223,25 @@
 						}
 					}
 				},
+				"description": "Resolve DID Document",
+				"summary": "Resolve DID Document",
 				"tags": [
 					"Document"
 				],
 				"security": [],
-				"parameters": []
-			}
-		},
-		"/did/{id}": {
-			"get": {
+				"parameters": [
+					{
+						"description": "DID Identifier as defined in DID specification",
+						"in": "path",
+						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
 				"operationId": "Remove",
 				"responses": {
 					"200": {
@@ -200,14 +260,17 @@
 						}
 					}
 				},
+				"description": "Permanently remove DID Document from Appnet registry. In addition to that, new messages will be written to the DID topic stating that document has been removed.",
+				"summary": "Remove DID Document from registry",
 				"tags": [
 					"Document"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "DID Identifier as defined in DID specification",
 						"in": "path",
-						"name": "id",
+						"name": "did",
 						"required": true,
 						"schema": {
 							"type": "string"

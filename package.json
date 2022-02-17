@@ -42,7 +42,8 @@
     "morgan": "^1.10.0",
     "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "^4.1.4",
-    "tsoa": "^3.3.0"
+    "tsoa": "^3.3.0",
+    "@hashgraph/did-sdk-js": "github:Meeco/did-sdk-js#c4e4f8685a31bcbf1f800691361f4662ed58612a"
   },
   "nodemonConfig": {
     "watch": [
