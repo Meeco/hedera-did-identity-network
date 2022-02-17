@@ -18,6 +18,9 @@ Install dependencies.
    docker-compose up
    ```
 
+## swagger docs
+<http://localhost:8000/docs/#/>
+
 ## Run Production
 
 1. Install dependencies.
