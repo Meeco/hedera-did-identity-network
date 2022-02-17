@@ -1,12 +1,10 @@
-import "reflect-metadata";
-
 import express, { Application } from "express";
 import morgan from "morgan";
+import "reflect-metadata";
 import swaggerUi from "swagger-ui-express";
-
-import Router from "./routes";
 import { errorHandler } from "./middleware/error.middleware";
 import { notFoundHandler } from "./middleware/not-found.middleware";
+import Router from "./routes";
 
 const PORT = process.env.PORT || 8000;
 
