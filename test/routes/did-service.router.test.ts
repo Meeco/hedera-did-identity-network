@@ -1,17 +1,17 @@
 import express from "express";
 import request from "supertest";
-import { errorHandler } from "../../src/middleware/error.middleware";
-import { notFoundHandler } from "../../src/middleware/not-found.middleware";
-import router from "../../src/routes";
+// import { errorHandler } from "../../src/middleware/error.middleware";
+// import { notFoundHandler } from "../../src/middleware/not-found.middleware";
+// import router from "../../src/routes";
 
 const app = express();
 
-app.use("/", router);
-app.use(errorHandler);
-app.use(notFoundHandler);
+// app.use("/", router);
+// app.use(errorHandler);
+// app.use(notFoundHandler);
 
-describe("DID Service router", () => {
-  xdescribe("POST /did/:did/services", () => {
+xdescribe("DID Service router", () => {
+  describe("POST /did/:did/services", () => {
     test("throws errors", async () => {
       const res = await request(app)
         .post("/did/test-did-id/services")
@@ -29,7 +29,7 @@ describe("DID Service router", () => {
     });
   });
 
-  xdescribe("PUT /did/:did/services/:id", () => {
+  describe("PUT /did/:did/services/:id", () => {
     test("throws errors", async () => {
       const res = await request(app)
         .put("/did/test-did-id/services/test-service-id")
@@ -47,7 +47,7 @@ describe("DID Service router", () => {
     });
   });
 
-  xdescribe("DELETE /did/:did/services/:id", () => {
+  describe("DELETE /did/:did/services/:id", () => {
     test("throws errors", async () => {
       const res = await request(app)
         .delete("/did/test-did-id/services/test-service-id")
