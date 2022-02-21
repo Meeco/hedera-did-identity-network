@@ -41,7 +41,9 @@
   },
   "dependencies": {
     "@hashgraph/did-sdk-js": "github:Meeco/did-sdk-js#c4e4f8685a31bcbf1f800691361f4662ed58612a",
+    "dotenv": "^16.0.0",
     "express": "^4.17.1",
+    "mongoose": "^6.2.2",
     "morgan": "^1.10.0",
     "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "^4.1.4",

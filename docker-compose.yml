@@ -2,6 +2,9 @@ version: "3"
 
 services:
   app:
+    restart: always
+    depends_on:
+      - mongodb
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -9,3 +12,26 @@ services:
       - ./src:/app/src
     ports:
       - "8000:8000"
+    links:
+      - mongodb
+    environment:
+      WAIT_HOSTS: mongodb:27017
+    networks:
+      - hedera-appnet-network
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    env_file: ./.env
+    environment:
+      - MONGO_INITDB_DATABASE=$DB_NAME
+      - MONGO_INITDB_ROOT_USERNAME=$DB_USER
+      - MONGO_INITDB_ROOT_PASSWORD=$DB_PASSWORD
+    ports:
+      - $DB_PORT:$DB_PORT
+    volumes:
+      - ~/mongodb:/data/db
+    networks:
+      - hedera-appnet-network
+networks:
+  hedera-appnet-network:
+    driver: bridge
