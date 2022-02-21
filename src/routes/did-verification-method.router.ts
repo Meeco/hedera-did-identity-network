@@ -1,7 +1,7 @@
 import express from "express";
 import DidVerificationMethodController from "../controllers/did-verification-method.controller";
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router.post("/", async (req, res, next) => {
   const controller = new DidVerificationMethodController();

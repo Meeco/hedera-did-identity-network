@@ -11,7 +11,7 @@ app.use(errorHandler);
 app.use(notFoundHandler);
 
 describe("DID Service router", () => {
-  describe("POST /did/:did/services", () => {
+  xdescribe("POST /did/:did/services", () => {
     test("throws errors", async () => {
       const res = await request(app)
         .post("/did/test-did-id/services")
@@ -29,7 +29,7 @@ describe("DID Service router", () => {
     });
   });
 
-  describe("PUT /did/:did/services/:id", () => {
+  xdescribe("PUT /did/:did/services/:id", () => {
     test("throws errors", async () => {
       const res = await request(app)
         .put("/did/test-did-id/services/test-service-id")
@@ -47,7 +47,7 @@ describe("DID Service router", () => {
     });
   });
 
-  describe("DELETE /did/:did/services/:id", () => {
+  xdescribe("DELETE /did/:did/services/:id", () => {
     test("throws errors", async () => {
       const res = await request(app)
         .delete("/did/test-did-id/services/test-service-id")

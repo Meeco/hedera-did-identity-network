@@ -28,7 +28,7 @@ describe("DID Document router", () => {
     });
   });
 
-  describe("POST /did", () => {
+  xdescribe("POST /did", () => {
     test("throws errors", async () => {
       const res = await request(app)
         .post("/did")

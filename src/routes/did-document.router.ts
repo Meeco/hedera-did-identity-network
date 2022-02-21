@@ -10,7 +10,13 @@ router.get("/:did", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   const controller = new DidDocumentController();
-  return controller.register(req.body).then(res.send).catch(next);
+  return controller
+    .register(req.body)
+    .then((doc) => {
+      res.status(201);
+      res.send(doc);
+    })
+    .catch(next);
 });
 
 router.delete("/:did", async (req, res, next) => {

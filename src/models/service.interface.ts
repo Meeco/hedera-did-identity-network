@@ -1,5 +1,5 @@
 export class Service {
   id!: string;
-  type!: string;
+  type!: "LinkedDomains" | "DIDCommMessaging";
   serviceEndpoint!: string;
 }

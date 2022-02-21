@@ -14,6 +14,8 @@ Install dependencies.
 
 Install dependencies.
 
+Fill in `.env` configuration variables.
+
    ```sh
    docker-compose up
    ```

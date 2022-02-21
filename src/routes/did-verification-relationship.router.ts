@@ -1,7 +1,7 @@
 import express from "express";
 import DidVerificationRelationshipController from "../controllers/did-verification-relationship.controller";
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router.post("/", async (req, res, next) => {
   const controller = new DidVerificationRelationshipController();

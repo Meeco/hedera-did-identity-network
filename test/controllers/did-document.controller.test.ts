@@ -1,6 +1,6 @@
 import DidDocumentController from "../../src/controllers/did-document.controller";
 
-test("should return not implemented message", async () => {
+xtest("should return not implemented message", async () => {
   const controller = new DidDocumentController();
   const action = async () => {
     await controller.resolve(
