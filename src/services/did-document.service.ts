@@ -4,7 +4,7 @@ import {
   HcsDidMessage,
   DidDocument as DidSDKDidDocument,
 } from "@hashgraph/did-sdk-js";
-import { PrivateKey, PublicKey } from "@hashgraph/sdk";
+import { PrivateKey, PublicKey, Timestamp } from "@hashgraph/sdk";
 import { DidDocument } from "src/models/did-document";
 import HttpException from "../common/http-exception";
 import { DidKeypairModel } from "../daos/did-keypair.dao";
@@ -21,10 +21,53 @@ export const resolve = async (did: string): Promise<DidDocument> => {
 
     console.log(`read messages from DB`);
     const savedHcsDidMessages = await MessageModel.getMessagesByDID(did);
+    const lastMessageArrivalTime =
+      savedHcsDidMessages && savedHcsDidMessages.length > 0
+        ? savedHcsDidMessages[savedHcsDidMessages.length - 1].getTimestamp()
+        : null;
 
-    // TODO: read remaining from mirror node based on time stamp
+    // TODO: read remaining from mirror node based on timestamp
+    const hcsDid = new HcsDid({ identifier: did, client: client });
+    const newHcsMessages = await hcsDid.readMessages(
+      lastMessageArrivalTime ? lastMessageArrivalTime : new Timestamp(0, 0)
+    );
 
-    const doc = new DidSDKDidDocument(did, savedHcsDidMessages);
+    let result: HcsDidMessage[] = [];
+
+    if (
+      savedHcsDidMessages &&
+      savedHcsDidMessages.length > 0 &&
+      newHcsMessages &&
+      newHcsMessages.length > 0
+    ) {
+      result = savedHcsDidMessages.concat(newHcsMessages);
+    } else if (
+      !savedHcsDidMessages &&
+      newHcsMessages &&
+      newHcsMessages.length > 0
+    ) {
+      result = newHcsMessages;
+    } else if (
+      savedHcsDidMessages &&
+      savedHcsDidMessages.length > 0 &&
+      !newHcsMessages
+    ) {
+      result = savedHcsDidMessages;
+    }
+
+    //TODO: save new messages to DB
+    //   newHcsMessages.forEach((msg) => {
+    //     MessageModel.createMessage({
+    //       timestamp: msg.getTimestamp(),
+    //       operation: msg.getOperation(),
+    //       did: msg.getDid(),
+    //       event: msg.getEventBase64(),
+    //       signature: msg.get,
+    //     });
+    // });
+
+    //resolve doc
+    const doc = new DidSDKDidDocument(did, result);
     return doc.toJsonTree();
   } catch (err: any) {
     console.log(err);
