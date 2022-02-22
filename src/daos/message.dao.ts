@@ -10,7 +10,7 @@ class MessageSchema {
     {
       timestamp: Date,
       operation: String,
-      did: String,
+      did: { type: [String], index: true },
       event: String,
       signature: String,
     },
@@ -33,7 +33,10 @@ class MessageSchema {
   }
 
   async getMessagesByDID(did: string) {
-    const result = await this.message.find({ did: did }).exec();
+    const result = await this.message
+      .find({ did: did })
+      .sort("timestamp")
+      .exec();
     const didMessages = result.map((message) => {
       return HcsDidMessage.fromJsonTree(message);
     });

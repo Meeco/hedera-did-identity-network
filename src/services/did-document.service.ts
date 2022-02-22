@@ -22,6 +22,8 @@ export const resolve = async (did: string): Promise<DidDocument> => {
     console.log(`read messages from DB`);
     const savedHcsDidMessages = await MessageModel.getMessagesByDID(did);
 
+    // TODO: read remaining from mirror node based on time stamp
+
     const doc = new DidSDKDidDocument(did, savedHcsDidMessages);
     return doc.toJsonTree();
   } catch (err: any) {
