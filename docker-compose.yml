@@ -31,6 +31,7 @@ services:
     ports:
       - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
     volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js:ro
       - db:/data/db
 volumes:
   db:
