@@ -1,9 +1,14 @@
-import { Hashing, HcsDid } from "@hashgraph/did-sdk-js";
+import {
+  Hashing,
+  HcsDid,
+  HcsDidMessage,
+  DidDocument as DidSDKDidDocument,
+} from "@hashgraph/did-sdk-js";
 import { PrivateKey, PublicKey } from "@hashgraph/sdk";
+import { DidDocument } from "src/models/did-document";
 import HttpException from "../common/http-exception";
 import { DidKeypairModel } from "../daos/did-keypair.dao";
 import { MessageModel } from "../daos/message.dao";
-import { DidDocument } from "../models";
 import { client } from "../services/hedera-client";
 
 export interface IDidDocumentRegisterPayload {
@@ -11,57 +16,89 @@ export interface IDidDocumentRegisterPayload {
 }
 
 export const resolve = async (did: string): Promise<DidDocument> => {
-  return Promise.reject(
-    new HttpException(
-      500,
-      "Resolve DID not impemented",
-      "Resolve DID not impemented"
-    )
-  );
+  try {
+    console.log("resolving did: " + did);
+
+    console.log(`read messages from DB`);
+    const savedHcsDidMessages = await MessageModel.getMessagesByDID(did);
+
+    const doc = new DidSDKDidDocument(did, savedHcsDidMessages);
+    return doc.toJsonTree();
+  } catch (err: any) {
+    console.log(err);
+    return Promise.reject(new HttpException(500, err.message, err.message));
+  }
 };
 
 export const register = async (
   payload: IDidDocumentRegisterPayload
 ): Promise<DidDocument> => {
-  const privateKey = PrivateKey.generate();
+  try {
+    let messages: HcsDidMessage[] = [];
+    console.log(
+      `decode payload multibase public key ${payload.publicKeyMultibase}`
+    );
+    const decodedMultiBasePubKey = Hashing.multibase.decode(
+      payload.publicKeyMultibase
+    );
+    const publicKey = PublicKey.fromBytes(decodedMultiBasePubKey);
 
-  const hcsDid = new HcsDid({
-    privateKey: privateKey,
-    client: client,
-    onMessageConfirmed: (envelope) => {
-      const message = envelope.open();
+    console.log(`generate private key`);
+    const privateKey = PrivateKey.generate();
 
-      // async
-      MessageModel.createMessage({
-        timestamp: envelope.getConsensusTimestamp(),
-        operation: message.getOperation(),
-        did: message.getDid(),
-        event: message.getEventBase64(),
-        signature: envelope.getSignature(),
-      });
-    },
-  });
+    console.log(`creating did`);
+    const hcsDid = new HcsDid({
+      privateKey: privateKey,
+      client: client,
+      onMessageConfirmed: (envelope) => {
+        const message = envelope.open();
+        messages.push(message);
 
-  await hcsDid.register();
+        //NOTE: VS - should we be saving it to DB before adding authentication verification method ??
+        // async :
+        MessageModel.createMessage({
+          timestamp: envelope.getConsensusTimestamp(),
+          operation: message.getOperation(),
+          did: message.getDid(),
+          event: message.getEventBase64(),
+          signature: envelope.getSignature(),
+        });
+      },
+    });
 
-  await DidKeypairModel.createDidKeypair({
-    did: hcsDid.getIdentifier(),
-    privateKey: privateKey,
-  });
+    console.log(`register did`);
+    await hcsDid.register();
 
-  await hcsDid.addVerificationRelationship({
-    id: hcsDid.getIdentifier() + "#key-1",
-    relationshipType: "authentication",
-    controller: hcsDid.getIdentifier(),
-    type: "Ed25519VerificationKey2018",
-    publicKey: PublicKey.fromBytes(
-      Hashing.multibase.decode(payload.publicKeyMultibase)
-    ),
-  });
+    console.log(`create keypair`);
+    await DidKeypairModel.createDidKeypair({
+      did: hcsDid.getIdentifier(),
+      privateKey: privateKey,
+    });
 
-  const doc = await hcsDid.resolve();
+    console.log(`add verification method`);
+    await hcsDid.addVerificationRelationship({
+      id: hcsDid.getIdentifier() + "#key-1",
+      relationshipType: "authentication",
+      controller: hcsDid.getIdentifier(),
+      type: "Ed25519VerificationKey2018",
+      publicKey: publicKey,
+    });
 
-  return doc.toJsonTree();
+    console.log(`read messages from DB`);
+    const savedHcsDidMessages = await MessageModel.getMessagesByDID(
+      hcsDid.getIdentifier()
+    );
+
+    const doc = new DidSDKDidDocument(
+      hcsDid.getIdentifier(),
+      savedHcsDidMessages
+    );
+
+    return doc.toJsonTree();
+  } catch (err: any) {
+    console.log(err);
+    return Promise.reject(new HttpException(500, err.message, err.message));
+  }
 };
 
 export const remove = async (did: string): Promise<void> => {

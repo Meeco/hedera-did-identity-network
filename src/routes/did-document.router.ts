@@ -5,7 +5,13 @@ const router = express.Router();
 
 router.get("/:did", async (req, res, next) => {
   const controller = new DidDocumentController();
-  return controller.resolve(req.params.did).then(res.send).catch(next);
+  return controller
+    .resolve(req.params.did)
+    .then((doc) => {
+      res.status(200);
+      res.send(doc);
+    })
+    .catch(next);
 });
 
 router.post("/", async (req, res, next) => {

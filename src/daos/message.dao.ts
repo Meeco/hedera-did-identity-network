@@ -1,3 +1,5 @@
+import { HcsDidMessage, MessageEnvelope } from "@hashgraph/did-sdk-js";
+import { HcsDidEvent } from "@hashgraph/did-sdk-js/dist/identity/hcs/did/event/hcs-did-event";
 import { getMongoose } from "../db/connection.service";
 import { CreateMessageDto } from "../dto/create.message.dto";
 
@@ -30,12 +32,13 @@ class MessageSchema {
     return message;
   }
 
-  async getMessages(limit = 25, page = 0) {
-    return this.message
-      .find()
-      .limit(limit)
-      .skip(limit * page)
-      .exec();
+  async getMessagesByDID(did: string) {
+    const result = await this.message.find({ did: did }).exec();
+    const didMessages = result.map((message) => {
+      return HcsDidMessage.fromJsonTree(message);
+    });
+    console.log(JSON.stringify(didMessages));
+    return didMessages;
   }
 }
 
