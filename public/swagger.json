@@ -36,7 +36,11 @@
 						"type": "string"
 					},
 					"type": {
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"LinkedDomains",
+							"DIDCommMessaging"
+						]
 					},
 					"serviceEndpoint": {
 						"type": "string"
@@ -148,7 +152,11 @@
 			"IServiceUpdateBody": {
 				"properties": {
 					"type": {
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"LinkedDomains",
+							"DIDCommMessaging"
+						]
 					},
 					"serviceEndpoint": {
 						"type": "string"
@@ -308,7 +316,7 @@
 				"operationId": "Register",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -342,7 +350,7 @@
 				"operationId": "Resolve",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -401,7 +409,7 @@
 				"operationId": "Register",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -446,7 +454,7 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -498,7 +506,7 @@
 				"operationId": "Remove",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -541,7 +549,7 @@
 				"operationId": "Register",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -586,7 +594,7 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -638,7 +646,7 @@
 				"operationId": "Remove",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -681,7 +689,7 @@
 				"operationId": "Register",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -726,7 +734,7 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -778,7 +786,7 @@
 				"operationId": "Remove",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {

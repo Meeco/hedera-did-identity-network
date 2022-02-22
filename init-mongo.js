@@ -1,4 +1,4 @@
-db.createView('diddocuments', 'didevents', [
+db.createView('diddocuments', 'messages', [
     {
         $sort: { "timestamp": 1 }
     },
