@@ -27,7 +27,7 @@ router.post("/", async (req, res, next) => {
 
 router.delete("/:did", async (req, res, next) => {
   const controller = new DidDocumentController();
-  return controller.remove(req.params.did).then(res.send).catch(next);
+  return controller.revoke(req.params.did).then(res.send).catch(next);
 });
 
 export default router;

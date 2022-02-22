@@ -1,11 +1,6 @@
 import { Body, Delete, Get, Path, Post, Route, Tags } from "tsoa";
-import { DidDocument } from "../models";
-import {
-  IDidDocumentRegisterPayload,
-  register,
-  remove,
-  resolve,
-} from "../services/did-document.service";
+import { DidDocument, IDidDocumentRegisterPayload } from "../models";
+import { registerDid, resolveDid, revokeDid } from "../services";
 
 @Route("did")
 @Tags("Document")
@@ -20,7 +15,7 @@ export default class DidDocumentController {
   public async register(
     @Body() body: IDidDocumentRegisterPayload
   ): Promise<DidDocument> {
-    return register(body);
+    return registerDid(body);
   }
 
   /**
@@ -31,7 +26,7 @@ export default class DidDocumentController {
    */
   @Get("/{did}")
   public async resolve(@Path() did: string): Promise<DidDocument> {
-    return resolve(did);
+    return resolveDid(did);
   }
 
   /**
@@ -41,7 +36,7 @@ export default class DidDocumentController {
    * @returns void
    */
   @Delete("/{did}")
-  public async remove(@Path() did: string): Promise<void> {
-    return remove(did);
+  public async revoke(@Path() did: string): Promise<void> {
+    return revokeDid(did);
   }
 }

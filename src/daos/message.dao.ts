@@ -1,7 +1,6 @@
 import { HcsDidMessage, MessageEnvelope } from "@hashgraph/did-sdk-js";
-import { HcsDidEvent } from "@hashgraph/did-sdk-js/dist/identity/hcs/did/event/hcs-did-event";
-import { getMongoose } from "../db/connection.service";
 import { CreateMessageDto } from "../dto/create.message.dto";
+import { getMongoose } from "../services";
 
 class MessageSchema {
   Schema = getMongoose().Schema;
@@ -32,6 +31,18 @@ class MessageSchema {
     return message;
   }
 
+  async createMessages(messagesFields: CreateMessageDto[]) {
+    const messages = messagesFields.map(
+      (messageFields) =>
+        new this.message({
+          ...messageFields,
+          timestamp: messageFields.timestamp.toDate(),
+        })
+    );
+
+    return this.message.insertMany(messages);
+  }
+
   async getMessagesByDID(did: string) {
     const result = await this.message
       .find({ did: did })
@@ -40,8 +51,28 @@ class MessageSchema {
     const didMessages = result.map((message) => {
       return HcsDidMessage.fromJsonTree(message);
     });
-    console.log(JSON.stringify(didMessages));
     return didMessages;
+  }
+
+  async getLastMessageForDID(did: string) {
+    const result = await this.message
+      .findOne({ did: did })
+      .sort({ timestamp: -1 })
+      .exec();
+
+    return HcsDidMessage.fromJsonTree(result);
+  }
+
+  messageToDto(envelope: MessageEnvelope<HcsDidMessage>): CreateMessageDto {
+    const message = envelope.open();
+
+    return {
+      timestamp: envelope.getConsensusTimestamp(),
+      operation: message.getOperation(),
+      did: message.getDid(),
+      event: message.getEventBase64(),
+      signature: envelope.getSignature(),
+    };
   }
 }
 

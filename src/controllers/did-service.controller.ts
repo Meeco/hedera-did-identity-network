@@ -1,12 +1,10 @@
 import { Body, Delete, Path, Post, Put, Route, Tags } from "tsoa";
-import { DidDocument } from "../models";
 import {
+  DidDocument,
   IServiceRegisterPayload,
   IServiceUpdatePayload,
-  register,
-  remove,
-  update,
-} from "../services/did-service.service";
+} from "../models";
+import { registerService, revokeService, updateService } from "../services";
 
 @Route("did")
 @Tags("Service")
@@ -23,7 +21,7 @@ export default class DidServiceController {
     @Path() did: string,
     @Body() body: IServiceRegisterPayload
   ): Promise<DidDocument> {
-    return register(did, body);
+    return registerService(did, body);
   }
 
   /**
@@ -40,7 +38,7 @@ export default class DidServiceController {
     @Path() id: string,
     @Body() body: IServiceUpdatePayload
   ): Promise<DidDocument> {
-    return update(did, id, body);
+    return updateService(did, id, body);
   }
 
   /**
@@ -51,10 +49,10 @@ export default class DidServiceController {
    * @returns DidDocument
    */
   @Delete("/{did}/services/{id}")
-  public async remove(
+  public async revoke(
     @Path() did: string,
     @Path() id: string
   ): Promise<DidDocument> {
-    return remove(did, id);
+    return revokeService(did, id);
   }
 }

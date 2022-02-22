@@ -1,12 +1,14 @@
 import { Body, Delete, Path, Post, Put, Route, Tags } from "tsoa";
-import { DidDocument } from "../models";
 import {
+  DidDocument,
   IVerificationMethodRegisterPayload,
   IVerificationMethodUpdatePayload,
-  register,
-  remove,
-  update,
-} from "../services/did-verification-method.service";
+} from "../models";
+import {
+  registerVerificationMethod,
+  revokeVerificationMethod,
+  updateVerificationMethod,
+} from "../services";
 
 @Route("did")
 @Tags("Verification Method")
@@ -23,7 +25,7 @@ export default class DidVerificationMethodController {
     @Path() did: string,
     @Body() body: IVerificationMethodRegisterPayload
   ): Promise<DidDocument> {
-    return register(did, body);
+    return registerVerificationMethod(did, body);
   }
 
   /**
@@ -40,7 +42,7 @@ export default class DidVerificationMethodController {
     @Path() id: string,
     @Body() body: IVerificationMethodUpdatePayload
   ): Promise<DidDocument> {
-    return update(did, id, body);
+    return updateVerificationMethod(did, id, body);
   }
 
   /**
@@ -51,10 +53,10 @@ export default class DidVerificationMethodController {
    * @returns DidDocument
    */
   @Delete("/{did}/verification-methods/{id}")
-  public async remove(
+  public async revoke(
     @Path() did: string,
     @Path() id: string
   ): Promise<DidDocument> {
-    return remove(did, id);
+    return revokeVerificationMethod(did, id);
   }
 }

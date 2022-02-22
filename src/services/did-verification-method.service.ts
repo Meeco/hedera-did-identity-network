@@ -1,54 +1,98 @@
-import HttpException from "../common/http-exception";
-import { DidDocument } from "../models/did-document";
-import { VerificationMethod } from "../models/verification-method.interface";
+import { Hashing, HcsDid } from "@hashgraph/did-sdk-js";
+import { PrivateKey, PublicKey } from "@hashgraph/sdk";
+import { DidKeypairModel } from "../daos/did-keypair.dao";
+import {
+  DidDocument,
+  IVerificationMethodRegisterPayload,
+  IVerificationMethodUpdatePayload,
+} from "../models";
+import { client } from "../services";
+import { HcsMessageCollectorService } from "./hcs-message-collector.service";
+import { ResolverService } from "./resolver.service";
 
-export interface IVerificationMethodRegisterPayload {
-  verificationMethod: VerificationMethod;
-}
-
-export interface IVerificationMethodUpdateBody {
-  controller: string;
-  type: string;
-  publicKeyMultibase: string;
-}
-
-export interface IVerificationMethodUpdatePayload {
-  verificationMethod: IVerificationMethodUpdateBody;
-}
-
+/**
+ * Register new verification method with an existing DID document
+ * @returns Updated DID document information
+ */
 export const register = async (
   did: string,
   body: IVerificationMethodRegisterPayload
 ): Promise<DidDocument> => {
-  return Promise.reject(
-    new HttpException(
-      500,
-      "create verification method not implemented",
-      "create verification method not implemented"
-    )
+  const hcsMessages = new HcsMessageCollectorService();
+  const didKeypair = await DidKeypairModel.findById(did);
+  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
+
+  const hcsDid = new HcsDid({
+    identifier: did,
+    privateKey: privateKey,
+    client: client,
+    onMessageConfirmed: hcsMessages.listener,
+  });
+
+  const decodedMultiBasePubKey = Hashing.multibase.decode(
+    body.verificationMethod.publicKeyMultibase
   );
+  const publicKey = PublicKey.fromBytes(decodedMultiBasePubKey);
+
+  await hcsDid.addVerificationMethod({ ...body.verificationMethod, publicKey });
+  await hcsMessages.writeToDB();
+
+  return new ResolverService(hcsDid.getIdentifier()).resolve();
 };
 
+/**
+ * Update existing service information on an existing DID document
+ * @returns Update DID document information
+ */
 export const update = async (
   did: string,
   id: string,
   body: IVerificationMethodUpdatePayload
 ): Promise<DidDocument> => {
-  return Promise.reject(
-    new HttpException(
-      500,
-      "get verification method not implemented",
-      "get verification method not implemented"
-    )
+  const hcsMessages = new HcsMessageCollectorService();
+  const didKeypair = await DidKeypairModel.findById(did);
+  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
+
+  const hcsDid = new HcsDid({
+    identifier: did,
+    privateKey: privateKey,
+    client: client,
+    onMessageConfirmed: hcsMessages.listener,
+  });
+
+  const decodedMultiBasePubKey = Hashing.multibase.decode(
+    body.verificationMethod.publicKeyMultibase
   );
+  const publicKey = PublicKey.fromBytes(decodedMultiBasePubKey);
+
+  await hcsDid.updateVerificationMethod({
+    ...body.verificationMethod,
+    publicKey,
+    id,
+  });
+  await hcsMessages.writeToDB();
+
+  return new ResolverService(hcsDid.getIdentifier()).resolve();
 };
 
-export const remove = async (did: string, id: string) => {
-  return Promise.reject(
-    new HttpException(
-      500,
-      "remove verification method not implemented",
-      "remove verification method not implemented"
-    )
-  );
+/**
+ * Revoke existing service from an existing DID document
+ * @returns Updated DID document information
+ */
+export const revoke = async (did: string, id: string) => {
+  const hcsMessages = new HcsMessageCollectorService();
+  const didKeypair = await DidKeypairModel.findById(did);
+  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
+
+  const hcsDid = new HcsDid({
+    identifier: did,
+    privateKey: privateKey,
+    client: client,
+    onMessageConfirmed: hcsMessages.listener,
+  });
+
+  await hcsDid.revokeVerificationMethod({ id });
+  await hcsMessages.writeToDB();
+
+  return new ResolverService(hcsDid.getIdentifier()).resolve();
 };

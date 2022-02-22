@@ -29,7 +29,7 @@ router.put("/:id", async (req, res, next) => {
 router.delete("/:id", async (req, res, next) => {
   const controller = new DidServiceController();
   return controller
-    .remove(req.params.did, req.params.id)
+    .revoke(req.params.did, req.params.id)
     .then((doc) => {
       res.status(200);
       res.send(doc);

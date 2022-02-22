@@ -1,28 +1,24 @@
 import { HcsDid } from "@hashgraph/did-sdk-js";
 import { PrivateKey } from "@hashgraph/sdk";
 import { DidKeypairModel } from "../daos/did-keypair.dao";
-import { MessageModel } from "../daos/message.dao";
-import { DidDocument } from "../models";
-import { Service } from "../models/service.interface";
-import { client } from "../services/hedera-client";
+import {
+  DidDocument,
+  IServiceRegisterPayload,
+  IServiceUpdatePayload,
+} from "../models";
+import { client } from "../services";
+import { HcsMessageCollectorService } from "./hcs-message-collector.service";
+import { ResolverService } from "./resolver.service";
 
-export interface IServiceRegisterPayload {
-  service: Service;
-}
-
-export interface IServiceUpdateBody {
-  type: "LinkedDomains" | "DIDCommMessaging";
-  serviceEndpoint: string;
-}
-
-export interface IServiceUpdatePayload {
-  service: IServiceUpdateBody;
-}
-
+/**
+ * Register new service with an existing DID document
+ * @returns Updated DID document information
+ */
 export const register = async (
   did: string,
   body: IServiceRegisterPayload
 ): Promise<DidDocument> => {
+  const hcsMessages = new HcsMessageCollectorService();
   const didKeypair = await DidKeypairModel.findById(did);
   const privateKey = PrivateKey.fromString(didKeypair.privateKey);
 
@@ -30,32 +26,25 @@ export const register = async (
     identifier: did,
     privateKey: privateKey,
     client: client,
-    onMessageConfirmed: (envelope) => {
-      const message = envelope.open();
-
-      // async
-      MessageModel.createMessage({
-        timestamp: envelope.getConsensusTimestamp(),
-        operation: message.getOperation(),
-        did: message.getDid(),
-        event: message.getEventBase64(),
-        signature: envelope.getSignature(),
-      });
-    },
+    onMessageConfirmed: hcsMessages.listener,
   });
 
   await hcsDid.addService(body.service);
+  await hcsMessages.writeToDB();
 
-  const doc = await hcsDid.resolve();
-
-  return doc.toJsonTree();
+  return new ResolverService(hcsDid.getIdentifier()).resolve();
 };
 
+/**
+ * Update existing service on an existing DID document
+ * @returns Updated DID document information
+ */
 export const update = async (
   did: string,
   id: string,
   body: IServiceUpdatePayload
 ): Promise<DidDocument> => {
+  const hcsMessages = new HcsMessageCollectorService();
   const didKeypair = await DidKeypairModel.findById(did);
   const privateKey = PrivateKey.fromString(didKeypair.privateKey);
 
@@ -63,28 +52,21 @@ export const update = async (
     identifier: did,
     privateKey: privateKey,
     client: client,
-    onMessageConfirmed: (envelope) => {
-      const message = envelope.open();
-
-      // async
-      MessageModel.createMessage({
-        timestamp: envelope.getConsensusTimestamp(),
-        operation: message.getOperation(),
-        did: message.getDid(),
-        event: message.getEventBase64(),
-        signature: envelope.getSignature(),
-      });
-    },
+    onMessageConfirmed: hcsMessages.listener,
   });
 
   await hcsDid.updateService({ ...body.service, id });
+  await hcsMessages.writeToDB();
 
-  const doc = await hcsDid.resolve();
-
-  return doc.toJsonTree();
+  return new ResolverService(hcsDid.getIdentifier()).resolve();
 };
 
-export const remove = async (did: string, id: string) => {
+/**
+ * Revoke existing service from an existing DID document
+ * @returns Updated DID document information
+ */
+export const revoke = async (did: string, id: string) => {
+  const hcsMessages = new HcsMessageCollectorService();
   const didKeypair = await DidKeypairModel.findById(did);
   const privateKey = PrivateKey.fromString(didKeypair.privateKey);
 
@@ -92,23 +74,11 @@ export const remove = async (did: string, id: string) => {
     identifier: did,
     privateKey: privateKey,
     client: client,
-    onMessageConfirmed: (envelope) => {
-      const message = envelope.open();
-
-      // async
-      MessageModel.createMessage({
-        timestamp: envelope.getConsensusTimestamp(),
-        operation: message.getOperation(),
-        did: message.getDid(),
-        event: message.getEventBase64(),
-        signature: envelope.getSignature(),
-      });
-    },
+    onMessageConfirmed: hcsMessages.listener,
   });
 
   await hcsDid.revokeService({ id });
+  await hcsMessages.writeToDB();
 
-  const doc = await hcsDid.resolve();
-
-  return doc.toJsonTree();
+  return new ResolverService(hcsDid.getIdentifier()).resolve();
 };

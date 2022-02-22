@@ -2,10 +2,10 @@ import express, { Application } from "express";
 import morgan from "morgan";
 import "reflect-metadata";
 import swaggerUi from "swagger-ui-express";
-import { connectWithRetry } from "./db/connection.service";
 import { errorHandler } from "./middleware/error.middleware";
 import { notFoundHandler } from "./middleware/not-found.middleware";
 import Router from "./routes";
+import { connectWithRetry } from "./services/connection.service";
 require("dotenv").config();
 
 const PORT = process.env.PORT || 8000;
