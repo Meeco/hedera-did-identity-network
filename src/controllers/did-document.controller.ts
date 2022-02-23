@@ -1,5 +1,19 @@
-import { Body, Controller, Delete, Get, Path, Post, Route, Tags } from "tsoa";
-import { DidDocument, IDidDocumentRegisterPayload } from "../models";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Path,
+  Post,
+  Route,
+  Tags,
+  Response,
+} from "tsoa";
+import {
+  DidDocument,
+  IDidDocumentRegisterPayload,
+  ValidateErrorJSON,
+} from "../models";
 import { registerDid, resolveDid, revokeDid } from "../services";
 
 @Route("did")
@@ -12,6 +26,7 @@ export class DidDocumentController extends Controller {
    * @returns DidDocument
    */
   @Post("/")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async register(
     @Body() body: IDidDocumentRegisterPayload
   ): Promise<DidDocument> {
@@ -26,6 +41,7 @@ export class DidDocumentController extends Controller {
    * @returns DidDocument
    */
   @Get("/{did}")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async resolve(@Path() did: string): Promise<DidDocument> {
     return resolveDid(did);
   }
@@ -37,6 +53,7 @@ export class DidDocumentController extends Controller {
    * @returns void
    */
   @Delete("/{did}")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async revoke(@Path() did: string): Promise<void> {
     this.setStatus(204);
     return revokeDid(did);

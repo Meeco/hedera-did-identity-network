@@ -1,9 +1,20 @@
-import { Body, Controller, Delete, Path, Post, Put, Route, Tags } from "tsoa";
+import {
+  Body,
+  Controller,
+  Delete,
+  Path,
+  Post,
+  Put,
+  Route,
+  Tags,
+  Response,
+} from "tsoa";
 import {
   DidDocument,
   IVerificationRelationshipRegisterPayload,
   IVerificationRelationshipUpdatePayload,
   RelationshipTypeType,
+  ValidateErrorJSON,
 } from "../models";
 import {
   registerVerificationRelationship,
@@ -22,6 +33,7 @@ export class DidVerificationRelationshipController extends Controller {
    * @returns DidDocument
    */
   @Post("/{did}/verification-relationships")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async register(
     @Path() did: string,
     @Body() body: IVerificationRelationshipRegisterPayload
@@ -39,6 +51,7 @@ export class DidVerificationRelationshipController extends Controller {
    * @returns DidDocument
    */
   @Put("/{did}/verification-relationships/{relationshipType}/{id}")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async update(
     @Path() did: string,
     @Path() relationshipType: RelationshipTypeType,
@@ -57,6 +70,7 @@ export class DidVerificationRelationshipController extends Controller {
    * @returns DidDocument
    */
   @Delete("/{did}/verification-relationships/{relationshipType}/{id}")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async revoke(
     @Path() did: string,
     @Path() relationshipType: RelationshipTypeType,

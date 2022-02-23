@@ -1,8 +1,19 @@
-import { Body, Controller, Delete, Path, Post, Put, Route, Tags } from "tsoa";
+import {
+  Body,
+  Controller,
+  Delete,
+  Path,
+  Post,
+  Put,
+  Route,
+  Tags,
+  Response,
+} from "tsoa";
 import {
   DidDocument,
   IVerificationMethodRegisterPayload,
   IVerificationMethodUpdatePayload,
+  ValidateErrorJSON,
 } from "../models";
 import {
   registerVerificationMethod,
@@ -21,6 +32,7 @@ export class DidVerificationMethodController extends Controller {
    * @returns DidDocument
    */
   @Post("/{did}/verification-methods")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async register(
     @Path() did: string,
     @Body() body: IVerificationMethodRegisterPayload
@@ -37,6 +49,7 @@ export class DidVerificationMethodController extends Controller {
    * @returns DidDocument
    */
   @Put("/{did}/verification-methods/{id}")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async update(
     @Path() did: string,
     @Path() id: string,
@@ -53,6 +66,7 @@ export class DidVerificationMethodController extends Controller {
    * @returns DidDocument
    */
   @Delete("/{did}/verification-methods/{id}")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async revoke(
     @Path() did: string,
     @Path() id: string
