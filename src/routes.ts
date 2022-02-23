@@ -56,7 +56,7 @@ const models: TsoaRoute.Models = {
     "IDidDocumentRegisterPayload": {
         "dataType": "refObject",
         "properties": {
-            "publicKeyMultibase": {"dataType":"enum","enums":["string"],"required":true},
+            "publicKeyMultibase": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
