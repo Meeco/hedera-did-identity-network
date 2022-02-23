@@ -60,7 +60,7 @@ class MessageSchema {
       .sort({ timestamp: -1 })
       .exec();
 
-    return HcsDidMessage.fromJsonTree(result);
+    return result ? HcsDidMessage.fromJsonTree(result) : null;
   }
 
   messageToDto(envelope: MessageEnvelope<HcsDidMessage>): CreateMessageDto {

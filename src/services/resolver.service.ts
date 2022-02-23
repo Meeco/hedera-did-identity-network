@@ -26,7 +26,6 @@ export class ResolverService {
       : new Timestamp(0, 0);
 
     const newMessages = await this.loadHcsMessages(readNewMessagesStartingAt);
-
     await this.writeMessagesToDB(newMessages);
 
     return this.resolveFromDB();

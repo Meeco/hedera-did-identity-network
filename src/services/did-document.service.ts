@@ -64,11 +64,17 @@ export const register = async (
  * @returns void
  */
 export const revoke = async (did: string): Promise<void> => {
-  return Promise.reject(
-    new HttpException(
-      500,
-      "Remove DID not imoplemented",
-      "Remove DID not imoplemented"
-    )
-  );
+  const hcsMessages = new HcsMessageCollectorService();
+  const didKeypair = await DidKeypairModel.findById(did);
+  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
+
+  const hcsDid = new HcsDid({
+    identifier: did,
+    privateKey: privateKey,
+    client: client,
+    onMessageConfirmed: hcsMessages.listener,
+  });
+
+  await hcsDid.delete();
+  await hcsMessages.writeToDB();
 };
