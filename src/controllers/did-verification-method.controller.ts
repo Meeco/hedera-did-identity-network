@@ -1,8 +1,19 @@
-import { Body, Delete, Path, Post, Put, Route, Tags } from "tsoa";
+import {
+  Body,
+  Controller,
+  Delete,
+  Path,
+  Post,
+  Put,
+  Response,
+  Route,
+  Tags,
+} from "tsoa";
 import {
   DidDocument,
   IVerificationMethodRegisterPayload,
   IVerificationMethodUpdatePayload,
+  ValidateErrorJSON,
 } from "../models";
 import {
   registerVerificationMethod,
@@ -12,7 +23,7 @@ import {
 
 @Route("did")
 @Tags("Verification Method")
-export default class DidVerificationMethodController {
+export class DidVerificationMethodController extends Controller {
   /**
    * Register a new verification method to the DID document
    * @summary Register a new verification method to the DID document
@@ -21,10 +32,12 @@ export default class DidVerificationMethodController {
    * @returns DidDocument
    */
   @Post("/{did}/verification-methods")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async register(
     @Path() did: string,
     @Body() body: IVerificationMethodRegisterPayload
   ): Promise<DidDocument> {
+    this.setStatus(201);
     return registerVerificationMethod(did, body);
   }
 
@@ -37,6 +50,7 @@ export default class DidVerificationMethodController {
    * @returns DidDocument
    */
   @Put("/{did}/verification-methods/{id}")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async update(
     @Path() did: string,
     @Path() id: string,
@@ -53,6 +67,7 @@ export default class DidVerificationMethodController {
    * @returns DidDocument
    */
   @Delete("/{did}/verification-methods/{id}")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async revoke(
     @Path() did: string,
     @Path() id: string

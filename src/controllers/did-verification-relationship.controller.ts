@@ -1,9 +1,20 @@
-import { Body, Delete, Path, Post, Put, Route, Tags } from "tsoa";
+import {
+  Body,
+  Controller,
+  Delete,
+  Path,
+  Post,
+  Put,
+  Response,
+  Route,
+  Tags,
+} from "tsoa";
 import {
   DidDocument,
   IVerificationRelationshipRegisterPayload,
   IVerificationRelationshipUpdatePayload,
   RelationshipTypeType,
+  ValidateErrorJSON,
 } from "../models";
 import {
   registerVerificationRelationship,
@@ -13,7 +24,7 @@ import {
 
 @Route("did")
 @Tags("Verification Relationship")
-export default class DidVerificationRelationshipController {
+export class DidVerificationRelationshipController extends Controller {
   /**
    * Register a new verification relationship to the DID document
    * @summary Register a new verification relationship to the DID document
@@ -22,10 +33,12 @@ export default class DidVerificationRelationshipController {
    * @returns DidDocument
    */
   @Post("/{did}/verification-relationships")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async register(
     @Path() did: string,
     @Body() body: IVerificationRelationshipRegisterPayload
   ): Promise<DidDocument> {
+    this.setStatus(201);
     return registerVerificationRelationship(did, body);
   }
 
@@ -39,6 +52,7 @@ export default class DidVerificationRelationshipController {
    * @returns DidDocument
    */
   @Put("/{did}/verification-relationships/{relationshipType}/{id}")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async update(
     @Path() did: string,
     @Path() relationshipType: RelationshipTypeType,
@@ -57,6 +71,7 @@ export default class DidVerificationRelationshipController {
    * @returns DidDocument
    */
   @Delete("/{did}/verification-relationships/{relationshipType}/{id}")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async revoke(
     @Path() did: string,
     @Path() relationshipType: RelationshipTypeType,

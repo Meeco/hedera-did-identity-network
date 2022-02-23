@@ -1,14 +1,25 @@
-import { Body, Delete, Path, Post, Put, Route, Tags } from "tsoa";
+import {
+  Body,
+  Controller,
+  Delete,
+  Path,
+  Post,
+  Put,
+  Response,
+  Route,
+  Tags,
+} from "tsoa";
 import {
   DidDocument,
   IServiceRegisterPayload,
   IServiceUpdatePayload,
+  ValidateErrorJSON,
 } from "../models";
 import { registerService, revokeService, updateService } from "../services";
 
 @Route("did")
 @Tags("Service")
-export default class DidServiceController {
+export class DidServiceController extends Controller {
   /**
    * Register a new service to the DID Document
    * @summary Register a new service to the DID Document
@@ -17,10 +28,12 @@ export default class DidServiceController {
    * @returns DidDocument
    */
   @Post("/{did}/services")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async register(
     @Path() did: string,
     @Body() body: IServiceRegisterPayload
   ): Promise<DidDocument> {
+    this.setStatus(201);
     return registerService(did, body);
   }
 
@@ -33,6 +46,7 @@ export default class DidServiceController {
    * @returns DidDocument
    */
   @Put("/{did}/services/{id}")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async update(
     @Path() did: string,
     @Path() id: string,
@@ -49,6 +63,7 @@ export default class DidServiceController {
    * @returns DidDocument
    */
   @Delete("/{did}/services/{id}")
+  @Response<ValidateErrorJSON>(422, "Validation Failed")
   public async revoke(
     @Path() did: string,
     @Path() id: string
