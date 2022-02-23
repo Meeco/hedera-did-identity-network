@@ -5,8 +5,11 @@ import {
   Path,
   Post,
   Put,
+  Request,
   Response,
   Route,
+  Security,
+  SuccessResponse,
   Tags,
 } from "tsoa";
 import {
@@ -32,13 +35,15 @@ export class DidVerificationRelationshipController extends Controller {
    * @param body Register verification relationship payload
    * @returns DidDocument
    */
-  @Post("/{did}/verification-relationships")
   @Response<ValidateErrorJSON>(422, "Validation Failed")
+  @SuccessResponse(201, "Created")
+  @Security("SignedRequestHeader")
+  @Post("/{did}/verification-relationships")
   public async register(
     @Path() did: string,
-    @Body() body: IVerificationRelationshipRegisterPayload
+    @Body() body: IVerificationRelationshipRegisterPayload,
+    @Request() request: any
   ): Promise<DidDocument> {
-    this.setStatus(201);
     return registerVerificationRelationship(did, body);
   }
 
@@ -51,13 +56,15 @@ export class DidVerificationRelationshipController extends Controller {
    * @param body Update verification relationship payload
    * @returns DidDocument
    */
-  @Put("/{did}/verification-relationships/{relationshipType}/{id}")
   @Response<ValidateErrorJSON>(422, "Validation Failed")
+  @Security("SignedRequestHeader")
+  @Put("/{did}/verification-relationships/{relationshipType}/{id}")
   public async update(
     @Path() did: string,
     @Path() relationshipType: RelationshipTypeType,
     @Path() id: string,
-    @Body() body: IVerificationRelationshipUpdatePayload
+    @Body() body: IVerificationRelationshipUpdatePayload,
+    @Request() request: any
   ): Promise<DidDocument> {
     return updateVerificationRelationship(did, relationshipType, id, body);
   }
@@ -70,12 +77,14 @@ export class DidVerificationRelationshipController extends Controller {
    * @param id Verification relationship ID string
    * @returns DidDocument
    */
-  @Delete("/{did}/verification-relationships/{relationshipType}/{id}")
   @Response<ValidateErrorJSON>(422, "Validation Failed")
+  @Security("SignedRequestHeader")
+  @Delete("/{did}/verification-relationships/{relationshipType}/{id}")
   public async revoke(
     @Path() did: string,
     @Path() relationshipType: RelationshipTypeType,
-    @Path() id: string
+    @Path() id: string,
+    @Request() request: any
   ): Promise<DidDocument> {
     return revokeVerificationRelationship(did, relationshipType, id);
   }

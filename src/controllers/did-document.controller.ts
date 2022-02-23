@@ -5,8 +5,10 @@ import {
   Get,
   Path,
   Post,
+  Request,
   Response,
   Route,
+  Security,
   Tags,
 } from "tsoa";
 import {
@@ -25,8 +27,8 @@ export class DidDocumentController extends Controller {
    * @param body
    * @returns DidDocument
    */
-  @Post("/")
   @Response<ValidateErrorJSON>(422, "Validation Failed")
+  @Post("/")
   public async register(
     @Body() body: IDidDocumentRegisterPayload
   ): Promise<DidDocument> {
@@ -40,8 +42,8 @@ export class DidDocumentController extends Controller {
    * @param did Identifier as defined in DID specification
    * @returns DidDocument
    */
-  @Get("/{did}")
   @Response<ValidateErrorJSON>(422, "Validation Failed")
+  @Get("/{did}")
   public async resolve(@Path() did: string): Promise<DidDocument> {
     return resolveDid(did);
   }
@@ -52,9 +54,13 @@ export class DidDocumentController extends Controller {
    * @param did DID Identifier as defined in DID specification
    * @returns void
    */
-  @Delete("/{did}")
   @Response<ValidateErrorJSON>(422, "Validation Failed")
-  public async revoke(@Path() did: string): Promise<void> {
+  @Security("SignedRequestHeader")
+  @Delete("/{did}")
+  public async revoke(
+    @Path() did: string,
+    @Request() request: any
+  ): Promise<void> {
     this.setStatus(204);
     return revokeDid(did);
   }

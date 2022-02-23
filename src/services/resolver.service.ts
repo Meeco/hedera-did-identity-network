@@ -31,7 +31,7 @@ export class ResolverService {
     return this.resolveFromDB();
   }
 
-  private async resolveFromDB() {
+  public async resolveFromDB() {
     const messages = await MessageModel.getMessagesByDID(
       this.did.getIdentifier()
     );

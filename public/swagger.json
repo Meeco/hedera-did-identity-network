@@ -125,14 +125,32 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ValidateErrorJSON": {
+				"properties": {
+					"message": {
+						"type": "string",
+						"enum": [
+							"Validation failed"
+						],
+						"nullable": false
+					},
+					"details": {
+						"properties": {},
+						"additionalProperties": {},
+						"type": "object"
+					}
+				},
+				"required": [
+					"message",
+					"details"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IDidDocumentRegisterPayload": {
 				"properties": {
 					"publicKeyMultibase": {
-						"type": "string",
-						"enum": [
-							"string"
-						],
-						"nullable": false
+						"type": "string"
 					}
 				},
 				"required": [
@@ -324,12 +342,26 @@
 				"additionalProperties": false
 			}
 		},
-		"securitySchemes": {}
+		"securitySchemes": {
+			"SignedRequestHeader": {
+				"type": "apiKey",
+				"name": "Authorization",
+				"in": "header"
+			}
+		}
 	},
 	"info": {
 		"title": "hedera-appnet",
 		"version": "1.0.0",
-		"contact": {}
+		"description": "This is a hedera appnet API application",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {
+			"name": "Meeco",
+			"url": "https://meeco.me",
+			"email": "‍support@meeco.me"
+		}
 	},
 	"openapi": "3.0.0",
 	"paths": {
@@ -343,6 +375,16 @@
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
 								}
 							}
 						}
@@ -380,6 +422,16 @@
 								}
 							}
 						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
 					}
 				},
 				"description": "Resolve DID Document",
@@ -405,6 +457,16 @@
 				"responses": {
 					"204": {
 						"description": "No content"
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
 					}
 				},
 				"description": "Permanently remove DID Document from Appnet registry. In addition to that, new messages will be written to the DID topic stating that document has been removed.",
@@ -412,7 +474,11 @@
 				"tags": [
 					"Document"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "DID Identifier as defined in DID specification",
@@ -430,12 +496,22 @@
 			"post": {
 				"operationId": "Register",
 				"responses": {
-					"200": {
-						"description": "DidDocument",
+					"201": {
+						"description": "Created",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
 								}
 							}
 						}
@@ -446,7 +522,11 @@
 				"tags": [
 					"Service"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -484,6 +564,16 @@
 								}
 							}
 						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
 					}
 				},
 				"description": "Update service information on the DID Document",
@@ -491,7 +581,11 @@
 				"tags": [
 					"Service"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -536,6 +630,16 @@
 								}
 							}
 						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
 					}
 				},
 				"description": "Remove service information from the DID Document",
@@ -543,7 +647,11 @@
 				"tags": [
 					"Service"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -570,12 +678,22 @@
 			"post": {
 				"operationId": "Register",
 				"responses": {
-					"200": {
-						"description": "DidDocument",
+					"201": {
+						"description": "Created",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
 								}
 							}
 						}
@@ -586,7 +704,11 @@
 				"tags": [
 					"Verification Method"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -624,6 +746,16 @@
 								}
 							}
 						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
 					}
 				},
 				"description": "Update verification method on a DID document",
@@ -631,7 +763,11 @@
 				"tags": [
 					"Verification Method"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -676,6 +812,16 @@
 								}
 							}
 						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
 					}
 				},
 				"description": "Remove verification method from the DID document",
@@ -683,7 +829,11 @@
 				"tags": [
 					"Verification Method"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -710,12 +860,22 @@
 			"post": {
 				"operationId": "Register",
 				"responses": {
-					"200": {
-						"description": "DidDocument",
+					"201": {
+						"description": "Created",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
 								}
 							}
 						}
@@ -726,7 +886,11 @@
 				"tags": [
 					"Verification Relationship"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -764,6 +928,16 @@
 								}
 							}
 						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
 					}
 				},
 				"description": "Update verification relationship on the DID document",
@@ -771,7 +945,11 @@
 				"tags": [
 					"Verification Relationship"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -825,6 +1003,16 @@
 								}
 							}
 						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
 					}
 				},
 				"description": "Remove verification relationship from the DID document",
@@ -832,7 +1020,11 @@
 				"tags": [
 					"Verification Relationship"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",

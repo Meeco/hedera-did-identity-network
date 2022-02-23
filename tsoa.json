@@ -4,10 +4,27 @@
   "controllerPathGlobs": ["src/**/*controller.ts"],
   "spec": {
     "outputDirectory": "public",
-    "specVersion": 3
+    "specVersion": 3,
+    "title": "Hedera Appnet API",
+    "version": "1.0.0",
+    "description": "This is a hedera appnet API application",
+    "license": "MIT",
+    "contact": {
+      "name": "Meeco",
+      "url": "https://meeco.me",
+      "email": "‍support@meeco.me"
+    },
+    "securityDefinitions": {
+      "SignedRequestHeader": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
   },
   "ignore": ["**/node_modules/**"],
   "routes": {
-    "routesDir": "src"
+    "routesDir": "src",
+    "authenticationModule": "./src/authentication.ts"
   }
 }
