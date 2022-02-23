@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node build/index.js",
-    "predev": "npm run swagger",
-    "prebuild": "npm run swagger",
+    "predev": "npm run swagger &&  npm run routes",
+    "prebuild": "npm run swagger && npm run routes",
     "build": "tsc",
-    "start:dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec\"",
+    "start:dev": "concurrently \"nodemon\"  \"nodemon -x tsoa spec\"",
     "swagger": "tsoa spec",
+    "routes": "tsoa routes",
     "test": "jest"
   },
   "repository": {
@@ -23,6 +24,7 @@
   },
   "homepage": "https://github.com/Meeco/hedera-appnet#readme",
   "devDependencies": {
+    "@types/body-parser": "^1.19.2",
     "@types/express": "^4.17.8",
     "@types/faker": "^5.1.5",
     "@types/jest": "^26.0.19",
@@ -41,6 +43,7 @@
   },
   "dependencies": {
     "@hashgraph/did-sdk-js": "github:Meeco/did-sdk-js#9d20598be706b6eb31ec5f874326e0822ade6b96",
+    "body-parser": "^1.19.2",
     "dotenv": "^16.0.0",
     "express": "^4.17.1",
     "mongoose": "^6.2.2",

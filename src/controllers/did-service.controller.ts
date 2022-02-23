@@ -1,4 +1,4 @@
-import { Body, Delete, Path, Post, Put, Route, Tags } from "tsoa";
+import { Body, Controller, Delete, Path, Post, Put, Route, Tags } from "tsoa";
 import {
   DidDocument,
   IServiceRegisterPayload,
@@ -8,7 +8,7 @@ import { registerService, revokeService, updateService } from "../services";
 
 @Route("did")
 @Tags("Service")
-export default class DidServiceController {
+export class DidServiceController extends Controller {
   /**
    * Register a new service to the DID Document
    * @summary Register a new service to the DID Document

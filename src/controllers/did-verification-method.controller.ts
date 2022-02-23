@@ -1,4 +1,4 @@
-import { Body, Delete, Path, Post, Put, Route, Tags } from "tsoa";
+import { Body, Controller, Delete, Path, Post, Put, Route, Tags } from "tsoa";
 import {
   DidDocument,
   IVerificationMethodRegisterPayload,
@@ -12,7 +12,7 @@ import {
 
 @Route("did")
 @Tags("Verification Method")
-export default class DidVerificationMethodController {
+export class DidVerificationMethodController extends Controller {
   /**
    * Register a new verification method to the DID document
    * @summary Register a new verification method to the DID document

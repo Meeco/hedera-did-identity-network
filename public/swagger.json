@@ -15,7 +15,11 @@
 						"type": "string"
 					},
 					"type": {
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"Ed25519VerificationKey2018"
+						],
+						"nullable": false
 					},
 					"publicKeyMultibase": {
 						"type": "string"
@@ -36,7 +40,11 @@
 						"type": "string"
 					},
 					"type": {
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"LinkedDomains",
+							"DIDCommMessaging"
+						]
 					},
 					"serviceEndpoint": {
 						"type": "string"
@@ -148,7 +156,11 @@
 			"IServiceUpdateBody": {
 				"properties": {
 					"type": {
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"LinkedDomains",
+							"DIDCommMessaging"
+						]
 					},
 					"serviceEndpoint": {
 						"type": "string"
@@ -191,7 +203,11 @@
 						"type": "string"
 					},
 					"type": {
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"Ed25519VerificationKey2018"
+						],
+						"nullable": false
 					},
 					"publicKeyMultibase": {
 						"type": "string"
@@ -217,6 +233,16 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"RelationshipTypeType": {
+				"type": "string",
+				"enum": [
+					"authentication",
+					"assertionMethod",
+					"keyAgreement",
+					"capabilityDelegation",
+					"capabilityInvocation"
+				]
+			},
 			"IVerificationRelationship": {
 				"properties": {
 					"id": {
@@ -226,10 +252,14 @@
 						"type": "string"
 					},
 					"type": {
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"Ed25519VerificationKey2018"
+						],
+						"nullable": false
 					},
 					"relationshipType": {
-						"type": "string"
+						"$ref": "#/components/schemas/RelationshipTypeType"
 					},
 					"publicKeyMultibase": {
 						"type": "string"
@@ -263,10 +293,11 @@
 						"type": "string"
 					},
 					"type": {
-						"type": "string"
-					},
-					"relationshipType": {
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"Ed25519VerificationKey2018"
+						],
+						"nullable": false
 					},
 					"publicKeyMultibase": {
 						"type": "string"
@@ -275,7 +306,6 @@
 				"required": [
 					"controller",
 					"type",
-					"relationshipType",
 					"publicKeyMultibase"
 				],
 				"type": "object",
@@ -308,7 +338,7 @@
 				"operationId": "Register",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -342,7 +372,7 @@
 				"operationId": "Resolve",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -371,7 +401,7 @@
 				]
 			},
 			"delete": {
-				"operationId": "Remove",
+				"operationId": "Revoke",
 				"responses": {
 					"204": {
 						"description": "No content"
@@ -401,7 +431,7 @@
 				"operationId": "Register",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -446,7 +476,7 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -495,10 +525,10 @@
 				}
 			},
 			"delete": {
-				"operationId": "Remove",
+				"operationId": "Revoke",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -541,7 +571,7 @@
 				"operationId": "Register",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -586,7 +616,7 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -635,10 +665,10 @@
 				}
 			},
 			"delete": {
-				"operationId": "Remove",
+				"operationId": "Revoke",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -681,7 +711,7 @@
 				"operationId": "Register",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -721,12 +751,12 @@
 				}
 			}
 		},
-		"/did/{did}/verification-relationships/{id}": {
+		"/did/{did}/verification-relationships/{relationshipType}/{id}": {
 			"put": {
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -753,6 +783,15 @@
 						}
 					},
 					{
+						"description": "String to specify which relationship type key belongs to",
+						"in": "path",
+						"name": "relationshipType",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/RelationshipTypeType"
+						}
+					},
+					{
 						"description": "Verification relationship ID string",
 						"in": "path",
 						"name": "id",
@@ -775,10 +814,10 @@
 				}
 			},
 			"delete": {
-				"operationId": "Remove",
+				"operationId": "Revoke",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -802,6 +841,15 @@
 						"required": true,
 						"schema": {
 							"type": "string"
+						}
+					},
+					{
+						"description": "String to specify which relationship type key belongs to",
+						"in": "path",
+						"name": "relationshipType",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/RelationshipTypeType"
 						}
 					},
 					{

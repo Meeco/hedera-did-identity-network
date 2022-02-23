@@ -1,10 +1,10 @@
-import { Body, Delete, Get, Path, Post, Route, Tags } from "tsoa";
+import { Body, Controller, Delete, Get, Path, Post, Route, Tags } from "tsoa";
 import { DidDocument, IDidDocumentRegisterPayload } from "../models";
 import { registerDid, resolveDid, revokeDid } from "../services";
 
 @Route("did")
 @Tags("Document")
-export default class DidDocumentController {
+export class DidDocumentController extends Controller {
   /**
    * Register a new DID document. User provides public key that is going to be added as a delegate key that allows user to modify created DID document later.
    * @summary Register a new DID Document.
@@ -15,6 +15,7 @@ export default class DidDocumentController {
   public async register(
     @Body() body: IDidDocumentRegisterPayload
   ): Promise<DidDocument> {
+    this.setStatus(200);
     return registerDid(body);
   }
 
@@ -37,6 +38,7 @@ export default class DidDocumentController {
    */
   @Delete("/{did}")
   public async revoke(@Path() did: string): Promise<void> {
+    this.setStatus(204);
     return revokeDid(did);
   }
 }
