@@ -5,9 +5,9 @@ import {
   Path,
   Post,
   Put,
+  Response,
   Route,
   Tags,
-  Response,
 } from "tsoa";
 import {
   DidDocument,
@@ -37,6 +37,7 @@ export class DidVerificationMethodController extends Controller {
     @Path() did: string,
     @Body() body: IVerificationMethodRegisterPayload
   ): Promise<DidDocument> {
+    this.setStatus(201);
     return registerVerificationMethod(did, body);
   }
 

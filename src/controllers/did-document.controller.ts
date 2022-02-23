@@ -5,9 +5,9 @@ import {
   Get,
   Path,
   Post,
+  Response,
   Route,
   Tags,
-  Response,
 } from "tsoa";
 import {
   DidDocument,
@@ -30,7 +30,7 @@ export class DidDocumentController extends Controller {
   public async register(
     @Body() body: IDidDocumentRegisterPayload
   ): Promise<DidDocument> {
-    this.setStatus(200);
+    this.setStatus(201);
     return registerDid(body);
   }
 

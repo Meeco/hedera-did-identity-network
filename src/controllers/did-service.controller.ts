@@ -5,9 +5,9 @@ import {
   Path,
   Post,
   Put,
+  Response,
   Route,
   Tags,
-  Response,
 } from "tsoa";
 import {
   DidDocument,
@@ -33,6 +33,7 @@ export class DidServiceController extends Controller {
     @Path() did: string,
     @Body() body: IServiceRegisterPayload
   ): Promise<DidDocument> {
+    this.setStatus(201);
     return registerService(did, body);
   }
 
