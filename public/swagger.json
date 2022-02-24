@@ -347,6 +347,11 @@
 				"type": "apiKey",
 				"name": "Authorization",
 				"in": "header"
+			},
+			"DigestHeader": {
+				"type": "apiKey",
+				"name": "Digest",
+				"in": "header"
 			}
 		}
 	},
@@ -476,7 +481,8 @@
 				],
 				"security": [
 					{
-						"SignedRequestHeader": []
+						"SignedRequestHeader": [],
+						"DigestHeader": []
 					}
 				],
 				"parameters": [
@@ -524,7 +530,8 @@
 				],
 				"security": [
 					{
-						"SignedRequestHeader": []
+						"SignedRequestHeader": [],
+						"DigestHeader": []
 					}
 				],
 				"parameters": [
@@ -583,7 +590,8 @@
 				],
 				"security": [
 					{
-						"SignedRequestHeader": []
+						"SignedRequestHeader": [],
+						"DigestHeader": []
 					}
 				],
 				"parameters": [
@@ -649,7 +657,8 @@
 				],
 				"security": [
 					{
-						"SignedRequestHeader": []
+						"SignedRequestHeader": [],
+						"DigestHeader": []
 					}
 				],
 				"parameters": [
@@ -706,7 +715,8 @@
 				],
 				"security": [
 					{
-						"SignedRequestHeader": []
+						"SignedRequestHeader": [],
+						"DigestHeader": []
 					}
 				],
 				"parameters": [
@@ -765,7 +775,8 @@
 				],
 				"security": [
 					{
-						"SignedRequestHeader": []
+						"SignedRequestHeader": [],
+						"DigestHeader": []
 					}
 				],
 				"parameters": [
@@ -831,7 +842,8 @@
 				],
 				"security": [
 					{
-						"SignedRequestHeader": []
+						"SignedRequestHeader": [],
+						"DigestHeader": []
 					}
 				],
 				"parameters": [
@@ -888,7 +900,8 @@
 				],
 				"security": [
 					{
-						"SignedRequestHeader": []
+						"SignedRequestHeader": [],
+						"DigestHeader": []
 					}
 				],
 				"parameters": [
@@ -947,7 +960,8 @@
 				],
 				"security": [
 					{
-						"SignedRequestHeader": []
+						"SignedRequestHeader": [],
+						"DigestHeader": []
 					}
 				],
 				"parameters": [
@@ -1022,7 +1036,8 @@
 				],
 				"security": [
 					{
-						"SignedRequestHeader": []
+						"SignedRequestHeader": [],
+						"DigestHeader": []
 					}
 				],
 				"parameters": [
