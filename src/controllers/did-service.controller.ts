@@ -5,8 +5,11 @@ import {
   Path,
   Post,
   Put,
+  Request,
   Response,
   Route,
+  Security,
+  SuccessResponse,
   Tags,
 } from "tsoa";
 import {
@@ -27,14 +30,16 @@ export class DidServiceController extends Controller {
    * @param body Register service payload
    * @returns DidDocument
    */
-  @Post("/{did}/services")
   @Response<ValidateErrorJSON>(422, "Validation Failed")
+  @SuccessResponse(201, "Created")
+  @Security("SignedRequestHeader")
+  @Post("/{did}/services")
   public async register(
     @Path() did: string,
-    @Body() body: IServiceRegisterPayload
+    @Body() body: IServiceRegisterPayload,
+    @Request() request: any
   ): Promise<DidDocument> {
-    this.setStatus(201);
-    return registerService(did, body);
+    return registerService(did, request.body);
   }
 
   /**
@@ -45,12 +50,14 @@ export class DidServiceController extends Controller {
    * @param body Update service payload
    * @returns DidDocument
    */
-  @Put("/{did}/services/{id}")
   @Response<ValidateErrorJSON>(422, "Validation Failed")
+  @Security("SignedRequestHeader")
+  @Put("/{did}/services/{id}")
   public async update(
     @Path() did: string,
     @Path() id: string,
-    @Body() body: IServiceUpdatePayload
+    @Body() body: IServiceUpdatePayload,
+    @Request() request: any
   ): Promise<DidDocument> {
     return updateService(did, id, body);
   }
@@ -62,11 +69,13 @@ export class DidServiceController extends Controller {
    * @param id Service ID string
    * @returns DidDocument
    */
-  @Delete("/{did}/services/{id}")
   @Response<ValidateErrorJSON>(422, "Validation Failed")
+  @Security("SignedRequestHeader")
+  @Delete("/{did}/services/{id}")
   public async revoke(
     @Path() did: string,
-    @Path() id: string
+    @Path() id: string,
+    @Request() request: any
   ): Promise<DidDocument> {
     return revokeService(did, id);
   }

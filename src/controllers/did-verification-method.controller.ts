@@ -5,8 +5,11 @@ import {
   Path,
   Post,
   Put,
+  Request,
   Response,
   Route,
+  Security,
+  SuccessResponse,
   Tags,
 } from "tsoa";
 import {
@@ -31,13 +34,15 @@ export class DidVerificationMethodController extends Controller {
    * @param body Register verification method payload
    * @returns DidDocument
    */
-  @Post("/{did}/verification-methods")
   @Response<ValidateErrorJSON>(422, "Validation Failed")
+  @SuccessResponse(201, "Created")
+  @Security("SignedRequestHeader")
+  @Post("/{did}/verification-methods")
   public async register(
     @Path() did: string,
-    @Body() body: IVerificationMethodRegisterPayload
+    @Body() body: IVerificationMethodRegisterPayload,
+    @Request() request: any
   ): Promise<DidDocument> {
-    this.setStatus(201);
     return registerVerificationMethod(did, body);
   }
 
@@ -49,12 +54,14 @@ export class DidVerificationMethodController extends Controller {
    * @param body Update verification method payload
    * @returns DidDocument
    */
-  @Put("/{did}/verification-methods/{id}")
   @Response<ValidateErrorJSON>(422, "Validation Failed")
+  @Security("SignedRequestHeader")
+  @Put("/{did}/verification-methods/{id}")
   public async update(
     @Path() did: string,
     @Path() id: string,
-    @Body() body: IVerificationMethodUpdatePayload
+    @Body() body: IVerificationMethodUpdatePayload,
+    @Request() request: any
   ): Promise<DidDocument> {
     return updateVerificationMethod(did, id, body);
   }
@@ -66,11 +73,13 @@ export class DidVerificationMethodController extends Controller {
    * @param id Verification method ID string
    * @returns DidDocument
    */
-  @Delete("/{did}/verification-methods/{id}")
   @Response<ValidateErrorJSON>(422, "Validation Failed")
+  @Security("SignedRequestHeader")
+  @Delete("/{did}/verification-methods/{id}")
   public async revoke(
     @Path() did: string,
-    @Path() id: string
+    @Path() id: string,
+    @Request() request: any
   ): Promise<DidDocument> {
     return revokeVerificationMethod(did, id);
   }
