@@ -1,12 +1,6 @@
 name: Node.js CI
 
-on:
-  pull_request:
-    branches: 
-      - develop 
-  push:
-    branches: 
-      - develop 
+on: [push, pull_request]
 
 jobs:
   test:
@@ -21,5 +15,5 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm test:unit
+      - run: npm install && npm ci
+      - run: npm run test:unit
