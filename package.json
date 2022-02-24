@@ -13,6 +13,7 @@
     "routes": "tsoa routes",
     "test": "jest",
     "test:integration": "jest --testPathPattern=test/integration",
+    "test:unit": "jest --testPathPattern=test/unit",
     "test:watch": "jest --watchAll"
   },
   "repository": {
