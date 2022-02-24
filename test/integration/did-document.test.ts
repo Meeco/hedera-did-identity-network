@@ -1,13 +1,10 @@
-import supertest from "supertest";
-import { app } from "../../src";
+import { PrivateKey } from "@hashgraph/sdk";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import { resolve } from "path";
-import { PrivateKey } from "@hashgraph/sdk";
-const {
-  createAuthzHeader,
-  createSignatureString,
-} = require("@digitalbazaar/http-signature-header");
+import supertest from "supertest";
+import { app } from "../../src";
+import { generateAuthHeaders } from "../utils";
 
 const DID_PUBLIC_KEY_MULTIBASE = process.env.DID_PUBLIC_KEY_MULTIBASE || "";
 const DID_PRIVATE_KEY = process.env.DID_PRIVATE_KEY || "";
@@ -192,13 +189,12 @@ describe("DID Document", () => {
 
   describe("delete DID Document", () => {
     describe("given valid DID Identifier", () => {
-      it("should return a 204 with no content ", async () => {
+      it("should return a 204 with no content", async () => {
         // register new DID
         const newDIDDocument = await supertest(app).post("/did").send({
           publicKeyMultibase: DID_PUBLIC_KEY_MULTIBASE,
         });
 
-        console.log(JSON.stringify(newDIDDocument));
         expect(newDIDDocument.statusCode).toBe(201);
         expect(newDIDDocument.body).toBeDefined();
         expect(
@@ -211,34 +207,18 @@ describe("DID Document", () => {
           json: true,
           url: `http://localhost:8000/did/${newDIDDocument.body.id}`,
           method: "DELETE",
-          headers: {
-            date: new Date().toUTCString(),
-            host: "localhost:8000",
-          },
+          headers: {},
         };
 
-        /**
-         * Build authorization header
-         */
-        const includeHeaders = ["date", "host", "(request-target)"];
-
-        const plaintext = createSignatureString({
-          includeHeaders,
+        const authHeaders = generateAuthHeaders(
           requestOptions,
-        });
-
-        const data = new TextEncoder().encode(plaintext);
-        const signature = Buffer.from(signer.sign(data)).toString("base64");
-
-        const authorization = createAuthzHeader({
-          includeHeaders,
-          keyId: newDIDDocument.body.verificationMethod[1].id,
-          signature,
-        });
+          signer,
+          newDIDDocument.body.verificationMethod[1].id
+        );
 
         const result = await supertest(app)
           .delete(`/did/${newDIDDocument.body.id}`)
-          .set({ ...requestOptions.headers, Authorization: authorization })
+          .set({ ...requestOptions.headers, ...authHeaders })
           .send({
             publicKeyMultibase: DID_PUBLIC_KEY_MULTIBASE,
           });
