@@ -37,7 +37,7 @@ export class DidVerificationRelationshipController extends Controller {
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
   @SuccessResponse(201, "Created")
-  @Security("SignedRequestHeader")
+  @Security({ SignedRequestHeader: [], DigestHeader: [] })
   @Post("/{did}/verification-relationships")
   public async register(
     @Path() did: string,
@@ -57,7 +57,7 @@ export class DidVerificationRelationshipController extends Controller {
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
-  @Security("SignedRequestHeader")
+  @Security({ SignedRequestHeader: [], DigestHeader: [] })
   @Put("/{did}/verification-relationships/{relationshipType}/{id}")
   public async update(
     @Path() did: string,
@@ -78,7 +78,7 @@ export class DidVerificationRelationshipController extends Controller {
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
-  @Security("SignedRequestHeader")
+  @Security({ SignedRequestHeader: [], DigestHeader: [] })
   @Delete("/{did}/verification-relationships/{relationshipType}/{id}")
   public async revoke(
     @Path() did: string,
