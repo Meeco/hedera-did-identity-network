@@ -98,10 +98,5 @@ describe("Schedule transaction", async () => {
 
         console.log(query2);
 
-        //Get the scheduled transaction record
-        // @ts-ignore
-        const scheduledTxRecord = await TransactionId.fromString(scheduledTxId.toString()).getRecord(client);
-        console.log("The scheduled transaction record is: " + scheduledTxRecord);
-
     });
 });
