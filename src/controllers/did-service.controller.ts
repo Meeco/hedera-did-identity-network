@@ -36,10 +36,10 @@ export class DidServiceController extends Controller {
   @Post("/{did}/services")
   public async register(
     @Path() did: string,
-    @Body() body: IServiceRegisterPayload,
-    @Request() request: any
+    @Body() body: IServiceRegisterPayload
   ): Promise<DidDocument> {
-    return registerService(did, request.body);
+    console.log(body);
+    return registerService(did, body);
   }
 
   /**
@@ -56,8 +56,7 @@ export class DidServiceController extends Controller {
   public async update(
     @Path() did: string,
     @Path() id: string,
-    @Body() body: IServiceUpdatePayload,
-    @Request() request: any
+    @Body() body: IServiceUpdatePayload
   ): Promise<DidDocument> {
     return updateService(did, id, body);
   }
@@ -74,8 +73,7 @@ export class DidServiceController extends Controller {
   @Delete("/{did}/services/{id}")
   public async revoke(
     @Path() did: string,
-    @Path() id: string,
-    @Request() request: any
+    @Path() id: string
   ): Promise<DidDocument> {
     return revokeService(did, id);
   }

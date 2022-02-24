@@ -40,8 +40,7 @@ export class DidVerificationMethodController extends Controller {
   @Post("/{did}/verification-methods")
   public async register(
     @Path() did: string,
-    @Body() body: IVerificationMethodRegisterPayload,
-    @Request() request: any
+    @Body() body: IVerificationMethodRegisterPayload
   ): Promise<DidDocument> {
     return registerVerificationMethod(did, body);
   }
@@ -60,8 +59,7 @@ export class DidVerificationMethodController extends Controller {
   public async update(
     @Path() did: string,
     @Path() id: string,
-    @Body() body: IVerificationMethodUpdatePayload,
-    @Request() request: any
+    @Body() body: IVerificationMethodUpdatePayload
   ): Promise<DidDocument> {
     return updateVerificationMethod(did, id, body);
   }
@@ -78,8 +76,7 @@ export class DidVerificationMethodController extends Controller {
   @Delete("/{did}/verification-methods/{id}")
   public async revoke(
     @Path() did: string,
-    @Path() id: string,
-    @Request() request: any
+    @Path() id: string
   ): Promise<DidDocument> {
     return revokeVerificationMethod(did, id);
   }

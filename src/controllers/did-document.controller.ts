@@ -57,10 +57,7 @@ export class DidDocumentController extends Controller {
   @Response<ValidateErrorJSON>(422, "Validation Failed")
   @Security("SignedRequestHeader")
   @Delete("/{did}")
-  public async revoke(
-    @Path() did: string,
-    @Request() request: any
-  ): Promise<void> {
+  public async revoke(@Path() did: string): Promise<void> {
     this.setStatus(204);
     return revokeDid(did);
   }

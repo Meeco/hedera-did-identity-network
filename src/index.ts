@@ -10,7 +10,7 @@ require("dotenv").config();
 
 const PORT = process.env.PORT || 8000;
 
-const app: Application = express();
+export const app: Application = express();
 
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -42,7 +42,7 @@ app.use(errorHanlder);
 app.use(notFoundHandler);
 
 //connect to database
-connectWithRetry();
+process.env.NODE_ENV != "test" ? connectWithRetry() : null;
 
 //start app
 app.listen(PORT, () => {

@@ -41,8 +41,7 @@ export class DidVerificationRelationshipController extends Controller {
   @Post("/{did}/verification-relationships")
   public async register(
     @Path() did: string,
-    @Body() body: IVerificationRelationshipRegisterPayload,
-    @Request() request: any
+    @Body() body: IVerificationRelationshipRegisterPayload
   ): Promise<DidDocument> {
     return registerVerificationRelationship(did, body);
   }
@@ -63,8 +62,7 @@ export class DidVerificationRelationshipController extends Controller {
     @Path() did: string,
     @Path() relationshipType: RelationshipTypeType,
     @Path() id: string,
-    @Body() body: IVerificationRelationshipUpdatePayload,
-    @Request() request: any
+    @Body() body: IVerificationRelationshipUpdatePayload
   ): Promise<DidDocument> {
     return updateVerificationRelationship(did, relationshipType, id, body);
   }
@@ -83,8 +81,7 @@ export class DidVerificationRelationshipController extends Controller {
   public async revoke(
     @Path() did: string,
     @Path() relationshipType: RelationshipTypeType,
-    @Path() id: string,
-    @Request() request: any
+    @Path() id: string
   ): Promise<DidDocument> {
     return revokeVerificationRelationship(did, relationshipType, id);
   }
