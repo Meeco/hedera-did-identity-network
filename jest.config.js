@@ -9,4 +9,5 @@ module.exports = {
   verbose: true,
   forceExit: true,
   setupFilesAfterEnv: ["./jest.setupAfterEnv.js"],
+  setupFiles: ["./jest.setup.js"],
 };

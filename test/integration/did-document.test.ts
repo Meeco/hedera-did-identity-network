@@ -3,7 +3,14 @@ import { app } from "../../src";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import { resolve } from "path";
+import { PrivateKey } from "@hashgraph/sdk";
+const {
+  createAuthzHeader,
+  createSignatureString,
+} = require("@digitalbazaar/http-signature-header");
 
+const DID_PUBLIC_KEY_MULTIBASE = process.env.DID_PUBLIC_KEY_MULTIBASE || "";
+const DID_PRIVATE_KEY = process.env.DID_PRIVATE_KEY || "";
 describe("DID Document", () => {
   beforeAll(async () => {
     const mongoServer = await MongoMemoryServer.create();
@@ -113,8 +120,7 @@ describe("DID Document", () => {
       it("should return a 200 with DID Document.", async () => {
         // register new did
         const newDIDDocument = await supertest(app).post("/did").send({
-          publicKeyMultibase:
-            "z6MkreRjoWnX5sCbQRxJUbcCneSqfbbzuTWh62wUmqrSoT47",
+          publicKeyMultibase: DID_PUBLIC_KEY_MULTIBASE,
         });
 
         // resolve did
@@ -151,8 +157,7 @@ describe("DID Document", () => {
 
       it("should return a 422 with validation error ", async () => {
         const result = await supertest(app).post("/did").send({
-          publicKeyMultibase:
-            "z6MkreRjoWnX5sCbQRxJUbcCneSqfbbzuTWh62wUmqrSoT47",
+          publicKeyMultibase: DID_PUBLIC_KEY_MULTIBASE,
           extra: "invalid prop",
         });
         expect(result.statusCode).toBe(422);
@@ -172,19 +177,75 @@ describe("DID Document", () => {
     describe("given valid request body", () => {
       it("should return a 201 with newly registered DID Document ", async () => {
         const result = await supertest(app).post("/did").send({
-          publicKeyMultibase:
-            "z6MkreRjoWnX5sCbQRxJUbcCneSqfbbzuTWh62wUmqrSoT47",
+          publicKeyMultibase: DID_PUBLIC_KEY_MULTIBASE,
         });
         expect(result.statusCode).toBe(201);
         expect(result.body).toBeDefined();
         expect(result.body.verificationMethod).toBeDefined();
         expect(result.body.verificationMethod.length).toBe(2);
         expect(result.body.verificationMethod[1].publicKeyMultibase).toEqual(
-          "z6MkreRjoWnX5sCbQRxJUbcCneSqfbbzuTWh62wUmqrSoT47"
+          DID_PUBLIC_KEY_MULTIBASE
         );
       });
     });
   });
 
-  describe("delete DID Document", () => {});
+  describe("delete DID Document", () => {
+    describe("given valid DID Identifier", () => {
+      it("should return a 204 with no content ", async () => {
+        // register new DID
+        const newDIDDocument = await supertest(app).post("/did").send({
+          publicKeyMultibase: DID_PUBLIC_KEY_MULTIBASE,
+        });
+
+        console.log(JSON.stringify(newDIDDocument));
+        expect(newDIDDocument.statusCode).toBe(201);
+        expect(newDIDDocument.body).toBeDefined();
+        expect(
+          newDIDDocument.body.verificationMethod[1].publicKeyMultibase
+        ).toEqual(DID_PUBLIC_KEY_MULTIBASE);
+
+        const signer = PrivateKey.fromString(DID_PRIVATE_KEY);
+
+        const requestOptions = {
+          json: true,
+          url: `http://localhost:8000/did/${newDIDDocument.body.id}`,
+          method: "DELETE",
+          headers: {
+            date: new Date().toUTCString(),
+            host: "localhost:8000",
+          },
+        };
+
+        /**
+         * Build authorization header
+         */
+        const includeHeaders = ["date", "host", "(request-target)"];
+
+        const plaintext = createSignatureString({
+          includeHeaders,
+          requestOptions,
+        });
+
+        const data = new TextEncoder().encode(plaintext);
+        const signature = Buffer.from(signer.sign(data)).toString("base64");
+
+        const authorization = createAuthzHeader({
+          includeHeaders,
+          keyId: newDIDDocument.body.verificationMethod[1].id,
+          signature,
+        });
+
+        const result = await supertest(app)
+          .delete(`/did/${newDIDDocument.body.id}`)
+          .set({ ...requestOptions.headers, Authorization: authorization })
+          .send({
+            publicKeyMultibase: DID_PUBLIC_KEY_MULTIBASE,
+          });
+
+        expect(result.body).toEqual({});
+        expect(result.statusCode).toBe(204);
+      });
+    });
+  });
 });

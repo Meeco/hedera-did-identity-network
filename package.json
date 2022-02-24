@@ -11,9 +11,9 @@
     "start:dev": "concurrently \"nodemon\"  \"nodemon -x tsoa spec\"",
     "swagger": "tsoa spec",
     "routes": "tsoa routes",
-    "test": "jest --setupFiles dotenv/config",
-    "test:integration": "jest --testPathPattern=test/integration --setupFiles dotenv/config",
-    "test:watch": "jest --setupFiles dotenv/config --watchAll"
+    "test": "jest",
+    "test:integration": "jest --testPathPattern=test/integration",
+    "test:watch": "jest --watchAll"
   },
   "repository": {
     "type": "git",
