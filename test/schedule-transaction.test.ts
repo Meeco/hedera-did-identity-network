@@ -2,14 +2,11 @@ import {
     AccountId,
     Client,
     PrivateKey,
-    ScheduleId,
     ScheduleCreateTransaction,
     ScheduleSignTransaction,
     TransferTransaction,
     Hbar,
-    ScheduleInfoQuery,
-    ScheduleDeleteTransaction,
-    PublicKey
+    ScheduleInfoQuery
 } from "@hashgraph/sdk";
 
 require("dotenv").config();
@@ -18,9 +15,7 @@ describe("Schedule transaction", async () => {
     const OPERATOR_ID = process.env.HEDERA_OPERATOR_ID;
     const OPERATOR_ID1 = process.env.HEDERA_OPERATOR_ID1;
     const OPERATOR_KEY = process.env.HEDERA_OPERATOR_KEY;
-    const OPERATOR_KEY_P = process.env.HEDERA_OPERATOR_KEY_P;
     const OPERATOR_KEY1 = process.env.HEDERA_OPERATOR_KEY1;
-    const OPERATOR_KEY1_P = process.env.HEDERA_OPERATOR_KEY1_P;
     const NETWORK = process.env.HEDERA_NETWORK;
     const MIRROR_PROVIDER = ["hcs." + NETWORK + ".mirrornode.hedera.com:5600"];
 
@@ -31,11 +26,7 @@ describe("Schedule transaction", async () => {
     // @ts-ignore
     const senderKey = PrivateKey.fromString(OPERATOR_KEY);
     // @ts-ignore
-    const senderKeyP = PublicKey.fromString(OPERATOR_KEY_P);
-    // @ts-ignore
     const recipientKey = PrivateKey.fromString(OPERATOR_KEY1);
-    // @ts-ignore
-    const recipientKeyP = PublicKey.fromString(OPERATOR_KEY1_P);
     let client = Client.forTestnet();
     client.setMirrorNetwork(MIRROR_PROVIDER);
     client.setOperator(senderAccount, senderKey);
@@ -58,7 +49,7 @@ describe("Schedule transaction", async () => {
         const receipt = await scheduleTransaction.getReceipt(client);
 
         //Get the schedule ID
-        const scheduleId = receipt.scheduleId ? receipt.scheduleId : " ";
+        const scheduleId = receipt.scheduleId ? receipt.scheduleId : "";
         console.log("The schedule ID is " +scheduleId);
 
         //Get the scheduled transaction ID
