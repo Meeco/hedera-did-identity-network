@@ -38,8 +38,8 @@ describe("Schedule transaction", async () => {
     it("Create a schedule transaction", async () => {
         //Create a transaction to schedule
         const transaction = new TransferTransaction()
-            .addHbarTransfer(senderAccount, Hbar.fromTinybars(0))
-            .addHbarTransfer(recipientAccount, Hbar.fromTinybars(0));
+            .addHbarTransfer(senderAccount, Hbar.fromTinybars(-1))
+            .addHbarTransfer(recipientAccount, Hbar.fromTinybars(1));
 
         //Schedule a transaction
         const scheduleTransaction = await new ScheduleCreateTransaction()
