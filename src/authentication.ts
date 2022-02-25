@@ -3,10 +3,9 @@ import { PublicKey } from "@hashgraph/sdk";
 import { Request } from "express";
 import { DidDocument } from "./models";
 import { ResolverService } from "./services";
+import { verifyHeaderValue as verifyDigestHeaderValue } from "./utils";
 
 const httpSignature = require("@digitalbazaar/http-signature-header");
-// TODO: TEMPORARY commented - re-introduce http digest header. It is temporary commented out to complete rest of the integration tests.
-// const httpDigest = require("@digitalbazaar/http-digest-header");
 
 const INCLUDE_HEADERS_WITHOUT_DIGEST = ["date", "host", "(request-target)"];
 const INCLUDE_HEADERS_WITH_DIGEST = [
@@ -15,7 +14,7 @@ const INCLUDE_HEADERS_WITH_DIGEST = [
   "(request-target)",
   "digest",
 ];
-// const DIGEST_REQUIRING_METHOD = ["post", "put", "patch"];
+const DIGEST_REQUIRING_METHOD = ["post", "put", "patch"];
 
 /**
  * Helper functions
@@ -42,16 +41,15 @@ const findAuthenticationPublicKey = (
   );
 };
 
-// const requiresDigestHeader = (method: string): boolean => {
-//   return DIGEST_REQUIRING_METHOD.includes(method.toLowerCase());
-// };
+const requiresDigestHeader = (method: string): boolean => {
+  return DIGEST_REQUIRING_METHOD.includes(method.toLowerCase());
+};
 
 const parseRequest = (request: Request) => {
   const { authorization } = request.headers;
-  const includeHeaders = INCLUDE_HEADERS_WITHOUT_DIGEST;
-  // requiresDigestHeader(request.method)
-  //   ? INCLUDE_HEADERS_WITH_DIGEST
-  //   : INCLUDE_HEADERS_WITHOUT_DIGEST;
+  const includeHeaders = requiresDigestHeader(request.method)
+    ? INCLUDE_HEADERS_WITH_DIGEST
+    : INCLUDE_HEADERS_WITHOUT_DIGEST;
 
   const signatureHeaderData = httpSignature.parseSignatureHeader(authorization);
   const signatureBuffer = Buffer.from(
@@ -68,21 +66,21 @@ const parseRequest = (request: Request) => {
   return { signatureHeaderData, signatureBuffer, signatureVerificationData };
 };
 
-// const isDigestHeaderValid = async (request: Request): Promise<boolean> => {
-//   if (requiresDigestHeader(request.method)) {
-//     const { digest } = request.headers;
-//     const digestVerificationData = JSON.stringify(request.body);
+const isDigestHeaderValid = async (request: Request): Promise<boolean> => {
+  if (requiresDigestHeader(request.method)) {
+    const { digest } = request.headers;
+    const digestVerificationData = JSON.stringify(request.body);
 
-//     const { verified } = await httpDigest.verifyHeaderValue({
-//       data: digestVerificationData,
-//       headerValue: digest,
-//     });
+    const { verified } = await verifyDigestHeaderValue({
+      data: digestVerificationData,
+      headerValue: digest as string,
+    });
 
-//     return verified;
-//   }
+    return verified;
+  }
 
-//   return true;
-// };
+  return true;
+};
 
 /**
  * Middleware function
@@ -101,9 +99,9 @@ export async function expressAuthentication(
         signatureVerificationData,
       } = parseRequest(request);
 
-      // if (!(await isDigestHeaderValid(request))) {
-      //   return Promise.reject(new Error(`Digest header value is invalid`));
-      // }
+      if (!(await isDigestHeaderValid(request))) {
+        return Promise.reject(new Error(`Digest header value is invalid`));
+      }
 
       const resolver = new ResolverService(request.params.did);
       const document = await resolver.resolveFromDB();

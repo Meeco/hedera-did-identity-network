@@ -5,7 +5,6 @@ import {
   Path,
   Post,
   Put,
-  Request,
   Response,
   Route,
   Security,
@@ -38,7 +37,6 @@ export class DidServiceController extends Controller {
     @Path() did: string,
     @Body() body: IServiceRegisterPayload
   ): Promise<DidDocument> {
-    console.log(body);
     return registerService(did, body);
   }
 
