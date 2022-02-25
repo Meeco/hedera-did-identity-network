@@ -15,7 +15,7 @@ export const generateAuthHeaders = async (
     date: new Date().toUTCString(),
   };
 
-  const requestBody = requestOptions.body;
+  // const requestBody = requestOptions.body;
 
   // const serializedRequestBody = requestBody
   //   ? JSON.stringify(requestBody)

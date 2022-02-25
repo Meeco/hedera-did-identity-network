@@ -1,38 +1,15 @@
 import { PrivateKey } from "@hashgraph/sdk";
-import { MongoMemoryServer } from "mongodb-memory-server";
-import mongoose from "mongoose";
-import { resolve } from "path";
 import supertest from "supertest";
 import { app } from "../../src";
 import { generateAuthHeaders } from "../utils";
+import { setupBeforeAndAfter } from "./setup";
 
 const DID_PUBLIC_KEY_MULTIBASE = process.env.DID_PUBLIC_KEY_MULTIBASE || "";
 const DID_PRIVATE_KEY = process.env.DID_PRIVATE_KEY || "";
+
 describe("DID Document", () => {
-  beforeAll(async () => {
-    const mongoServer = await MongoMemoryServer.create();
-    await mongoose.connect(mongoServer.getUri());
-
-    jest.mock("../../src/services/connection.service", () => {
-      const originalModule = jest.requireActual(
-        "../../src/services/connection.service"
-      );
-
-      return {
-        __esModule: true,
-        ...originalModule,
-        connectWithRetry: new Promise(() => resolve()),
-        getMongoose: mongoose,
-      };
-    });
-  });
-
-  afterAll(async () => {
-    await mongoose.disconnect();
-    await mongoose.connection.close();
-    jest.resetAllMocks();
-  });
-
+  //setup in memory mongodb and mock mongoose db connection
+  setupBeforeAndAfter();
   describe("resolve DID Document", () => {
     describe("given invalid DID Identifier", () => {
       it("should return a 500 with error incorrect format", async () => {
