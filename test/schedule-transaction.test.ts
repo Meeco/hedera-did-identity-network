@@ -7,9 +7,7 @@ import {
     ScheduleSignTransaction,
     TransferTransaction,
     Hbar,
-    ScheduleInfoQuery,
-    TransactionId
-
+    ScheduleInfoQuery
 } from "@hashgraph/sdk";
 
 require("dotenv").config();
@@ -22,8 +20,6 @@ describe("Schedule transaction", async () => {
     const NETWORK = process.env.HEDERA_NETWORK;
     const MIRROR_PROVIDER = ["hcs." + NETWORK + ".mirrornode.hedera.com:5600"];
 
-    const privateKeySigner1 = PrivateKey.generate();
-    const adminKey = PrivateKey.generate();
     // @ts-ignore
     const senderAccount = AccountId.fromString(OPERATOR_ID);
     // @ts-ignore
@@ -42,8 +38,8 @@ describe("Schedule transaction", async () => {
     it("Create a schedule transaction", async () => {
         //Create a transaction to schedule
         const transaction = new TransferTransaction()
-            .addHbarTransfer(senderAccount, Hbar.fromTinybars(-1))
-            .addHbarTransfer(recipientAccount, Hbar.fromTinybars(1));
+            .addHbarTransfer(senderAccount, Hbar.fromTinybars(0))
+            .addHbarTransfer(recipientAccount, Hbar.fromTinybars(0));
 
         //Schedule a transaction
         const scheduleTransaction = await new ScheduleCreateTransaction()
@@ -57,10 +53,6 @@ describe("Schedule transaction", async () => {
         // @ts-ignore
         const scheduleId: ScheduleId = receipt.scheduleId;
         console.log("The schedule ID is " + scheduleId);
-
-        //Get the scheduled transaction ID
-        const scheduledTxId = receipt.scheduledTransactionId;
-        console.log("The scheduled transaction ID is " + scheduledTxId);
 
         //Submit the first signature
         const signature1 = await (await new ScheduleSignTransaction()
@@ -97,6 +89,5 @@ describe("Schedule transaction", async () => {
             .execute(client);
 
         console.log(query2);
-
     });
 });
