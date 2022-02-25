@@ -1,7 +1,9 @@
 import { PrivateKey } from "@hashgraph/sdk";
 
 const httpSignature = require("@digitalbazaar/http-signature-header");
-const httpDigest = require("@digitalbazaar/http-digest-header");
+
+// TODO: TEMPORARY commented - re-introduce http digest header. It is temporary commented out to complete rest of the integration tests.
+// const httpDigest = require("@digitalbazaar/http-digest-header");
 
 export const generateAuthHeaders = async (
   requestOptions: any,
@@ -15,24 +17,24 @@ export const generateAuthHeaders = async (
 
   const requestBody = requestOptions.body;
 
-  const serializedRequestBody = requestBody
-    ? JSON.stringify(requestBody)
-    : JSON.stringify({});
-  const digestHeader = await httpDigest.createHeaderValue({
-    data: serializedRequestBody,
-    algorithm: "sha256",
-    useMultihash: false,
-  });
+  // const serializedRequestBody = requestBody
+  //   ? JSON.stringify(requestBody)
+  //   : JSON.stringify({});
+  // const digestHeader = await httpDigest.createHeaderValue({
+  //   data: serializedRequestBody,
+  //   algorithm: "sha256",
+  //   useMultihash: false,
+  // });
 
   /**
    * Build signed HTTP request headers
    */
   const includeHeaders = ["date", "host", "(request-target)"];
 
-  if (["post", "put", "patch"].includes(requestOptions.method.toLowerCase())) {
-    includeHeaders.push("digest");
-    headers["digest"] = digestHeader;
-  }
+  // if (["post", "put", "patch"].includes(requestOptions.method.toLowerCase())) {
+  //   includeHeaders.push("digest");
+  //   headers["digest"] = digestHeader;
+  // }
 
   const plaintext = httpSignature.createSignatureString({
     includeHeaders,

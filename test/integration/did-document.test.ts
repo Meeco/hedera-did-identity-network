@@ -210,7 +210,7 @@ describe("DID Document", () => {
           headers: {},
         };
 
-        const authHeaders = generateAuthHeaders(
+        const authHeaders = await generateAuthHeaders(
           requestOptions,
           signer,
           newDIDDocument.body.verificationMethod[1].id
