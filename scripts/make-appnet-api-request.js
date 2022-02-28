@@ -1,6 +1,6 @@
 const http = require("http");
 const httpSignature = require("@digitalbazaar/http-signature-header");
-const httpDigest = require("@digitalbazaar/http-digest-header");
+const { createHeaderValue } = require("./http-digest");
 const { PrivateKey } = require("@hashgraph/sdk");
 
 async function main() {
@@ -24,7 +24,7 @@ async function main() {
   const serializedRequestBody = requestBody
     ? JSON.stringify(requestBody)
     : JSON.stringify({});
-  const digestHeader = await httpDigest.createHeaderValue({
+  const digestHeader = await createHeaderValue({
     data: serializedRequestBody,
     algorithm: "sha256",
     useMultihash: false,
@@ -82,6 +82,18 @@ async function main() {
       console.log(str);
     });
   };
+
+  console.log({
+    ...requestOptions,
+    headers: {
+      ...requestOptions.headers,
+      Authorization: authorization,
+      "Content-Type": "application/json",
+      "Content-Length": requestOptions.body
+        ? Buffer.byteLength(serializedRequestBody)
+        : 0,
+    },
+  });
 
   const req = http.request(
     requestOptions.url,

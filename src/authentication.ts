@@ -3,9 +3,9 @@ import { PublicKey } from "@hashgraph/sdk";
 import { Request } from "express";
 import { DidDocument } from "./models";
 import { ResolverService } from "./services";
+import { verifyHeaderValue as verifyDigestHeaderValue } from "./utils";
 
 const httpSignature = require("@digitalbazaar/http-signature-header");
-const httpDigest = require("@digitalbazaar/http-digest-header");
 
 const INCLUDE_HEADERS_WITHOUT_DIGEST = ["date", "host", "(request-target)"];
 const INCLUDE_HEADERS_WITH_DIGEST = [
@@ -71,9 +71,9 @@ const isDigestHeaderValid = async (request: Request): Promise<boolean> => {
     const { digest } = request.headers;
     const digestVerificationData = JSON.stringify(request.body);
 
-    const { verified } = await httpDigest.verifyHeaderValue({
+    const { verified } = await verifyDigestHeaderValue({
       data: digestVerificationData,
-      headerValue: digest,
+      headerValue: digest as string,
     });
 
     return verified;
@@ -103,18 +103,22 @@ export async function expressAuthentication(
         return Promise.reject(new Error(`Digest header value is invalid`));
       }
 
-      const resolver = new ResolverService(request.params.did);
+      const resolver = new ResolverService(
+        decodeURIComponent(request.params.did)
+      );
       const document = await resolver.resolveFromDB();
 
       const publicKey = findAuthenticationPublicKey(
         document,
-        signatureHeaderData.params.keyId
+        decodeURIComponent(signatureHeaderData.params.keyId)
       );
 
       if (!publicKey) {
         return Promise.reject(
           new Error(
-            `Not authorized to operate on ${request.params.did} DID document`
+            `Not authorized to operate on ${decodeURIComponent(
+              request.params.did
+            )} DID document`
           )
         );
       }

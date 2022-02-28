@@ -5,7 +5,6 @@ import {
   Path,
   Post,
   Put,
-  Request,
   Response,
   Route,
   Security,
@@ -26,7 +25,8 @@ export class DidServiceController extends Controller {
   /**
    * Register a new service to the DID Document
    * @summary Register a new service to the DID Document
-   * @param did Identifier as defined in DID specification
+   * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
+   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231
    * @param body Register service payload
    * @returns DidDocument
    */
@@ -36,17 +36,18 @@ export class DidServiceController extends Controller {
   @Post("/{did}/services")
   public async register(
     @Path() did: string,
-    @Body() body: IServiceRegisterPayload,
-    @Request() request: any
+    @Body() body: IServiceRegisterPayload
   ): Promise<DidDocument> {
-    return registerService(did, request.body);
+    return registerService(decodeURIComponent(did), body);
   }
 
   /**
    * Update service information on the DID Document
    * @summary Update service information on the DID Document
-   * @param did Identifier as defined in DID specification
-   * @param id Service ID string
+   * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
+   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231
+   * @param id A percent-escaped Service ID string <br /> <br />
+   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23service-1
    * @param body Update service payload
    * @returns DidDocument
    */
@@ -56,17 +57,18 @@ export class DidServiceController extends Controller {
   public async update(
     @Path() did: string,
     @Path() id: string,
-    @Body() body: IServiceUpdatePayload,
-    @Request() request: any
+    @Body() body: IServiceUpdatePayload
   ): Promise<DidDocument> {
-    return updateService(did, id, body);
+    return updateService(decodeURIComponent(did), decodeURIComponent(id), body);
   }
 
   /**
    * Remove service information from the DID Document
    * @summary Remove service information from the DID Document
-   * @param did Identifier as defined in DID specification
-   * @param id Service ID string
+   * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
+   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231
+   * @param id A percent-escaped Service ID string <br /> <br />
+   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23service-1
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
@@ -74,9 +76,8 @@ export class DidServiceController extends Controller {
   @Delete("/{did}/services/{id}")
   public async revoke(
     @Path() did: string,
-    @Path() id: string,
-    @Request() request: any
+    @Path() id: string
   ): Promise<DidDocument> {
-    return revokeService(did, id);
+    return revokeService(decodeURIComponent(did), decodeURIComponent(id));
   }
 }
