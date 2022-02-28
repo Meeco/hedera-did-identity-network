@@ -58,6 +58,3 @@ typings/
 
 # emacs temp files
 *~
-
-# npm package lock
-package-lock.json
