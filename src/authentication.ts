@@ -103,18 +103,22 @@ export async function expressAuthentication(
         return Promise.reject(new Error(`Digest header value is invalid`));
       }
 
-      const resolver = new ResolverService(request.params.did);
+      const resolver = new ResolverService(
+        decodeURIComponent(request.params.did)
+      );
       const document = await resolver.resolveFromDB();
 
       const publicKey = findAuthenticationPublicKey(
         document,
-        signatureHeaderData.params.keyId
+        decodeURIComponent(signatureHeaderData.params.keyId)
       );
 
       if (!publicKey) {
         return Promise.reject(
           new Error(
-            `Not authorized to operate on ${request.params.did} DID document`
+            `Not authorized to operate on ${decodeURIComponent(
+              request.params.did
+            )} DID document`
           )
         );
       }

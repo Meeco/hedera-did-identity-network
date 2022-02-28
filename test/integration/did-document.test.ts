@@ -15,7 +15,9 @@ describe("DID Document", () => {
       it("should return a 500 with error incorrect format", async () => {
         const invalidDidIdentifier =
           "did:hedera:testnet:z6MkreRjoWnX5sCbQRxJUbcCneSqfbbzuTWh62wUmqrSoT4_0.0.30787373";
-        const result = await supertest(app).get(`/did/${invalidDidIdentifier}`);
+        const result = await supertest(app).get(
+          `/did/${encodeURIComponent(invalidDidIdentifier)}`
+        );
 
         expect(result.statusCode).toBe(500);
         expect(result.body).toEqual({
@@ -27,7 +29,9 @@ describe("DID Document", () => {
       it("should return a 500 with error invalid prefix.", async () => {
         const invalidDidIdentifier =
           "invalid:hedera:testnet:z6MkreRjoWnX5sCbQRxJUbcCneSqfbbzuTWh62wUmqrSoT4_0.0.30787373";
-        const result = await supertest(app).get(`/did/${invalidDidIdentifier}`);
+        const result = await supertest(app).get(
+          `/did/${encodeURIComponent(invalidDidIdentifier)}`
+        );
 
         expect(result.statusCode).toBe(500);
         expect(result.body).toEqual({
@@ -39,7 +43,9 @@ describe("DID Document", () => {
       it("should return a 500 with error invalid method name.", async () => {
         const invalidDidIdentifier =
           "did:invalid:testnet:z6MkreRjoWnX5sCbQRxJUbcCneSqfbbzuTWh62wUmqrSoT4_0.0.30787373";
-        const result = await supertest(app).get(`/did/${invalidDidIdentifier}`);
+        const result = await supertest(app).get(
+          `/did/${encodeURIComponent(invalidDidIdentifier)}`
+        );
 
         expect(result.statusCode).toBe(500);
         expect(result.body).toEqual({
@@ -51,7 +57,9 @@ describe("DID Document", () => {
       it("should return a 500 with error invalid network.", async () => {
         const invalidDidIdentifier =
           "did:hedera:invalid:z6MkreRjoWnX5sCbQRxJUbcCneSqfbbzuTWh62wUmqrSoT4_0.0.30787373";
-        const result = await supertest(app).get(`/did/${invalidDidIdentifier}`);
+        const result = await supertest(app).get(
+          `/did/${encodeURIComponent(invalidDidIdentifier)}`
+        );
 
         expect(result.statusCode).toBe(500);
         expect(result.body).toEqual({
@@ -63,7 +71,9 @@ describe("DID Document", () => {
       it("should return a 500 with error did parsing error.", async () => {
         const invalidDidIdentifier =
           "did:hedera:testnet:z6MkreRjoWnX5sCbQRxJUbcCneSqfbbzuTWh62wUmqrSoT4_0.0";
-        const result = await supertest(app).get(`/did/${invalidDidIdentifier}`);
+        const result = await supertest(app).get(
+          `/did/${encodeURIComponent(invalidDidIdentifier)}`
+        );
 
         expect(result.statusCode).toBe(500);
         expect(result.body).toEqual({
@@ -77,7 +87,9 @@ describe("DID Document", () => {
       it("should return a 200 with empty DID Document.", async () => {
         const identifier =
           "did:hedera:testnet:z6MkreRjoWnX5sCbQRxJUbcCneSqfbbzuTWh62wUmqrSoT47_0.0.3";
-        const result = await supertest(app).get(`/did/${identifier}`);
+        const result = await supertest(app).get(
+          `/did/${encodeURIComponent(identifier)}`
+        );
 
         expect(result.statusCode).toBe(200);
         expect(result.body).toEqual({
@@ -99,7 +111,9 @@ describe("DID Document", () => {
 
         // resolve did
         const identifier = newDIDDocument.body.id;
-        const result = await supertest(app).get(`/did/${identifier}`);
+        const result = await supertest(app).get(
+          `/did/${encodeURIComponent(identifier)}`
+        );
 
         expect(result.statusCode).toBe(200);
         expect(result.body).toEqual(newDIDDocument.body);
@@ -182,7 +196,9 @@ describe("DID Document", () => {
 
         const requestOptions = {
           json: true,
-          url: `http://localhost:8000/did/${newDIDDocument.body.id}`,
+          url: `http://localhost:8000/did/${encodeURIComponent(
+            newDIDDocument.body.id
+          )}`,
           method: "DELETE",
           headers: {},
         };
@@ -190,11 +206,11 @@ describe("DID Document", () => {
         const authHeaders = await generateAuthHeaders(
           requestOptions,
           signer,
-          newDIDDocument.body.verificationMethod[1].id
+          encodeURIComponent(newDIDDocument.body.verificationMethod[1].id)
         );
 
         const result = await supertest(app)
-          .delete(`/did/${newDIDDocument.body.id}`)
+          .delete(`/did/${encodeURIComponent(newDIDDocument.body.id)}`)
           .set({ ...requestOptions.headers, ...authHeaders })
           .send({
             publicKeyMultibase: DID_PUBLIC_KEY_MULTIBASE,
