@@ -6,11 +6,14 @@ import { setupBeforeAndAfter } from "./setup";
 
 const DID_PUBLIC_KEY_MULTIBASE = process.env.DID_PUBLIC_KEY_MULTIBASE || "";
 const DID_PRIVATE_KEY = process.env.DID_PRIVATE_KEY || "";
-describe("DID Service", () => {
+describe("DID Verification Method", () => {
   let registeredDidDocument: any = null;
 
-  const serviceIdentifier =
-    "did:hedera:testnet:z6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231#service-1";
+  const verificationMethodIdentifier =
+    "did:hedera:testnet:z6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231#key-1";
+
+  const verificationMethodPublicKey =
+    "z6Mkkcn1EDXc5vzpmvnQeCKpEswyrnQG7qq59k92gFRm1EGk";
 
   const signer = PrivateKey.fromString(DID_PRIVATE_KEY);
 
@@ -29,14 +32,15 @@ describe("DID Service", () => {
     ).toEqual(DID_PUBLIC_KEY_MULTIBASE);
   });
 
-  describe("Register service to the DID Document", () => {
-    describe("given valid register DID identifier and service payload", () => {
+  describe("Register verification-method to the DID Document", () => {
+    describe("given valid register DID identifier and verification-method payload", () => {
       it("should return a 200 with updated DID Document.", async () => {
         const body = {
-          service: {
-            id: serviceIdentifier,
-            type: "LinkedDomains",
-            serviceEndpoint: "https://example.com/vcs",
+          verificationMethod: {
+            id: verificationMethodIdentifier,
+            type: "Ed25519VerificationKey2018",
+            controller: registeredDidDocument.body.id,
+            publicKeyMultibase: verificationMethodPublicKey,
           },
         };
 
@@ -44,7 +48,7 @@ describe("DID Service", () => {
           json: true,
           url: `http://localhost:8000/did/${encodeURIComponent(
             registeredDidDocument.body.id
-          )}/services`,
+          )}/verification-methods`,
           method: "POST",
           headers: {},
           body: body,
@@ -60,27 +64,35 @@ describe("DID Service", () => {
 
         const result = await supertest(app)
           .post(
-            `/did/${encodeURIComponent(registeredDidDocument.body.id)}/services`
+            `/did/${encodeURIComponent(
+              registeredDidDocument.body.id
+            )}/verification-methods`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send(body);
 
         expect(result.statusCode).toBe(200);
         expect(result.body).toBeDefined();
-        expect(result.body.service).toBeDefined();
-        expect(result.body.service.length).toBe(1);
-        expect(result.body.service[0]).toEqual(body.service);
+        expect(result.body.verificationMethod).toBeDefined();
+        expect(result.body.verificationMethod.length).toBe(3);
+        expect(result.body.verificationMethod[2]).toEqual(
+          body.verificationMethod
+        );
       });
     });
   });
 
-  describe("Update service information on the DID Document", () => {
-    describe("given valid register DID identifier, service ID and service payload", () => {
+  describe("Update verification-method information on the DID Document", () => {
+    describe("given valid register DID identifier, verification-method ID and verification-method payload", () => {
       it("should return a 200 with updated DID Document.", async () => {
+        const updatedVerificationMethodPublicKey =
+          "z6MkhHbhBBLdKGiGnHPvrrH9GL7rgw6egpZiLgvQ9n7pHt1P";
+
         const body = {
-          service: {
-            type: "LinkedDomains",
-            serviceEndpoint: "https://example.com/test",
+          verificationMethod: {
+            type: "Ed25519VerificationKey2018",
+            controller: registeredDidDocument.body.id,
+            publicKeyMultibase: updatedVerificationMethodPublicKey,
           },
         };
 
@@ -88,7 +100,9 @@ describe("DID Service", () => {
           json: true,
           url: `http://localhost:8000/did/${encodeURIComponent(
             registeredDidDocument.body.id
-          )}/services/${encodeURIComponent(serviceIdentifier)}`,
+          )}/verification-methods/${encodeURIComponent(
+            verificationMethodIdentifier
+          )}`,
           method: "PUT",
           headers: {},
           body: body,
@@ -106,30 +120,34 @@ describe("DID Service", () => {
           .put(
             `/did/${encodeURIComponent(
               registeredDidDocument.body.id
-            )}/services/${encodeURIComponent(serviceIdentifier)}`
+            )}/verification-methods/${encodeURIComponent(
+              verificationMethodIdentifier
+            )}`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send(body);
 
         expect(result.statusCode).toBe(200);
         expect(result.body).toBeDefined();
-        expect(result.body.service).toBeDefined();
-        expect(result.body.service.length).toBe(1);
-        expect(result.body.service[0].serviceEndpoint).toEqual(
-          body.service.serviceEndpoint
+        expect(result.body.verificationMethod).toBeDefined();
+        expect(result.body.verificationMethod.length).toBe(3);
+        expect(result.body.verificationMethod[2].publicKeyMultibase).toEqual(
+          body.verificationMethod.publicKeyMultibase
         );
       });
     });
   });
 
-  describe("Remove service information from the DID Document", () => {
-    describe("given valid register DID identifier and service ID", () => {
+  describe("Remove verification-method information from the DID Document", () => {
+    describe("given valid register DID identifier and verification-method ID", () => {
       it("should return a 200 with updated DID document", async () => {
         const requestOptions = {
           json: true,
           url: `http://localhost:8000/did/${encodeURIComponent(
             registeredDidDocument.body.id
-          )}/services/${encodeURIComponent(serviceIdentifier)}`,
+          )}/verification-methods/${encodeURIComponent(
+            verificationMethodIdentifier
+          )}`,
           method: "DELETE",
           headers: {},
         };
@@ -146,14 +164,16 @@ describe("DID Service", () => {
           .delete(
             `/did/${encodeURIComponent(
               registeredDidDocument.body.id
-            )}/services/${encodeURIComponent(serviceIdentifier)}`
+            )}/verification-methods/${encodeURIComponent(
+              verificationMethodIdentifier
+            )}`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send();
 
         expect(result.statusCode).toBe(200);
         expect(result.body).toBeDefined();
-        expect(result.body.service).toBeUndefined();
+        expect(result.body.verificationMethod[2]).toBeUndefined();
       });
     });
   });
