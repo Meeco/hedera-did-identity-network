@@ -45,7 +45,7 @@ export const claim = async (did: string, body: IDidOwnershipClaimPayload) => {
 };
 
 /**
- * Makes AppNet an owner of the did document. Old keypair is later added as a delegate to the document.
+ * Makes AppNet an owner of the did document. Public key of an old root keypair is later added as a delegate to the document.
  * @returns Update DID document information
  */
 export const register = async (
@@ -72,10 +72,11 @@ export const register = async (
 
     if (keyId) {
       const [_str, keyNr] = keyId.split("-");
-      return keyNr;
+      return parseInt(keyNr) || null;
     }
+    return null;
   });
-  const newDelegateKeyId = (Math.max(keyIds) || 0) + 1;
+  const newDelegateKeyId = (Math.max(...keyIds) || 0) + 1;
 
   const hcsDid = new HcsDid({
     identifier: did,
