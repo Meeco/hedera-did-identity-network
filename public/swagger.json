@@ -159,6 +159,30 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"IDidOwnershipClaimPayload": {
+				"properties": {
+					"privateKeyMultibase": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"privateKeyMultibase"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IDidOwnershipRegisterPayload": {
+				"properties": {
+					"privateKeyMultibase": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"privateKeyMultibase"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IServiceRegisterPayload": {
 				"properties": {
 					"service": {
@@ -447,7 +471,7 @@
 				"security": [],
 				"parameters": [
 					{
-						"description": "Identifier as defined in DID specification",
+						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -487,7 +511,7 @@
 				],
 				"parameters": [
 					{
-						"description": "DID Identifier as defined in DID specification",
+						"description": "A percent-escaped DID Identifier as defined in DID specification<br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -496,6 +520,119 @@
 						}
 					}
 				]
+			}
+		},
+		"/did/{did}/claim": {
+			"post": {
+				"operationId": "Claim",
+				"responses": {
+					"200": {
+						"description": "DidDocument",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
+					}
+				},
+				"description": "Claim DID Document ownership back from the AppNet. Changes DID root key to the one provided via parameters. DID controller remains the same.",
+				"summary": "Claim DID Document ownership back from the AppNet",
+				"tags": [
+					"Ownership"
+				],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"in": "path",
+						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IDidOwnershipClaimPayload"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/did/{did}/register": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"200": {
+						"description": "void",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
+					}
+				},
+				"description": "Register an existing DID Document with AppNet. Gives away control of the document to the AppNet component.",
+				"summary": "Register an existing DID Document with AppNet",
+				"tags": [
+					"Ownership"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "A percent-escaped DID Identifier as defined in DID specification<br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"in": "path",
+						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IDidOwnershipRegisterPayload"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/did/{did}/services": {
@@ -536,7 +673,7 @@
 				],
 				"parameters": [
 					{
-						"description": "Identifier as defined in DID specification",
+						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -596,7 +733,7 @@
 				],
 				"parameters": [
 					{
-						"description": "Identifier as defined in DID specification",
+						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -605,7 +742,7 @@
 						}
 					},
 					{
-						"description": "Service ID string",
+						"description": "A percent-escaped Service ID string <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23service-1",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -663,7 +800,7 @@
 				],
 				"parameters": [
 					{
-						"description": "Identifier as defined in DID specification",
+						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -672,7 +809,7 @@
 						}
 					},
 					{
-						"description": "Service ID string",
+						"description": "A percent-escaped Service ID string <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23service-1",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -721,7 +858,7 @@
 				],
 				"parameters": [
 					{
-						"description": "Identifier as defined in DID specification",
+						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -781,7 +918,7 @@
 				],
 				"parameters": [
 					{
-						"description": "Identifier as defined in DID specification",
+						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -790,7 +927,7 @@
 						}
 					},
 					{
-						"description": "Verification method ID string",
+						"description": "A percent-escaped Service ID string <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23key-1",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -848,7 +985,7 @@
 				],
 				"parameters": [
 					{
-						"description": "Identifier as defined in DID specification",
+						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -857,7 +994,7 @@
 						}
 					},
 					{
-						"description": "Verification method ID string",
+						"description": "A percent-escaped Service ID string <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23key-1",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -906,7 +1043,7 @@
 				],
 				"parameters": [
 					{
-						"description": "Identifier as defined in DID specification",
+						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -966,7 +1103,7 @@
 				],
 				"parameters": [
 					{
-						"description": "Identifier as defined in DID specification",
+						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -984,7 +1121,7 @@
 						}
 					},
 					{
-						"description": "Verification relationship ID string",
+						"description": "A percent-escaped Service ID string <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23key-1",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1042,7 +1179,7 @@
 				],
 				"parameters": [
 					{
-						"description": "Identifier as defined in DID specification",
+						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -1060,7 +1197,7 @@
 						}
 					},
 					{
-						"description": "Verification relationship ID string",
+						"description": "A percent-escaped Service ID string <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23key-1",
 						"in": "path",
 						"name": "id",
 						"required": true,

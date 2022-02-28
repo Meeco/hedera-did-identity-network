@@ -5,6 +5,10 @@ export {
   revoke as revokeDid,
 } from "./did-document.service";
 export {
+  claim as claimDidOwnership,
+  register as registerDidWithAppNet,
+} from "./did-ownership.service";
+export {
   register as registerService,
   revoke as revokeService,
   update as updateService,
