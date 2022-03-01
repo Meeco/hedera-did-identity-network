@@ -27,6 +27,10 @@ class DidKeypairSchema {
     return didKeypair;
   }
 
+  async deleteById(did: string) {
+    return this.didKeypair.deleteOne({ _id: did });
+  }
+
   async findById(did: string) {
     return this.didKeypair.findById(did);
   }

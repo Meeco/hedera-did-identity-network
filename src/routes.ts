@@ -5,6 +5,8 @@ import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute, H
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { DidDocumentController } from './controllers/did-document.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { DidOwnershipController } from './controllers/did-ownership.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { DidServiceController } from './controllers/did-service.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { DidVerificationMethodController } from './controllers/did-verification-method.controller';
@@ -69,6 +71,22 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "publicKeyMultibase": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IDidOwnershipClaimPayload": {
+        "dataType": "refObject",
+        "properties": {
+            "privateKeyMultibase": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IDidOwnershipRegisterPayload": {
+        "dataType": "refObject",
+        "properties": {
+            "privateKeyMultibase": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
@@ -229,7 +247,6 @@ export function RegisterRoutes(app: express.Router) {
             function DidDocumentController_revoke(request: any, response: any, next: any) {
             const args = {
                     did: {"in":"path","name":"did","required":true,"dataType":"string"},
-                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -248,6 +265,55 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/did/:did/claim',
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[]}]),
+
+            function DidOwnershipController_claim(request: any, response: any, next: any) {
+            const args = {
+                    did: {"in":"path","name":"did","required":true,"dataType":"string"},
+                    body: {"in":"body","name":"body","required":true,"ref":"IDidOwnershipClaimPayload"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DidOwnershipController();
+
+
+              const promise = controller.claim.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/did/:did/register',
+
+            function DidOwnershipController_register(request: any, response: any, next: any) {
+            const args = {
+                    did: {"in":"path","name":"did","required":true,"dataType":"string"},
+                    body: {"in":"body","name":"body","required":true,"ref":"IDidOwnershipRegisterPayload"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DidOwnershipController();
+
+
+              const promise = controller.register.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/did/:did/services',
             authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[]}]),
 
@@ -255,7 +321,6 @@ export function RegisterRoutes(app: express.Router) {
             const args = {
                     did: {"in":"path","name":"did","required":true,"dataType":"string"},
                     body: {"in":"body","name":"body","required":true,"ref":"IServiceRegisterPayload"},
-                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -282,7 +347,6 @@ export function RegisterRoutes(app: express.Router) {
                     did: {"in":"path","name":"did","required":true,"dataType":"string"},
                     id: {"in":"path","name":"id","required":true,"dataType":"string"},
                     body: {"in":"body","name":"body","required":true,"ref":"IServiceUpdatePayload"},
-                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -308,7 +372,6 @@ export function RegisterRoutes(app: express.Router) {
             const args = {
                     did: {"in":"path","name":"did","required":true,"dataType":"string"},
                     id: {"in":"path","name":"id","required":true,"dataType":"string"},
-                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -334,7 +397,6 @@ export function RegisterRoutes(app: express.Router) {
             const args = {
                     did: {"in":"path","name":"did","required":true,"dataType":"string"},
                     body: {"in":"body","name":"body","required":true,"ref":"IVerificationMethodRegisterPayload"},
-                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -361,7 +423,6 @@ export function RegisterRoutes(app: express.Router) {
                     did: {"in":"path","name":"did","required":true,"dataType":"string"},
                     id: {"in":"path","name":"id","required":true,"dataType":"string"},
                     body: {"in":"body","name":"body","required":true,"ref":"IVerificationMethodUpdatePayload"},
-                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -387,7 +448,6 @@ export function RegisterRoutes(app: express.Router) {
             const args = {
                     did: {"in":"path","name":"did","required":true,"dataType":"string"},
                     id: {"in":"path","name":"id","required":true,"dataType":"string"},
-                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -413,7 +473,6 @@ export function RegisterRoutes(app: express.Router) {
             const args = {
                     did: {"in":"path","name":"did","required":true,"dataType":"string"},
                     body: {"in":"body","name":"body","required":true,"ref":"IVerificationRelationshipRegisterPayload"},
-                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -441,7 +500,6 @@ export function RegisterRoutes(app: express.Router) {
                     relationshipType: {"in":"path","name":"relationshipType","required":true,"ref":"RelationshipTypeType"},
                     id: {"in":"path","name":"id","required":true,"dataType":"string"},
                     body: {"in":"body","name":"body","required":true,"ref":"IVerificationRelationshipUpdatePayload"},
-                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -468,7 +526,6 @@ export function RegisterRoutes(app: express.Router) {
                     did: {"in":"path","name":"did","required":true,"dataType":"string"},
                     relationshipType: {"in":"path","name":"relationshipType","required":true,"ref":"RelationshipTypeType"},
                     id: {"in":"path","name":"id","required":true,"dataType":"string"},
-                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
