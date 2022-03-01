@@ -7,9 +7,9 @@ Title: DID Registration
   participant HSDK as Hashgraph JS SDK
   participant HCS as Hedera Consensus Service
   participant HMN as Hedera Mirror Node
-  participant DB as Database
+  participant Database as Database
 
-note over Subject,DB: Register a DID
+note over Subject,Database: Register a DID
 Subject->>App: Send public key to endpoint
 App ->> HSDK: Build Client (Set account that will pay for transaction)
 App ->> HSDK: Generate DID Private Key (DPK)
@@ -27,12 +27,12 @@ SDK ->> HSDK: Execute above transaction with Client <br> (responsible for transa
 HSDK ->> HCS: Submit message to Topic
 HCS ->> HMN: Propagate Message <br> to Topic
 App ->> App: Create DidKeypair
-App ->> DB: Save DidKeypair to DB
+App ->> Database: Save DidKeypair to Database
 App ->> SDK: Add Verification Relationship
 SDK ->> SDK: Create Verification Relationship event
 SDK ->> HSDK: Create the transaction
 SDK ->> HSDK: Execute the transaction
-App ->> DB: Write all the messages to DB
+App ->> Database: Write all the messages to Database
 SDK ->> App: Send DID Identifier <br> e.g. (did:hedera:testnet:z6Mk.._0.0.2..)
 App->> Subject: Return DID
 end

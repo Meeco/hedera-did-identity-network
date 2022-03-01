@@ -1,0 +1,46 @@
+sequenceDiagram
+
+participant Subject as DID Subject
+participant API as API-Appnet
+participant Database as Database
+participant DIDSDK as DID SDK
+participant HCS as Hedera HCS
+
+
+note over Subject,HCS: Delegate your DID-Document to the Appnet
+Subject ->> API: Send the following information: DID, Submit Key, Admin Key (Secured by HTTP Signature)
+API ->> API: Check Message Signing in HTTP Header
+API ->> Database: Resolve DID
+alt Document is cached
+note over API,Database: DID that are not managed by the Appnet can be out of sync. We need have system in place to keep the cache in sync.
+API ->> Database: Resolve DID through Projection
+Database ->> API: Receive DID Document
+else Document is not cached
+API ->> DIDSDK:  Resolve DID
+DIDSDK ->> HCS:  Read-out topic and retrieve events
+DIDSDK ->> API: Returns DID Document, Eventlist
+API ->> Database: Add events to EventStore
+API ->> Database: Generate projection
+Database ->> API: Receive DID Document
+end
+API ->> API: Check Signature message signing with owner Key of DID Document
+alt Signature Not OK
+API ->> Subject: Send out error message
+else Signature OK
+API ->> API: Generate new Adminkey and Submit Key
+API ->> HCS: assign AdminKey and Submit to the topic
+HCS -> API: Ack
+API ->> DIDSDK:  Update DIDOwnerEvent
+DIDSDK ->> HCS:  Update DIDOwnerEvent
+HCS ->> DIDSDK: Ack
+DIDSDK ->> API: Ack
+API ->> Database: Update eventStore with the DIDOnwerEvent
+API ->> Database: Generate projection
+API ->> DIDSDK: Create VerificationRelationship event (Register the public key as delegate)
+DIDSDK ->> HCS: Create VerificationRelationship
+HCS ->> DIDSDK: Ack
+DIDSDK ->> API: Ack
+API ->> Database: Add Create VerificationRelationship event to EventStore
+API ->> Database: Generate projection
+API ->> Subject: Return OK
+end

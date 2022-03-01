@@ -3,18 +3,18 @@ Title: DID Resolve
   autonumber
   participant Subject as DID Subject
   participant App as API-Appnet
-  participant DB as Database
+  participant Database as Database
   participant SDK as DID JS SDK
   participant HSDK as Hashgraph JS SDK
   participant HMN as Hedera Mirror Node
 
 note over Subject,HMN: Resolve a DID
 Subject ->> App: Send Hedera DID to endpoint
-App ->> DB: Check cache
+App ->> Database: Check cache
 alt Document is cached
-note over App,DB: DID that are not managed by the appnet can be out of sync. We need have system in place to keep the cache in sync
-App ->> DB: Resolve DID through Projection
-DB ->> App: Receive DID Document
+note over App,Database: DID that are not managed by the Appnet can be out of sync. We need have system in place to keep the cache in sync
+App ->> Database: Resolve DID through Projection
+Database ->> App: Receive DID Document
 else Document is not cached
 App ->> HSDK: Build Client (No Hedera account info needed)
 
