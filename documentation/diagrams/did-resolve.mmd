@@ -8,13 +8,13 @@ Title: DID Resolve
   participant HSDK as Hashgraph JS SDK
   participant HMN as Hedera Mirror Node
 
-note over Subject,DB: Resolve a DID
-Subject->>App: Send Hedera DID to endpoint
-App->>DB: Check cache
+note over Subject,HMN: Resolve a DID
+Subject ->> App: Send Hedera DID to endpoint
+App ->> DB: Check cache
 alt Document is cached
-note over App,DB: DID that are not managed by the appnet can be out of sync. We need have system in place to keep the cache in sync.
-App->>DB: Resolve DID through Projection
-DB->>App: Receive DID Document
+note over App,DB: DID that are not managed by the appnet can be out of sync. We need have system in place to keep the cache in sync
+App ->> DB: Resolve DID through Projection
+DB ->> App: Receive DID Document
 else Document is not cached
 App ->> HSDK: Build Client (No Hedera account info needed)
 
@@ -23,12 +23,12 @@ App ->> SDK: Resolve a DID
 SDK ->> SDK: Extract topic id from DID
 SDK ->> HSDK: Subscribe to Topic
 HSDK ->> HMN: Subscribe to Topic
-HMN -->> HSDK: receive all messages
-HSDK -->> SDK: receive all messages
-SDK ->> SDK: extract all Events from messages
-SDK ->> SDK: proccess events
-SDK ->> SDK: generate DID Document
-SDK ->> App: send DID Document
+HMN -->> HSDK: Receive all messages
+HSDK -->> SDK: Receive all messages
+SDK ->> SDK: Extract all Events from messages
+SDK ->> SDK: Process events
+SDK ->> SDK: Generate DID Document
+SDK ->> App: Send DID Document
 end
 App->>Subject: Return DID Document
 

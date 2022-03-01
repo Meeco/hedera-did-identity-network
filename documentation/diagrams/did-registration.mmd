@@ -9,24 +9,23 @@ Title: DID Registration
   participant HMN as Hedera Mirror Node
   participant DB as Database
 
-
-alt register a DID
+note over Subject,DB: Register a DID
 Subject->>App: Send public key to endpoint
 App ->> HSDK: Build Client (Set account that will pay for transaction)
 App ->> HSDK: Generate DID Private Key (DPK)
 App ->> SDK: Register DID with DPK
-SDK ->> HSDK: Build Topic Create Transaction <br> By setting Transaction Fees <br> AmdinKey, SubmitKey <br> singed by DPK
+SDK ->> HSDK: Build Topic Create Transaction <br> By setting Transaction Fees <br> AdminKey, SubmitKey <br> singed by DPK
 SDK ->> HSDK: Execute above transaction with Client <br> (responsible for transaction payment)
 HSDK ->> HCS: Create Private Topic
-HCS ->> HMN: Propogate Topic
+HCS ->> HMN: Propagate Topic
 SDK ->> HSDK: Request Receipt for Transaction
 HSDK --> SDK: Send receipt with Topic ID
 SDK ->> SDK: Build did identifier with topic id
-SDK ->> SDK: Create DID owner Event <br> with identiefier
+SDK ->> SDK: Create DID owner Event <br> with identifier
 SDK ->> HSDK: Build DID owner Event Transaction  <br> signed with DPK
 SDK ->> HSDK: Execute above transaction with Client <br> (responsible for transaction payment)
 HSDK ->> HCS: Submit message to Topic
-HCS ->> HMN: Propogate Message <br> to Topic
+HCS ->> HMN: Propagate Message <br> to Topic
 App ->> App: Create DidKeypair
 App ->> DB: Save DidKeypair to DB
 App ->> SDK: Add Verification Relationship
