@@ -2,8 +2,6 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import { resolve } from "path";
 
-const DID_PUBLIC_KEY_MULTIBASE = process.env.DID_PUBLIC_KEY_MULTIBASE || "";
-
 export function setupBeforeAndAfter() {
   beforeAll(async () => {
     const mongoServer = await MongoMemoryServer.create();

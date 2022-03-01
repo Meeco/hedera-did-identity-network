@@ -1,6 +1,6 @@
 import { PrivateKey } from "@hashgraph/sdk";
 import supertest from "supertest";
-import { app } from "../../src";
+import { app } from "../../src/server";
 import { generateAuthHeaders } from "../utils";
 import { setupBeforeAndAfter } from "./setup";
 
