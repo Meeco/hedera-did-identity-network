@@ -24,9 +24,9 @@ API ->> Database: Generate projection
 Database ->> API: Receive DID Document
 end
 API ->> API: Check Signature message signing with owner Key of DID Document
-alt Signature Not OK
-API ->> Subject: Send out error message
-else Signature OK
+alt Signature validation fails
+API ->> Subject: Return Response Message "Not Authorised"
+else Signature validation success
 API ->> API: Generate new Adminkey and Submit Key
 API ->> HCS: assign AdminKey and Submit to the topic
 HCS -> API: Ack
