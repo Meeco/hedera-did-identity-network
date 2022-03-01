@@ -30,7 +30,7 @@ HCS ->> HMN: Propogate Message <br> to Topic
 App ->> App: Create DidKeypair
 App ->> DB: Save DidKeypair to DB
 App ->> SDK: Add Verification Relationship
-SDK ->> SDK: Create the event
+SDK ->> SDK: Create Verification Relationship event
 SDK ->> HSDK: Create the transaction
 SDK ->> HSDK: Execute the transaction
 App ->> DB: Write all the messages to DB
