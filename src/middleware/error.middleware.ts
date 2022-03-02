@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ValidateError } from "tsoa";
 
-export const errorHanlder = (
+export const errorHandler = (
   err: unknown,
   req: Request,
   res: Response,

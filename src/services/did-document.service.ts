@@ -2,7 +2,7 @@ import { Hashing, HcsDid } from "@hashgraph/did-sdk-js";
 import { PrivateKey, PublicKey } from "@hashgraph/sdk";
 import { DidKeypairModel } from "../daos/did-keypair.dao";
 import { DidDocument, IDidDocumentRegisterPayload } from "../models";
-import { client } from "../services/hedera-client";
+import { client } from "./hedera-client";
 import { HcsMessageCollectorService } from "./hcs-message-collector.service";
 import { ResolverService } from "./resolver.service";
 

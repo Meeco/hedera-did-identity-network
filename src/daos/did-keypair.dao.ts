@@ -1,5 +1,5 @@
 import { CreateDidKeypairDto } from "../dto/create.did-keypair.dto";
-import { getMongoose } from "../services/connection.service";
+import { getMongoose } from "../services";
 
 class DidKeypairSchema {
   Schema = getMongoose().Schema;
