@@ -1,0 +1,25 @@
+sequenceDiagram
+
+participant Subject as DID Subject
+participant API as API-Appnet
+participant Database as Database
+participant DIDSDK as DID SDK
+participant HCS as Hedera HCS
+
+note over Subject,HCS: Revoke an attribute
+Subject ->> API: Send Revoke event to endpoint (Secured by HTTP Signature)
+API ->> API: Check Message Signing in HTTP Header
+API ->> Database: Resolve DID through Projection
+Database ->> API: Receive DID Document
+API ->> API: Check Signature message signing with Delegate Key of DID Document
+alt Signature validation fails
+API ->> Subject: Return Response Message "Not Authorised"
+else Signature validation success
+API ->> DIDSDK: Revoke Event
+DIDSDK ->> HCS: Register Event
+HCS ->> DIDSDK: Ack
+DIDSDK ->> API: Ack
+API ->> Database: Add Revoke event to EventStore
+API ->> Database: Generate projection
+API ->> Subject: Return Response Message
+end
