@@ -19,10 +19,11 @@ import { claimDidOwnership, registerDidWithAppNet } from "../services";
 @Tags("Ownership")
 export class DidOwnershipController extends Controller {
   /**
-   * Claim DID Document ownership back from the AppNet. Changes DID root key to the one provided via parameters. DID controller remains the same.
+   * Claim DID Document ownership back from the AppNet. Changes DID root key to the one provided via `privateKeyMultibase` parameter.
+   * DID controller remains the same.
    * @summary Claim DID Document ownership back from the AppNet
-   * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
-   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
+   * @param did A percent-escaped DID Identifier as defined in DID specification
+   * @example did "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
@@ -37,10 +38,12 @@ export class DidOwnershipController extends Controller {
 
   /**
    * Register an existing DID Document with AppNet. Gives away control of the document to the AppNet component.
+   * Previous DID root (`privateKeyMultibase` parameter) key becomes a delegate key. <br /><br />
+   * <em>* Based on your use case you should consider securing this endpoint. Endpoint communicates to Hedera Consensus Services.</em>
    * @summary Register an existing DID Document with AppNet
-   * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
-   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
-   * @returns void
+   * @param did A percent-escaped DID Identifier as defined in DID specification
+   * @example did "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
+   * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
   @Post("/{did}/register")

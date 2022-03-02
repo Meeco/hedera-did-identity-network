@@ -21,7 +21,9 @@ import { registerDid, resolveDid, revokeDid } from "../services";
 @Tags("Document")
 export class DidDocumentController extends Controller {
   /**
-   * Register a new DID document. User provides public key that is going to be added as a delegate key that allows user to modify created DID document later.
+   * Register a new DID document. User provides public key that is going to be added as a delegate key.
+   * That allows user to modify created DID document later. <br /><br />
+   * <em>* Based on your use case you should consider securing this endpoint. Endpoint communicates to Hedera Consensus Services.</em>
    * @summary Register a new DID Document.
    * @param body
    * @returns DidDocument
@@ -36,10 +38,11 @@ export class DidDocumentController extends Controller {
   }
 
   /**
-   * Resolve DID Document
+   * Resolve DID Document <br /><br />
+   * <em>* Based on your use case you might consider securing this endpoint. Endpoint communicates to mirror nodes to resolve DID documents.</em>
    * @summary Resolve DID Document
-   * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
-   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
+   * @param did A percent-escaped DID Identifier as defined in DID specification
+   * @example did "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
@@ -49,10 +52,11 @@ export class DidDocumentController extends Controller {
   }
 
   /**
-   * Permanently remove DID Document from Appnet registry. In addition to that, new messages will be written to the DID topic stating that document has been removed.
+   * Permanently remove DID Document from Appnet registry.
+   * In addition to that, new messages will be written to the DID topic stating that document has been removed.
    * @summary Remove DID Document from registry
-   * @param did DID Identifier as defined in DID specification<br /> <br />
-   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
+   * @param did DID Identifier as defined in DID specification
+   * @example did "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
    * @returns void
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
