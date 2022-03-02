@@ -3,7 +3,7 @@ const { PrivateKey } = require("@hashgraph/sdk");
 
 async function main() {
   const didIdentifier =
-    "did:hedera:testnet:z6MkiBivydnQGdHHatfi3c9ypfen5dHr882eFggEgfEx42iV_0.0.30829964";
+    "did:hedera:testnet:z6MkowTno4aemW4KmAsR7tp9k6CAKBLxEnHmWs3QZqCW6MFj_0.0.30834458";
   const publicKeyMultiBase = "z6Mktu7jtMFJLE53nNEA7jdp9FGCVsDRqhNrzbkM3JHLDinC";
   const serviceIdentifier =
     "did:hedera:testnet:z6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231#service-1";
@@ -33,7 +33,7 @@ async function main() {
     requestOptions,
     signer,
     encodeURIComponent(
-      "did:hedera:testnet:z6MkiBivydnQGdHHatfi3c9ypfen5dHr882eFggEgfEx42iV_0.0.30829964#key-1"
+      "did:hedera:testnet:z6MkowTno4aemW4KmAsR7tp9k6CAKBLxEnHmWs3QZqCW6MFj_0.0.30834458#key-1"
     )
   );
 
