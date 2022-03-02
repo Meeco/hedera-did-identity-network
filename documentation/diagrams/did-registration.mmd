@@ -11,7 +11,7 @@ Title: DID Registration
   participant Database as Database
 
 note over Subject,Database: Register a DID
-Subject->>App: Send public key to endpoint
+Subject ->> App: Send public key to endpoint
 App ->> HSDK: Build Client (Set account that will pay for transaction)
 App ->> HSDK: Generate DID Private Key (DPK)
 App ->> SDK: Register DID with DPK
@@ -35,5 +35,5 @@ SDK ->> HSDK: Create the transaction
 SDK ->> HSDK: Execute the transaction
 App ->> Database: Write all the messages to Database
 SDK ->> App: Send DID Identifier <br> e.g. (did:hedera:testnet:z6Mk.._0.0.2..)
-App->> Subject: Return DID
+App ->> Subject: Return DID
 end
