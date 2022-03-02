@@ -1,13 +1,15 @@
 import { PrivateKey } from "@hashgraph/sdk";
 import supertest from "supertest";
 import { app } from "../../src/server";
-import { generateAuthHeaders } from "../utils";
+import { generateAuthHeaders, getPublicKeyMultibase } from "../utils";
 import { setupBeforeAndAfter } from "./setup";
 
-const DID_PUBLIC_KEY_MULTIBASE = process.env.DID_PUBLIC_KEY_MULTIBASE || "";
-const DID_PRIVATE_KEY = process.env.DID_PRIVATE_KEY || "";
-
 describe("DID Document", () => {
+  const DID_PRIVATE_KEY = PrivateKey.fromString(
+    process.env.DID_PRIVATE_KEY || ""
+  );
+  const DID_PUBLIC_KEY_MULTIBASE = getPublicKeyMultibase(DID_PRIVATE_KEY);
+
   //setup in memory mongodb and mock mongoose db connection
   setupBeforeAndAfter();
   describe("resolve DID Document", () => {
@@ -178,8 +180,6 @@ describe("DID Document", () => {
           newDIDDocument.body.verificationMethod[1].publicKeyMultibase
         ).toEqual(DID_PUBLIC_KEY_MULTIBASE);
 
-        const signer = PrivateKey.fromString(DID_PRIVATE_KEY);
-
         const requestOptions = {
           json: true,
           url: `http://localhost:8000/did/${newDIDDocument.body.id}`,
@@ -189,7 +189,7 @@ describe("DID Document", () => {
 
         const authHeaders = await generateAuthHeaders(
           requestOptions,
-          signer,
+          DID_PRIVATE_KEY,
           newDIDDocument.body.verificationMethod[1].id
         );
 

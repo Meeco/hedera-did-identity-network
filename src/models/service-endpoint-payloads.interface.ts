@@ -6,6 +6,9 @@ export interface IServiceRegisterPayload {
 
 export interface IServiceUpdateBody {
   type: "LinkedDomains" | "DIDCommMessaging";
+  /**
+   * @example "https://your.service/did-comm"
+   */
   serviceEndpoint: string;
 }
 

@@ -1,21 +1,21 @@
 import { PrivateKey } from "@hashgraph/sdk";
-import supertest from "supertest";
+import supertest, { Response } from "supertest";
 import { app } from "../../src/server";
-import { generateAuthHeaders } from "../utils";
+import { generateAuthHeaders, getPublicKeyMultibase } from "../utils";
 import { setupBeforeAndAfter } from "./setup";
 
-const DID_PUBLIC_KEY_MULTIBASE = process.env.DID_PUBLIC_KEY_MULTIBASE || "";
-const DID_PRIVATE_KEY = process.env.DID_PRIVATE_KEY || "";
 describe("DID Verification Method", () => {
-  let registeredDidDocument: any = null;
+  const DID_PRIVATE_KEY = PrivateKey.fromString(
+    process.env.DID_PRIVATE_KEY || ""
+  );
+  const DID_PUBLIC_KEY_MULTIBASE = getPublicKeyMultibase(DID_PRIVATE_KEY);
 
   const verificationMethodIdentifier =
     "did:hedera:testnet:z6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231#key-1";
-
   const verificationMethodPublicKey =
     "z6Mkkcn1EDXc5vzpmvnQeCKpEswyrnQG7qq59k92gFRm1EGk";
 
-  const signer = PrivateKey.fromString(DID_PRIVATE_KEY);
+  let registeredDidDocument: Response;
 
   //setup in memory mongodb and mock mongoose db connection
   setupBeforeAndAfter();
@@ -54,7 +54,7 @@ describe("DID Verification Method", () => {
 
         const authHeaders = await generateAuthHeaders(
           requestOptions,
-          signer,
+          DID_PRIVATE_KEY,
           registeredDidDocument.body.verificationMethod[1].id
         );
 
@@ -102,7 +102,7 @@ describe("DID Verification Method", () => {
 
         const authHeaders = await generateAuthHeaders(
           requestOptions,
-          signer,
+          DID_PRIVATE_KEY,
           registeredDidDocument.body.verificationMethod[1].id
         );
 
@@ -144,7 +144,7 @@ describe("DID Verification Method", () => {
 
         const authHeaders = await generateAuthHeaders(
           requestOptions,
-          signer,
+          DID_PRIVATE_KEY,
           registeredDidDocument.body.verificationMethod[1].id
         );
 

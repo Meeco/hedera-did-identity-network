@@ -1,3 +1,4 @@
+import { Hashing } from "@hashgraph/did-sdk-js";
 import { PrivateKey } from "@hashgraph/sdk";
 import { createHeaderValue } from "../src/utils";
 const httpSignature = require("@digitalbazaar/http-signature-header");
@@ -56,4 +57,8 @@ export const generateAuthHeaders = async (
     ...headers,
     Authorization: authorization,
   };
+};
+
+export const getPublicKeyMultibase = (privateKey: PrivateKey) => {
+  return Hashing.multibase.encode(privateKey.publicKey.toBytes());
 };

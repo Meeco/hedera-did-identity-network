@@ -5,7 +5,6 @@ import {
   Path,
   Post,
   Put,
-  Request,
   Response,
   Route,
   Security,
@@ -31,8 +30,8 @@ export class DidVerificationRelationshipController extends Controller {
   /**
    * Register a new verification relationship to the DID document
    * @summary Register a new verification relationship to the DID document
-   * @param did Identifier as defined in DID specification <br /> <br />
-   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
+   * @param did Identifier as defined in DID specification
+   * @example did "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
    * @param body Register verification relationship payload
    * @returns DidDocument
    */
@@ -50,11 +49,11 @@ export class DidVerificationRelationshipController extends Controller {
   /**
    * Update verification relationship on the DID document
    * @summary Update verification relationship on the DID document
-   * @param did Identifier as defined in DID specification <br /> <br />
-   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
+   * @param did Identifier as defined in DID specification
+   * @example did "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
    * @param relationshipType String to specify which relationship type key belongs to
-   * @param id Verification Method ID string <br /> <br />
-   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1
+   * @param id Verification Method ID string
+   * @example id "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1"
    * @param body Update verification relationship payload
    * @returns DidDocument
    */
@@ -73,11 +72,11 @@ export class DidVerificationRelationshipController extends Controller {
   /**
    * Remove verification relationship from the DID document
    * @summary Remove verification relationship from the DID document
-   * @param did Identifier as defined in DID specification <br /> <br />
-   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
+   * @param did Identifier as defined in DID specification
+   * @example did "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
    * @param relationshipType String to specify which relationship type key belongs to
-   * @param id Verification Method ID string <br /> <br />
-   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1
+   * @param id Verification Method ID string
+   * @example id "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1"
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")

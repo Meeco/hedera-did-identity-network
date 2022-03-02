@@ -1,17 +1,16 @@
-import { HcsDid } from "@hashgraph/did-sdk-js/dist/identity/hcs/did/hcs-did";
-import { Hashing } from "@hashgraph/did-sdk-js/dist/utils/hashing";
+import { Hashing, HcsDid } from "@hashgraph/did-sdk-js";
 import { PrivateKey } from "@hashgraph/sdk";
 import supertest from "supertest";
 import { app } from "../../src/server";
-import { generateAuthHeaders } from "../utils";
-import { setupBeforeAndAfter } from "./setup";
 import { client } from "../../src/services";
-
-const DID_PUBLIC_KEY_MULTIBASE = process.env.DID_PUBLIC_KEY_MULTIBASE || "";
-const DID_PRIVATE_KEY = process.env.DID_PRIVATE_KEY || "";
+import { generateAuthHeaders, getPublicKeyMultibase } from "../utils";
+import { setupBeforeAndAfter } from "./setup";
 
 describe("DID Service", () => {
-  const signer = PrivateKey.fromString(DID_PRIVATE_KEY);
+  const DID_PRIVATE_KEY = PrivateKey.fromString(
+    process.env.DID_PRIVATE_KEY || ""
+  );
+  const DID_PUBLIC_KEY_MULTIBASE = getPublicKeyMultibase(DID_PRIVATE_KEY);
 
   //setup in memory mongodb and mock mongoose db connection
   setupBeforeAndAfter();
@@ -30,9 +29,7 @@ describe("DID Service", () => {
           registeredDidDocument.body.verificationMethod[1].publicKeyMultibase
         ).toEqual(DID_PUBLIC_KEY_MULTIBASE);
 
-        const pkMultibase = Hashing.multibase.encode(
-          PrivateKey.fromString(DID_PRIVATE_KEY).toBytes()
-        );
+        const pkMultibase = Hashing.multibase.encode(DID_PRIVATE_KEY.toBytes());
         const body = {
           privateKeyMultibase: pkMultibase,
         };
@@ -47,7 +44,7 @@ describe("DID Service", () => {
 
         const authHeaders = await generateAuthHeaders(
           requestOptions,
-          signer,
+          DID_PRIVATE_KEY,
           registeredDidDocument.body.verificationMethod[1].id
         );
 

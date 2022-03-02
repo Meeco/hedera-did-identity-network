@@ -25,8 +25,8 @@ export class DidServiceController extends Controller {
   /**
    * Register a new service to the DID Document
    * @summary Register a new service to the DID Document
-   * @param did Identifier as defined in DID specification <br /> <br />
-   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
+   * @param did Identifier as defined in DID specification
+   * @example did "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
    * @param body Register service payload
    * @returns DidDocument
    */
@@ -44,10 +44,10 @@ export class DidServiceController extends Controller {
   /**
    * Update service information on the DID Document
    * @summary Update service information on the DID Document
-   * @param did Identifier as defined in DID specification <br /> <br />
-   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
-   * @param id Service ID string <br /> <br />
-   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#service-1
+   * @param did Identifier as defined in DID specification
+   * @example did "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
+   * @param id Service ID string
+   * @example id "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#service-1"
    * @param body Update service payload
    * @returns DidDocument
    */
@@ -66,10 +66,10 @@ export class DidServiceController extends Controller {
   /**
    * Remove service information from the DID Document
    * @summary Remove service information from the DID Document
-   * @param did Identifier as defined in DID specification <br /> <br />
-   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
-   * @param id Service ID string <br /> <br />
-   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#service-1
+   * @param did Identifier as defined in DID specification
+   * @example did "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
+   * @param id Service ID string
+   * @example id "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#service-1"
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
