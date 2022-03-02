@@ -16,11 +16,12 @@ API ->> API: Check Signature message signing with Delegate Key of DID Document
 alt Signature validation fails
 API ->> Subject: Return Response Message "Not Authorised"
 else Signature validation success
+API ->> Database: Find DidKeypair
+Database ->> API: Resolve DidKeypair
 API ->> DIDSDK: Update Event
 DIDSDK ->> HCS: Register Event
 HCS ->> DIDSDK: Ack
 DIDSDK ->> API: Ack
 API ->> Database: Add Update event to EventStore
-API ->> Database: Generate projection
-API ->> Subject: Return Response Message
+API ->> Subject: Return DID Document
 end

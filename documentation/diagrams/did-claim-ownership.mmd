@@ -16,17 +16,12 @@ API ->> API: Check Signature message signing with Delegate Key of DID Document
 alt Signature validation fails
 API ->> Subject: Return Response Message "Not Authorised"
 else Signature validation success
-API ->> DIDSDK: Revoke VerificationRelationship event
-DIDSDK ->> HCS: Revoke VerificationRelationship event
-HCS ->> DIDSDK: Ack
-DIDSDK ->> API: Ack
-API ->> Database: Add Create VerificationRelationship event to EventStore
-API ->> Database: Generate projection
-API ->> DIDSDK:  Update DIDOwner Event  (Register the Delegate-key as the new Root-key)
+API ->> Database: Find DidKeypair
+Database ->> API: Resolve DidKeypair
+API ->> DIDSDK:  Update DIDOwner Event  (Register key from request params as the new Root-key)
 DIDSDK ->> HCS:  Update DIDOwner Event
 HCS ->> DIDSDK: Ack
 DIDSDK ->> API: Ack
-API ->> Database: add Update DIDOnwer Event  to EventStore
-API ->> Database: Generate projection
-API ->> Subject: Return Admin Key and Submit Key
+API ->> Database: add Update DIDOnwer Event to EventStore
+API ->> Subject: Return DID Document
 end

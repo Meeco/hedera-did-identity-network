@@ -22,6 +22,6 @@ API ->> DIDSDK: Delete Event
 DIDSDK ->> HCS: Delete Event
 HCS ->> DIDSDK: Ack
 DIDSDK ->> API: Ack
-API ->> Database: Purge Database
-API ->> Subject: Return Response Message
+API ->> Database: Add delete event to EventStore
+API ->> Subject: Return empty response
 end
