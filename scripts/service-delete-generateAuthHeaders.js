@@ -15,7 +15,7 @@ async function main() {
     json: true,
     url: `http://localhost:8000/did/${encodeURIComponent(
       didIdentifier
-    )}/services/${Buffer.from(serviceIdentifier).toString("base64")}`,
+    )}/services/${encodeURIComponent(serviceIdentifier)}`,
     method: "DELETE",
     headers: {},
   };
@@ -27,7 +27,7 @@ async function main() {
   );
 
   console.log(didIdentifier);
-  console.log(`${Buffer.from(serviceIdentifier).toString("base64")}`);
+  console.log(`${serviceIdentifier}`);
   console.log({ ...requestOptions.headers, ...authHeaders });
 }
 

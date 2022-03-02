@@ -103,9 +103,9 @@ describe("DID Verification Relationships", () => {
           json: true,
           url: `http://localhost:8000/did/${
             registeredDidDocument.body.id
-          }/verification-relationships/${verificationRelationshipType}/${Buffer.from(
+          }/verification-relationships/${verificationRelationshipType}/${encodeURIComponent(
             verificationRelationshipIdentifier
-          ).toString("base64")}`,
+          )}`,
           method: "PUT",
           headers: {},
           body: body,
@@ -121,9 +121,9 @@ describe("DID Verification Relationships", () => {
           .put(
             `/did/${
               registeredDidDocument.body.id
-            }/verification-relationships/${verificationRelationshipType}/${Buffer.from(
+            }/verification-relationships/${verificationRelationshipType}/${encodeURIComponent(
               verificationRelationshipIdentifier
-            ).toString("base64")}`
+            )}`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send(body);
@@ -147,9 +147,9 @@ describe("DID Verification Relationships", () => {
           json: true,
           url: `http://localhost:8000/did/${
             registeredDidDocument.body.id
-          }/verification-relationships/${verificationRelationshipType}/${Buffer.from(
+          }/verification-relationships/${verificationRelationshipType}/${encodeURIComponent(
             verificationRelationshipIdentifier
-          ).toString("base64")}`,
+          )}`,
           method: "DELETE",
           headers: {},
         };
@@ -165,9 +165,9 @@ describe("DID Verification Relationships", () => {
           .delete(
             `/did/${
               registeredDidDocument.body.id
-            }/verification-relationships/${verificationRelationshipType}/${Buffer.from(
+            }/verification-relationships/${verificationRelationshipType}/${encodeURIComponent(
               verificationRelationshipIdentifier
-            ).toString("base64")}`
+            )}`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send();

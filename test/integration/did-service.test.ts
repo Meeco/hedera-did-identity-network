@@ -83,7 +83,7 @@ describe("DID Service", () => {
           json: true,
           url: `http://localhost:8000/did/${
             registeredDidDocument.body.id
-          }/services/${Buffer.from(serviceIdentifier).toString("base64")}`,
+          }/services/${encodeURIComponent(serviceIdentifier)}`,
           method: "PUT",
           headers: {},
           body: body,
@@ -97,9 +97,9 @@ describe("DID Service", () => {
 
         const result = await supertest(app)
           .put(
-            `/did/${registeredDidDocument.body.id}/services/${Buffer.from(
-              serviceIdentifier
-            ).toString("base64")}`
+            `/did/${
+              registeredDidDocument.body.id
+            }/services/${encodeURIComponent(serviceIdentifier)}`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send(body);
@@ -122,7 +122,7 @@ describe("DID Service", () => {
           json: true,
           url: `http://localhost:8000/did/${
             registeredDidDocument.body.id
-          }/services/${Buffer.from(serviceIdentifier).toString("base64")}`,
+          }/services/${encodeURIComponent(serviceIdentifier)}`,
           method: "DELETE",
           headers: {},
         };
@@ -135,9 +135,9 @@ describe("DID Service", () => {
 
         const result = await supertest(app)
           .delete(
-            `/did/${registeredDidDocument.body.id}/services/${Buffer.from(
-              serviceIdentifier
-            ).toString("base64")}`
+            `/did/${
+              registeredDidDocument.body.id
+            }/services/${encodeURIComponent(serviceIdentifier)}`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send();

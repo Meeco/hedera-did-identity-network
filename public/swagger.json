@@ -476,7 +476,7 @@
 				"security": [],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -517,7 +517,7 @@
 				],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification<br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"description": "DID Identifier as defined in DID specification<br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -567,7 +567,7 @@
 				],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -621,7 +621,7 @@
 				"security": [],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification<br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -681,7 +681,7 @@
 				],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"description": "Identifier as defined in DID specification <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -742,7 +742,7 @@
 				],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"description": "Identifier as defined in DID specification <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -751,7 +751,7 @@
 						}
 					},
 					{
-						"description": "A percent-escaped Service ID string <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23service-1",
+						"description": "Service ID string <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#service-1",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -810,7 +810,7 @@
 				],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"description": "Identifier as defined in DID specification <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -819,7 +819,7 @@
 						}
 					},
 					{
-						"description": "A percent-escaped Service ID string <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23service-1",
+						"description": "Service ID string <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#service-1",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -869,7 +869,7 @@
 				],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"description": "Identifier as defined in DID specification <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -930,7 +930,7 @@
 				],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"description": "Identifier as defined in DID specification <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -939,7 +939,7 @@
 						}
 					},
 					{
-						"description": "A percent-escaped Service ID string <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23key-1",
+						"description": "Verification Method ID string <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -998,7 +998,7 @@
 				],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"description": "Identifier as defined in DID specification <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -1007,7 +1007,7 @@
 						}
 					},
 					{
-						"description": "A percent-escaped Service ID string <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23key-1",
+						"description": "Verification Method ID string <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1057,7 +1057,7 @@
 				],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"description": "Identifier as defined in DID specification <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -1118,7 +1118,7 @@
 				],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"description": "Identifier as defined in DID specification <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -1136,7 +1136,7 @@
 						}
 					},
 					{
-						"description": "A percent-escaped Service ID string <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23key-1",
+						"description": "Verification Method ID string <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -1195,7 +1195,7 @@
 				],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231",
+						"description": "Identifier as defined in DID specification <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -1213,7 +1213,7 @@
 						}
 					},
 					{
-						"description": "A percent-escaped Service ID string <br /> <br />\nExample: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23key-1",
+						"description": "Verification Method ID string <br /> <br />\nExample: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1",
 						"in": "path",
 						"name": "id",
 						"required": true,

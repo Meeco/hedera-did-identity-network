@@ -92,9 +92,9 @@ describe("DID Verification Method", () => {
           json: true,
           url: `http://localhost:8000/did/${
             registeredDidDocument.body.id
-          }/verification-methods/${Buffer.from(
+          }/verification-methods/${encodeURIComponent(
             verificationMethodIdentifier
-          ).toString("base64")}`,
+          )}`,
           method: "PUT",
           headers: {},
           body: body,
@@ -110,9 +110,9 @@ describe("DID Verification Method", () => {
           .put(
             `/did/${
               registeredDidDocument.body.id
-            }/verification-methods/${Buffer.from(
+            }/verification-methods/${encodeURIComponent(
               verificationMethodIdentifier
-            ).toString("base64")}`
+            )}`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send(body);
@@ -135,9 +135,9 @@ describe("DID Verification Method", () => {
           json: true,
           url: `http://localhost:8000/did/${
             registeredDidDocument.body.id
-          }/verification-methods/${Buffer.from(
+          }/verification-methods/${encodeURIComponent(
             verificationMethodIdentifier
-          ).toString("base64")}`,
+          )}`,
           method: "DELETE",
           headers: {},
         };
@@ -152,9 +152,9 @@ describe("DID Verification Method", () => {
           .delete(
             `/did/${
               registeredDidDocument.body.id
-            }/verification-methods/${Buffer.from(
+            }/verification-methods/${encodeURIComponent(
               verificationMethodIdentifier
-            ).toString("base64")}`
+            )}`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send();

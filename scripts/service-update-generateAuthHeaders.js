@@ -22,7 +22,7 @@ async function main() {
     json: true,
     url: `http://localhost:8000/did/${encodeURIComponent(
       didIdentifier
-    )}/services/${Buffer.from(serviceIdentifier).toString("base64")}`,
+    )}/services/${encodeURIComponent(serviceIdentifier)}`,
     method: "PUT",
     headers: {},
     body: body,
@@ -35,7 +35,7 @@ async function main() {
   );
 
   console.log(didIdentifier);
-  console.log(`${Buffer.from(serviceIdentifier).toString("base64")}`);
+  console.log(`${serviceIdentifie}`);
   console.log({ ...requestOptions.headers, ...authHeaders });
   console.log("body: " + JSON.stringify(body));
 }
