@@ -7,7 +7,7 @@ participant Database as Database
 participant DIDSDK as DID SDK
 participant HCS as Hedera HCS
 
-note over Subject,Database: Claim ownership
+note over Subject,HCS: Claim ownership
 Subject ->> API: Send the DID that you want to claim ownership on (Secured by HTTP Signature)
 API ->> API: Check Message Signing in HTTP Header
 API ->> Database: Resolve DID through Projection

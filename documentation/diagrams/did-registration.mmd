@@ -4,11 +4,11 @@ Title: DID Registration
   autonumber
   participant Subject as DID Subject
   participant App as API-Appnet
+  participant Database as Database
   participant SDK as DID JS SDK
   participant HSDK as Hashgraph JS SDK
   participant HCS as Hedera Consensus Service
   participant HMN as Hedera Mirror Node
-  participant Database as Database
 
 note over Subject,Database: Register a DID
 Subject ->> App: Send public key to endpoint
@@ -31,9 +31,10 @@ App ->> App: Create DidKeypair
 App ->> Database: Save DidKeypair to Database
 App ->> SDK: Add Verification Relationship
 SDK ->> SDK: Create Verification Relationship event
-SDK ->> HSDK: Create the transaction
-SDK ->> HSDK: Execute the transaction
+SDK ->> SDK: Create the transaction
+SDK ->> HCS: Execute the transaction
+HCS ->> App: Ack
+HCS ->> HMN: Propagate Message <br> to Topic
 App ->> Database: Write all the messages to Database
 SDK ->> App: Send DID Identifier <br> e.g. (did:hedera:testnet:z6Mk.._0.0.2..)
 App ->> Subject: Return DID
-end
