@@ -39,27 +39,27 @@ export class DidDocumentController extends Controller {
    * Resolve DID Document
    * @summary Resolve DID Document
    * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231
+   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
   @Get("/{did}")
   public async resolve(@Path() did: string): Promise<DidDocument> {
-    return resolveDid(decodeURIComponent(did));
+    return resolveDid(did);
   }
 
   /**
    * Permanently remove DID Document from Appnet registry. In addition to that, new messages will be written to the DID topic stating that document has been removed.
    * @summary Remove DID Document from registry
-   * @param did A percent-escaped DID Identifier as defined in DID specification<br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231
+   * @param did DID Identifier as defined in DID specification<br /> <br />
+   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
    * @returns void
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
-  @Security({ SignedRequestHeader: [], DigestHeader: [] })
+  @Security({ SignedRequestHeader: [], DigestHeader: [], ExpiresHeader: [] })
   @Delete("/{did}")
   public async revoke(@Path() did: string): Promise<void> {
     this.setStatus(204);
-    return revokeDid(decodeURIComponent(did));
+    return revokeDid(did);
   }
 }

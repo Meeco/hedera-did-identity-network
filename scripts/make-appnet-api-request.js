@@ -33,20 +33,22 @@ async function main() {
   /**
    * AppNet request definition
    */
+  let now = new Date();
+  let thirtyMinutesFromNow = now.setMinutes(now.getMinutes() + 30);
   let requestOptions = {
     json: true,
     url: "http://localhost:8000/did/did:hedera:testnet:z6MkrGm5d1cCtr6YbqxozvsvWN5XnTkNh9CkJDsVWXFfa638_0.0.30791334/services",
     method: "POST",
     body: requestBody,
     headers: {
-      date: new Date().toUTCString(),
+      expires: new Date(thirtyMinutesFromNow).toUTCString(),
     },
   };
 
   /**
    * Build signed HTTP request headers
    */
-  const includeHeaders = ["date", "host", "(request-target)"];
+  const includeHeaders = ["expires", "host", "(request-target)"];
 
   if (["post", "put", "patch"].includes(requestOptions.method.toLowerCase())) {
     includeHeaders.push("digest");

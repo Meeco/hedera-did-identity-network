@@ -1,15 +1,11 @@
-import { PrivateKey } from "@hashgraph/sdk";
-import { createHeaderValue } from "../src/utils";
+const { createHeaderValue } = require("./http-digest");
+
 const httpSignature = require("@digitalbazaar/http-signature-header");
 
-export const generateAuthHeaders = async (
-  requestOptions: any,
-  signer: PrivateKey,
-  keyId: string
-) => {
+const generateAuthHeaders = async (requestOptions, signer, keyId) => {
   let now = new Date();
   let thirtyMinutesFromNow = now.setMinutes(now.getMinutes() + 30);
-  let headers: any = {
+  let headers = {
     host: "localhost:8000",
     expires: new Date(thirtyMinutesFromNow).toUTCString(),
   };
@@ -19,7 +15,7 @@ export const generateAuthHeaders = async (
   const serializedRequestBody = requestBody
     ? JSON.stringify(requestBody)
     : JSON.stringify({});
-  const digestHeader: string = await createHeaderValue({
+  const digestHeader = await createHeaderValue({
     data: serializedRequestBody,
     algorithm: "sha256",
     useMultihash: false,
@@ -56,4 +52,8 @@ export const generateAuthHeaders = async (
     ...headers,
     Authorization: authorization,
   };
+};
+
+module.exports = {
+  generateAuthHeaders,
 };

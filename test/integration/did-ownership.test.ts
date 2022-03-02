@@ -2,7 +2,7 @@ import { HcsDid } from "@hashgraph/did-sdk-js/dist/identity/hcs/did/hcs-did";
 import { Hashing } from "@hashgraph/did-sdk-js/dist/utils/hashing";
 import { PrivateKey } from "@hashgraph/sdk";
 import supertest from "supertest";
-import { app } from "../../src";
+import { app } from "../../src/server";
 import { generateAuthHeaders } from "../utils";
 import { setupBeforeAndAfter } from "./setup";
 import { client } from "../../src/services";
@@ -39,9 +39,7 @@ describe("DID Service", () => {
 
         const requestOptions = {
           json: true,
-          url: `http://localhost:8000/did/${encodeURIComponent(
-            registeredDidDocument.body.id
-          )}/claim`,
+          url: `http://localhost:8000/did/${registeredDidDocument.body.id}/claim`,
           method: "POST",
           headers: {},
           body: body,
@@ -50,16 +48,12 @@ describe("DID Service", () => {
         const authHeaders = await generateAuthHeaders(
           requestOptions,
           signer,
-          encodeURIComponent(
-            registeredDidDocument.body.verificationMethod[1].id
-          )
+          registeredDidDocument.body.verificationMethod[1].id
         );
 
         // claim ownership
         const result = await supertest(app)
-          .post(
-            `/did/${encodeURIComponent(registeredDidDocument.body.id)}/claim`
-          )
+          .post(`/did/${registeredDidDocument.body.id}/claim`)
           .set({ ...requestOptions.headers, ...authHeaders })
           .send(body);
 
@@ -97,9 +91,7 @@ describe("DID Service", () => {
         };
 
         const result = await supertest(app)
-          .post(
-            `/did/${encodeURIComponent(registeredDid.getIdentifier())}/register`
-          )
+          .post(`/did/${registeredDid.getIdentifier()}/register`)
 
           .send(body);
 

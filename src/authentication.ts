@@ -7,9 +7,9 @@ import { verifyHeaderValue as verifyDigestHeaderValue } from "./utils";
 
 const httpSignature = require("@digitalbazaar/http-signature-header");
 
-const INCLUDE_HEADERS_WITHOUT_DIGEST = ["date", "host", "(request-target)"];
+const INCLUDE_HEADERS_WITHOUT_DIGEST = ["expires", "host", "(request-target)"];
 const INCLUDE_HEADERS_WITH_DIGEST = [
-  "date",
+  "expires",
   "host",
   "(request-target)",
   "digest",
@@ -56,6 +56,7 @@ const parseRequest = (request: Request) => {
     signatureHeaderData.params.signature,
     "base64"
   );
+  console.log(request.headers);
   const signatureVerificationData = new TextEncoder().encode(
     httpSignature.createSignatureString({
       includeHeaders,
@@ -103,22 +104,19 @@ export async function expressAuthentication(
         return Promise.reject(new Error(`Digest header value is invalid`));
       }
 
-      const resolver = new ResolverService(
-        decodeURIComponent(request.params.did)
-      );
+      console.log("percent escaped did: " + request.params.did);
+      const resolver = new ResolverService(request.params.did);
       const document = await resolver.resolveFromDB();
 
       const publicKey = findAuthenticationPublicKey(
         document,
-        decodeURIComponent(signatureHeaderData.params.keyId)
+        signatureHeaderData.params.keyId
       );
 
       if (!publicKey) {
         return Promise.reject(
           new Error(
-            `Not authorized to operate on ${decodeURIComponent(
-              request.params.did
-            )} DID document`
+            `Not authorized to operate on ${request.params.did} DID document`
           )
         );
       }

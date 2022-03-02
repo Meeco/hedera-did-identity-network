@@ -242,7 +242,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.delete('/did/:did',
-            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[]}]),
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[],"ExpiresHeader":[]}]),
 
             function DidDocumentController_revoke(request: any, response: any, next: any) {
             const args = {
@@ -266,7 +266,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/did/:did/claim',
-            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[]}]),
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[],"ExpiresHeader":[]}]),
 
             function DidOwnershipController_claim(request: any, response: any, next: any) {
             const args = {
@@ -315,7 +315,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/did/:did/services',
-            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[]}]),
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[],"ExpiresHeader":[]}]),
 
             function DidServiceController_register(request: any, response: any, next: any) {
             const args = {
@@ -340,7 +340,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.put('/did/:did/services/:id',
-            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[]}]),
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[],"ExpiresHeader":[]}]),
 
             function DidServiceController_update(request: any, response: any, next: any) {
             const args = {
@@ -366,7 +366,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.delete('/did/:did/services/:id',
-            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[]}]),
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[],"ExpiresHeader":[]}]),
 
             function DidServiceController_revoke(request: any, response: any, next: any) {
             const args = {
@@ -391,7 +391,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/did/:did/verification-methods',
-            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[]}]),
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[],"ExpiresHeader":[]}]),
 
             function DidVerificationMethodController_register(request: any, response: any, next: any) {
             const args = {
@@ -416,7 +416,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.put('/did/:did/verification-methods/:id',
-            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[]}]),
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[],"ExpiresHeader":[]}]),
 
             function DidVerificationMethodController_update(request: any, response: any, next: any) {
             const args = {
@@ -442,7 +442,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.delete('/did/:did/verification-methods/:id',
-            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[]}]),
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[],"ExpiresHeader":[]}]),
 
             function DidVerificationMethodController_revoke(request: any, response: any, next: any) {
             const args = {
@@ -467,7 +467,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/did/:did/verification-relationships',
-            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[]}]),
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[],"ExpiresHeader":[]}]),
 
             function DidVerificationRelationshipController_register(request: any, response: any, next: any) {
             const args = {
@@ -492,7 +492,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.put('/did/:did/verification-relationships/:relationshipType/:id',
-            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[]}]),
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[],"ExpiresHeader":[]}]),
 
             function DidVerificationRelationshipController_update(request: any, response: any, next: any) {
             const args = {
@@ -519,7 +519,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.delete('/did/:did/verification-relationships/:relationshipType/:id',
-            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[]}]),
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[],"ExpiresHeader":[]}]),
 
             function DidVerificationRelationshipController_revoke(request: any, response: any, next: any) {
             const args = {
