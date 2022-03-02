@@ -1,9 +1,9 @@
-const { generateAuthHeaders } = require("../build/utils/http-headers");
+const { generateAuthHeaders } = require("./http-headers");
 const { PrivateKey } = require("@hashgraph/sdk");
 
 async function main() {
   const didIdentifier =
-    "did:hedera:testnet:z6MkowTno4aemW4KmAsR7tp9k6CAKBLxEnHmWs3QZqCW6MFj_0.0.30834458";
+    "did:hedera:testnet:z6MkhTSVubTwB8s1SekgkfsEqgDkt2ch9ZagZLkeKk6Mur2M_0.0.30835623";
   const publicKeyMultiBase = "z6Mktu7jtMFJLE53nNEA7jdp9FGCVsDRqhNrzbkM3JHLDinC";
   const serviceIdentifier =
     "did:hedera:testnet:z6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231#service-1";
