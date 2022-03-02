@@ -17,8 +17,8 @@ API ->> Subject: Return Response Message "Not Authorised"
 else Signature validation success
 API ->> Database: Find DidKeypair
 Database ->> API: Resolve DidKeypair
-API ->> DIDSDK:  Delete Event
-DIDSDK ->> HCS:  Delete Event
+API ->> DIDSDK: Delete Event
+DIDSDK ->> HCS: Delete Event
 HCS ->> DIDSDK: Ack
 DIDSDK ->> API: Ack
 API ->> Database: Purge Database

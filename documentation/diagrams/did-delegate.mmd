@@ -30,8 +30,8 @@ else Signature validation success
 API ->> API: Generate new Adminkey and Submit Key
 API ->> HCS: assign AdminKey and Submit to the topic
 HCS -> API: Ack
-API ->> DIDSDK:  Update DIDOwnerEvent
-DIDSDK ->> HCS:  Update DIDOwnerEvent
+API ->> DIDSDK: Update DIDOwnerEvent
+DIDSDK ->> HCS: Update DIDOwnerEvent
 HCS ->> DIDSDK: Ack
 DIDSDK ->> API: Ack
 API ->> Database: Update eventStore with the DIDOnwerEvent
