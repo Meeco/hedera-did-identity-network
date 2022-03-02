@@ -30,8 +30,8 @@ export class DidVerificationMethodController extends Controller {
   /**
    * Register a new verification method to the DID document
    * @summary Register a new verification method to the DID document
-   * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231
+   * @param did Identifier as defined in DID specification <br /> <br />
+   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
    * @param body Register verification method payload
    * @returns DidDocument
    */
@@ -43,16 +43,16 @@ export class DidVerificationMethodController extends Controller {
     @Path() did: string,
     @Body() body: IVerificationMethodRegisterPayload
   ): Promise<DidDocument> {
-    return registerVerificationMethod(decodeURIComponent(did), body);
+    return registerVerificationMethod(did, body);
   }
 
   /**
    * Update verification method on a DID document
    * @summary Update verification method on a DID document
-   * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231
-   * @param id A percent-escaped Service ID string <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23key-1
+   * @param did Identifier as defined in DID specification <br /> <br />
+   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
+   * @param id Verification Method ID string <br /> <br />
+   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1
    * @param body Update verification method payload
    * @returns DidDocument
    */
@@ -64,20 +64,16 @@ export class DidVerificationMethodController extends Controller {
     @Path() id: string,
     @Body() body: IVerificationMethodUpdatePayload
   ): Promise<DidDocument> {
-    return updateVerificationMethod(
-      decodeURIComponent(did),
-      decodeURIComponent(id),
-      body
-    );
+    return updateVerificationMethod(did, id, body);
   }
 
   /**
    * Remove verification method from the DID document
    * @summary Remove verification method from the DID document
-   * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231
-   * @param id A percent-escaped Service ID string <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23key-1
+   * @param did Identifier as defined in DID specification <br /> <br />
+   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
+   * @param id Verification Method ID string <br /> <br />
+   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
@@ -87,9 +83,6 @@ export class DidVerificationMethodController extends Controller {
     @Path() did: string,
     @Path() id: string
   ): Promise<DidDocument> {
-    return revokeVerificationMethod(
-      decodeURIComponent(did),
-      decodeURIComponent(id)
-    );
+    return revokeVerificationMethod(did, id);
   }
 }

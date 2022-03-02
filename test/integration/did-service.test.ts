@@ -42,9 +42,7 @@ describe("DID Service", () => {
 
         const requestOptions = {
           json: true,
-          url: `http://localhost:8000/did/${encodeURIComponent(
-            registeredDidDocument.body.id
-          )}/services`,
+          url: `http://localhost:8000/did/${registeredDidDocument.body.id}/services`,
           method: "POST",
           headers: {},
           body: body,
@@ -53,15 +51,12 @@ describe("DID Service", () => {
         const authHeaders = await generateAuthHeaders(
           requestOptions,
           signer,
-          encodeURIComponent(
-            registeredDidDocument.body.verificationMethod[1].id
-          )
+
+          registeredDidDocument.body.verificationMethod[1].id
         );
 
         const result = await supertest(app)
-          .post(
-            `/did/${encodeURIComponent(registeredDidDocument.body.id)}/services`
-          )
+          .post(`/did/${registeredDidDocument.body.id}/services`)
           .set({ ...requestOptions.headers, ...authHeaders })
           .send(body);
 
@@ -86,9 +81,9 @@ describe("DID Service", () => {
 
         const requestOptions = {
           json: true,
-          url: `http://localhost:8000/did/${encodeURIComponent(
+          url: `http://localhost:8000/did/${
             registeredDidDocument.body.id
-          )}/services/${encodeURIComponent(serviceIdentifier)}`,
+          }/services/${encodeURIComponent(serviceIdentifier)}`,
           method: "PUT",
           headers: {},
           body: body,
@@ -97,16 +92,14 @@ describe("DID Service", () => {
         const authHeaders = await generateAuthHeaders(
           requestOptions,
           signer,
-          encodeURIComponent(
-            registeredDidDocument.body.verificationMethod[1].id
-          )
+          registeredDidDocument.body.verificationMethod[1].id
         );
 
         const result = await supertest(app)
           .put(
-            `/did/${encodeURIComponent(
+            `/did/${
               registeredDidDocument.body.id
-            )}/services/${encodeURIComponent(serviceIdentifier)}`
+            }/services/${encodeURIComponent(serviceIdentifier)}`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send(body);
@@ -127,9 +120,9 @@ describe("DID Service", () => {
       it("should return a 200 with updated DID document", async () => {
         const requestOptions = {
           json: true,
-          url: `http://localhost:8000/did/${encodeURIComponent(
+          url: `http://localhost:8000/did/${
             registeredDidDocument.body.id
-          )}/services/${encodeURIComponent(serviceIdentifier)}`,
+          }/services/${encodeURIComponent(serviceIdentifier)}`,
           method: "DELETE",
           headers: {},
         };
@@ -137,16 +130,14 @@ describe("DID Service", () => {
         const authHeaders = await generateAuthHeaders(
           requestOptions,
           signer,
-          encodeURIComponent(
-            registeredDidDocument.body.verificationMethod[1].id
-          )
+          registeredDidDocument.body.verificationMethod[1].id
         );
 
         const result = await supertest(app)
           .delete(
-            `/did/${encodeURIComponent(
+            `/did/${
               registeredDidDocument.body.id
-            )}/services/${encodeURIComponent(serviceIdentifier)}`
+            }/services/${encodeURIComponent(serviceIdentifier)}`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send();

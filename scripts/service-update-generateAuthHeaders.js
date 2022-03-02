@@ -13,9 +13,8 @@ async function main() {
 
   const body = {
     service: {
-      id: serviceIdentifier,
       type: "LinkedDomains",
-      serviceEndpoint: "https://example.com/vcs",
+      serviceEndpoint: "https://test.com/test",
     },
   };
 
@@ -23,8 +22,8 @@ async function main() {
     json: true,
     url: `http://localhost:8000/did/${encodeURIComponent(
       didIdentifier
-    )}/services`,
-    method: "POST",
+    )}/services/${encodeURIComponent(serviceIdentifier)}`,
+    method: "PUT",
     headers: {},
     body: body,
   };
@@ -36,6 +35,7 @@ async function main() {
   );
 
   console.log(didIdentifier);
+  console.log(`${serviceIdentifie}`);
   console.log({ ...requestOptions.headers, ...authHeaders });
   console.log("body: " + JSON.stringify(body));
 }
