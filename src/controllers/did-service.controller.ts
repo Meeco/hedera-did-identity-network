@@ -26,7 +26,7 @@ export class DidServiceController extends Controller {
    * Register a new service to the DID Document
    * @summary Register a new service to the DID Document
    * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231
+   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
    * @param body Register service payload
    * @returns DidDocument
    */
@@ -38,16 +38,16 @@ export class DidServiceController extends Controller {
     @Path() did: string,
     @Body() body: IServiceRegisterPayload
   ): Promise<DidDocument> {
-    return registerService(decodeURIComponent(did), body);
+    return registerService(did, body);
   }
 
   /**
    * Update service information on the DID Document
    * @summary Update service information on the DID Document
    * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231
-   * @param id A percent-escaped Service ID string <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23service-1
+   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
+   * @param id A utf-8 encoded base64 Service ID string <br /> <br />
+   * Example: ZGlkOmhlZGVyYTp0ZXN0bmV0Ono2TWtmemExNlBxbnlNeXhQWmQ3ZFZoczZ5U1VldHRVUlR6dGpOSjhxQkt3eUhnNV8wLjAuMzA4MzU3MTkja2V5LTE=
    * @param body Update service payload
    * @returns DidDocument
    */
@@ -59,16 +59,16 @@ export class DidServiceController extends Controller {
     @Path() id: string,
     @Body() body: IServiceUpdatePayload
   ): Promise<DidDocument> {
-    return updateService(decodeURIComponent(did), decodeURIComponent(id), body);
+    return updateService(did, Buffer.from(id, "base64").toString(), body);
   }
 
   /**
    * Remove service information from the DID Document
    * @summary Remove service information from the DID Document
    * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231
-   * @param id A percent-escaped Service ID string <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23service-1
+   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
+   * @param id A utf-8 encoded base64 Service ID string <br /> <br />
+   * Example: ZGlkOmhlZGVyYTp0ZXN0bmV0Ono2TWtmemExNlBxbnlNeXhQWmQ3ZFZoczZ5U1VldHRVUlR6dGpOSjhxQkt3eUhnNV8wLjAuMzA4MzU3MTkja2V5LTE=
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
@@ -78,6 +78,6 @@ export class DidServiceController extends Controller {
     @Path() did: string,
     @Path() id: string
   ): Promise<DidDocument> {
-    return revokeService(decodeURIComponent(did), decodeURIComponent(id));
+    return revokeService(did, Buffer.from(id, "base64").toString());
   }
 }

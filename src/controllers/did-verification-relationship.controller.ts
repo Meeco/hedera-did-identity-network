@@ -32,7 +32,7 @@ export class DidVerificationRelationshipController extends Controller {
    * Register a new verification relationship to the DID document
    * @summary Register a new verification relationship to the DID document
    * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231
+   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
    * @param body Register verification relationship payload
    * @returns DidDocument
    */
@@ -44,17 +44,17 @@ export class DidVerificationRelationshipController extends Controller {
     @Path() did: string,
     @Body() body: IVerificationRelationshipRegisterPayload
   ): Promise<DidDocument> {
-    return registerVerificationRelationship(decodeURIComponent(did), body);
+    return registerVerificationRelationship(did, body);
   }
 
   /**
    * Update verification relationship on the DID document
    * @summary Update verification relationship on the DID document
    * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231
+   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
    * @param relationshipType String to specify which relationship type key belongs to
-   * @param id A percent-escaped Service ID string <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23key-1
+   * @param id A utf-8 encoded base64 Verification ID string <br /> <br />
+   * Example: ZGlkOmhlZGVyYTp0ZXN0bmV0Ono2TWtmemExNlBxbnlNeXhQWmQ3ZFZoczZ5U1VldHRVUlR6dGpOSjhxQkt3eUhnNV8wLjAuMzA4MzU3MTkja2V5LTE=
    * @param body Update verification relationship payload
    * @returns DidDocument
    */
@@ -68,9 +68,9 @@ export class DidVerificationRelationshipController extends Controller {
     @Body() body: IVerificationRelationshipUpdatePayload
   ): Promise<DidDocument> {
     return updateVerificationRelationship(
-      decodeURIComponent(did),
+      did,
       relationshipType,
-      decodeURIComponent(id),
+      Buffer.from(id, "base64").toString(),
       body
     );
   }
@@ -79,10 +79,10 @@ export class DidVerificationRelationshipController extends Controller {
    * Remove verification relationship from the DID document
    * @summary Remove verification relationship from the DID document
    * @param did A percent-escaped DID Identifier as defined in DID specification <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231
+   * Example: did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719
    * @param relationshipType String to specify which relationship type key belongs to
-   * @param id A percent-escaped Service ID string <br /> <br />
-   * Example: did%3Ahedera%3Atestnet%3Az6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231%23key-1
+   * @param id A utf-8 encoded base64 Verification ID string <br /> <br />
+   * Example: ZGlkOmhlZGVyYTp0ZXN0bmV0Ono2TWtmemExNlBxbnlNeXhQWmQ3ZFZoczZ5U1VldHRVUlR6dGpOSjhxQkt3eUhnNV8wLjAuMzA4MzU3MTkja2V5LTE=
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
@@ -94,9 +94,9 @@ export class DidVerificationRelationshipController extends Controller {
     @Path() id: string
   ): Promise<DidDocument> {
     return revokeVerificationRelationship(
-      decodeURIComponent(did),
+      did,
       relationshipType,
-      decodeURIComponent(id)
+      Buffer.from(id, "base64").toString()
     );
   }
 }

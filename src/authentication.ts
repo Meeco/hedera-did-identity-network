@@ -105,22 +105,18 @@ export async function expressAuthentication(
       }
 
       console.log("percent escaped did: " + request.params.did);
-      const resolver = new ResolverService(
-        decodeURIComponent(request.params.did)
-      );
+      const resolver = new ResolverService(request.params.did);
       const document = await resolver.resolveFromDB();
 
       const publicKey = findAuthenticationPublicKey(
         document,
-        decodeURIComponent(signatureHeaderData.params.keyId)
+        signatureHeaderData.params.keyId
       );
 
       if (!publicKey) {
         return Promise.reject(
           new Error(
-            `Not authorized to operate on ${decodeURIComponent(
-              request.params.did
-            )} DID document`
+            `Not authorized to operate on ${request.params.did} DID document`
           )
         );
       }

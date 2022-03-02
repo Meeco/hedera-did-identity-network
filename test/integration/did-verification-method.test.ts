@@ -46,9 +46,7 @@ describe("DID Verification Method", () => {
 
         const requestOptions = {
           json: true,
-          url: `http://localhost:8000/did/${encodeURIComponent(
-            registeredDidDocument.body.id
-          )}/verification-methods`,
+          url: `http://localhost:8000/did/${registeredDidDocument.body.id}/verification-methods`,
           method: "POST",
           headers: {},
           body: body,
@@ -57,17 +55,11 @@ describe("DID Verification Method", () => {
         const authHeaders = await generateAuthHeaders(
           requestOptions,
           signer,
-          encodeURIComponent(
-            registeredDidDocument.body.verificationMethod[1].id
-          )
+          registeredDidDocument.body.verificationMethod[1].id
         );
 
         const result = await supertest(app)
-          .post(
-            `/did/${encodeURIComponent(
-              registeredDidDocument.body.id
-            )}/verification-methods`
-          )
+          .post(`/did/${registeredDidDocument.body.id}/verification-methods`)
           .set({ ...requestOptions.headers, ...authHeaders })
           .send(body);
 
@@ -98,11 +90,11 @@ describe("DID Verification Method", () => {
 
         const requestOptions = {
           json: true,
-          url: `http://localhost:8000/did/${encodeURIComponent(
+          url: `http://localhost:8000/did/${
             registeredDidDocument.body.id
-          )}/verification-methods/${encodeURIComponent(
+          }/verification-methods/${Buffer.from(
             verificationMethodIdentifier
-          )}`,
+          ).toString("base64")}`,
           method: "PUT",
           headers: {},
           body: body,
@@ -111,18 +103,16 @@ describe("DID Verification Method", () => {
         const authHeaders = await generateAuthHeaders(
           requestOptions,
           signer,
-          encodeURIComponent(
-            registeredDidDocument.body.verificationMethod[1].id
-          )
+          registeredDidDocument.body.verificationMethod[1].id
         );
 
         const result = await supertest(app)
           .put(
-            `/did/${encodeURIComponent(
+            `/did/${
               registeredDidDocument.body.id
-            )}/verification-methods/${encodeURIComponent(
+            }/verification-methods/${Buffer.from(
               verificationMethodIdentifier
-            )}`
+            ).toString("base64")}`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send(body);
@@ -143,11 +133,11 @@ describe("DID Verification Method", () => {
       it("should return a 200 with updated DID document", async () => {
         const requestOptions = {
           json: true,
-          url: `http://localhost:8000/did/${encodeURIComponent(
+          url: `http://localhost:8000/did/${
             registeredDidDocument.body.id
-          )}/verification-methods/${encodeURIComponent(
+          }/verification-methods/${Buffer.from(
             verificationMethodIdentifier
-          )}`,
+          ).toString("base64")}`,
           method: "DELETE",
           headers: {},
         };
@@ -155,18 +145,16 @@ describe("DID Verification Method", () => {
         const authHeaders = await generateAuthHeaders(
           requestOptions,
           signer,
-          encodeURIComponent(
-            registeredDidDocument.body.verificationMethod[1].id
-          )
+          registeredDidDocument.body.verificationMethod[1].id
         );
 
         const result = await supertest(app)
           .delete(
-            `/did/${encodeURIComponent(
+            `/did/${
               registeredDidDocument.body.id
-            )}/verification-methods/${encodeURIComponent(
+            }/verification-methods/${Buffer.from(
               verificationMethodIdentifier
-            )}`
+            ).toString("base64")}`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send();

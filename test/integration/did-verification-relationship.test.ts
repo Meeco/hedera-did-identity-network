@@ -49,9 +49,7 @@ describe("DID Verification Relationships", () => {
 
         const requestOptions = {
           json: true,
-          url: `http://localhost:8000/did/${encodeURIComponent(
-            registeredDidDocument.body.id
-          )}/verification-relationships`,
+          url: `http://localhost:8000/did/${registeredDidDocument.body.id}/verification-relationships`,
           method: "POST",
           headers: {},
           body: body,
@@ -60,17 +58,14 @@ describe("DID Verification Relationships", () => {
         const authHeaders = await generateAuthHeaders(
           requestOptions,
           signer,
-          encodeURIComponent(
-            registeredDidDocument.body.verificationMethod[1].id
-          )
+
+          registeredDidDocument.body.verificationMethod[1].id
         );
 
         // register new did verification method
         const result = await supertest(app)
           .post(
-            `/did/${encodeURIComponent(
-              registeredDidDocument.body.id
-            )}/verification-relationships`
+            `/did/${registeredDidDocument.body.id}/verification-relationships`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send(body);
@@ -106,11 +101,11 @@ describe("DID Verification Relationships", () => {
 
         const requestOptions = {
           json: true,
-          url: `http://localhost:8000/did/${encodeURIComponent(
+          url: `http://localhost:8000/did/${
             registeredDidDocument.body.id
-          )}/verification-relationships/${verificationRelationshipType}/${encodeURIComponent(
+          }/verification-relationships/${verificationRelationshipType}/${Buffer.from(
             verificationRelationshipIdentifier
-          )}`,
+          ).toString("base64")}`,
           method: "PUT",
           headers: {},
           body: body,
@@ -119,18 +114,16 @@ describe("DID Verification Relationships", () => {
         const authHeaders = await generateAuthHeaders(
           requestOptions,
           signer,
-          encodeURIComponent(
-            registeredDidDocument.body.verificationMethod[1].id
-          )
+          registeredDidDocument.body.verificationMethod[1].id
         );
 
         const result = await supertest(app)
           .put(
-            `/did/${encodeURIComponent(
+            `/did/${
               registeredDidDocument.body.id
-            )}/verification-relationships/${verificationRelationshipType}/${encodeURIComponent(
+            }/verification-relationships/${verificationRelationshipType}/${Buffer.from(
               verificationRelationshipIdentifier
-            )}`
+            ).toString("base64")}`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send(body);
@@ -152,11 +145,11 @@ describe("DID Verification Relationships", () => {
       it("should return a 200 with updated DID document", async () => {
         const requestOptions = {
           json: true,
-          url: `http://localhost:8000/did/${encodeURIComponent(
+          url: `http://localhost:8000/did/${
             registeredDidDocument.body.id
-          )}/verification-relationships/${verificationRelationshipType}/${encodeURIComponent(
+          }/verification-relationships/${verificationRelationshipType}/${Buffer.from(
             verificationRelationshipIdentifier
-          )}`,
+          ).toString("base64")}`,
           method: "DELETE",
           headers: {},
         };
@@ -164,18 +157,17 @@ describe("DID Verification Relationships", () => {
         const authHeaders = await generateAuthHeaders(
           requestOptions,
           signer,
-          encodeURIComponent(
-            registeredDidDocument.body.verificationMethod[1].id
-          )
+
+          registeredDidDocument.body.verificationMethod[1].id
         );
 
         const result = await supertest(app)
           .delete(
-            `/did/${encodeURIComponent(
+            `/did/${
               registeredDidDocument.body.id
-            )}/verification-relationships/${verificationRelationshipType}/${encodeURIComponent(
+            }/verification-relationships/${verificationRelationshipType}/${Buffer.from(
               verificationRelationshipIdentifier
-            )}`
+            ).toString("base64")}`
           )
           .set({ ...requestOptions.headers, ...authHeaders })
           .send();

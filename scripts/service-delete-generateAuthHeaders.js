@@ -11,22 +11,13 @@ async function main() {
     "302e020100300506032b6570042204200e83b24dd97d9ebf267c095ed73a99cde94f6b3863d1cd484a3db25c055a626e"
   );
 
-  const body = {
-    service: {
-      id: serviceIdentifier,
-      type: "LinkedDomains",
-      serviceEndpoint: "https://example.com/vcs",
-    },
-  };
-
   const requestOptions = {
     json: true,
     url: `http://localhost:8000/did/${encodeURIComponent(
       didIdentifier
-    )}/services`,
-    method: "POST",
+    )}/services/${Buffer.from(serviceIdentifier).toString("base64")}`,
+    method: "DELETE",
     headers: {},
-    body: body,
   };
 
   const authHeaders = await generateAuthHeaders(
@@ -36,8 +27,8 @@ async function main() {
   );
 
   console.log(didIdentifier);
+  console.log(`${Buffer.from(serviceIdentifier).toString("base64")}`);
   console.log({ ...requestOptions.headers, ...authHeaders });
-  console.log("body: " + JSON.stringify(body));
 }
 
 main();
