@@ -24,6 +24,11 @@
         "type": "apiKey",
         "name": "Digest",
         "in": "header"
+      },
+      "ExpiresHeader": {
+        "type": "apiKey",
+        "name": "Expires",
+        "in": "header"
       }
     }
   },

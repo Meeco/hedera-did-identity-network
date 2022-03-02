@@ -26,7 +26,7 @@ export class DidOwnershipController extends Controller {
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
-  @Security({ SignedRequestHeader: [], DigestHeader: [] })
+  @Security({ SignedRequestHeader: [], DigestHeader: [], ExpiresHeader: [] })
   @Post("/{did}/claim")
   public async claim(
     @Path() did: string,

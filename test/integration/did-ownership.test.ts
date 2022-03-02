@@ -2,7 +2,7 @@ import { HcsDid } from "@hashgraph/did-sdk-js/dist/identity/hcs/did/hcs-did";
 import { Hashing } from "@hashgraph/did-sdk-js/dist/utils/hashing";
 import { PrivateKey } from "@hashgraph/sdk";
 import supertest from "supertest";
-import { app } from "../../src";
+import { app } from "../../src/server";
 import { generateAuthHeaders } from "../utils";
 import { setupBeforeAndAfter } from "./setup";
 import { client } from "../../src/services";

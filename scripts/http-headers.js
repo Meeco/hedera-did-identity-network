@@ -3,9 +3,11 @@ const { createHeaderValue } = require("./http-digest");
 const httpSignature = require("@digitalbazaar/http-signature-header");
 
 const generateAuthHeaders = async (requestOptions, signer, keyId) => {
+  let now = new Date();
+  let thirtyMinutesFromNow = now.setMinutes(now.getMinutes() + 30);
   let headers = {
     host: "localhost:8000",
-    date: new Date().toUTCString(),
+    expires: new Date(thirtyMinutesFromNow).toUTCString(),
   };
 
   const requestBody = requestOptions.body;
@@ -22,7 +24,7 @@ const generateAuthHeaders = async (requestOptions, signer, keyId) => {
   /**
    * Build signed HTTP request headers
    */
-  const includeHeaders = ["date", "host", "(request-target)"];
+  const includeHeaders = ["expires", "host", "(request-target)"];
 
   if (["post", "put", "patch"].includes(requestOptions.method.toLowerCase())) {
     includeHeaders.push("digest");

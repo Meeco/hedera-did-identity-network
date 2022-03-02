@@ -37,7 +37,7 @@ export class DidVerificationMethodController extends Controller {
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
   @SuccessResponse(201, "Created")
-  @Security({ SignedRequestHeader: [], DigestHeader: [] })
+  @Security({ SignedRequestHeader: [], DigestHeader: [], ExpiresHeader: [] })
   @Post("/{did}/verification-methods")
   public async register(
     @Path() did: string,
@@ -57,7 +57,7 @@ export class DidVerificationMethodController extends Controller {
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
-  @Security({ SignedRequestHeader: [], DigestHeader: [] })
+  @Security({ SignedRequestHeader: [], DigestHeader: [], ExpiresHeader: [] })
   @Put("/{did}/verification-methods/{id}")
   public async update(
     @Path() did: string,
@@ -81,7 +81,7 @@ export class DidVerificationMethodController extends Controller {
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
-  @Security({ SignedRequestHeader: [], DigestHeader: [] })
+  @Security({ SignedRequestHeader: [], DigestHeader: [], ExpiresHeader: [] })
   @Delete("/{did}/verification-methods/{id}")
   public async revoke(
     @Path() did: string,

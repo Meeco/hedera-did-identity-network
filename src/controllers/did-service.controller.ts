@@ -32,7 +32,7 @@ export class DidServiceController extends Controller {
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
   @SuccessResponse(201, "Created")
-  @Security({ SignedRequestHeader: [], DigestHeader: [] })
+  @Security({ SignedRequestHeader: [], DigestHeader: [], ExpiresHeader: [] })
   @Post("/{did}/services")
   public async register(
     @Path() did: string,
@@ -52,7 +52,7 @@ export class DidServiceController extends Controller {
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
-  @Security({ SignedRequestHeader: [], DigestHeader: [] })
+  @Security({ SignedRequestHeader: [], DigestHeader: [], ExpiresHeader: [] })
   @Put("/{did}/services/{id}")
   public async update(
     @Path() did: string,
@@ -72,7 +72,7 @@ export class DidServiceController extends Controller {
    * @returns DidDocument
    */
   @Response<ValidateErrorJSON>(422, "Validation Failed")
-  @Security({ SignedRequestHeader: [], DigestHeader: [] })
+  @Security({ SignedRequestHeader: [], DigestHeader: [], ExpiresHeader: [] })
   @Delete("/{did}/services/{id}")
   public async revoke(
     @Path() did: string,

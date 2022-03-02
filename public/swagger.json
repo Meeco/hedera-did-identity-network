@@ -376,6 +376,11 @@
 				"type": "apiKey",
 				"name": "Digest",
 				"in": "header"
+			},
+			"ExpiresHeader": {
+				"type": "apiKey",
+				"name": "Expires",
+				"in": "header"
 			}
 		}
 	},
@@ -506,7 +511,8 @@
 				"security": [
 					{
 						"SignedRequestHeader": [],
-						"DigestHeader": []
+						"DigestHeader": [],
+						"ExpiresHeader": []
 					}
 				],
 				"parameters": [
@@ -555,7 +561,8 @@
 				"security": [
 					{
 						"SignedRequestHeader": [],
-						"DigestHeader": []
+						"DigestHeader": [],
+						"ExpiresHeader": []
 					}
 				],
 				"parameters": [
@@ -668,7 +675,8 @@
 				"security": [
 					{
 						"SignedRequestHeader": [],
-						"DigestHeader": []
+						"DigestHeader": [],
+						"ExpiresHeader": []
 					}
 				],
 				"parameters": [
@@ -728,7 +736,8 @@
 				"security": [
 					{
 						"SignedRequestHeader": [],
-						"DigestHeader": []
+						"DigestHeader": [],
+						"ExpiresHeader": []
 					}
 				],
 				"parameters": [
@@ -795,7 +804,8 @@
 				"security": [
 					{
 						"SignedRequestHeader": [],
-						"DigestHeader": []
+						"DigestHeader": [],
+						"ExpiresHeader": []
 					}
 				],
 				"parameters": [
@@ -853,7 +863,8 @@
 				"security": [
 					{
 						"SignedRequestHeader": [],
-						"DigestHeader": []
+						"DigestHeader": [],
+						"ExpiresHeader": []
 					}
 				],
 				"parameters": [
@@ -913,7 +924,8 @@
 				"security": [
 					{
 						"SignedRequestHeader": [],
-						"DigestHeader": []
+						"DigestHeader": [],
+						"ExpiresHeader": []
 					}
 				],
 				"parameters": [
@@ -980,7 +992,8 @@
 				"security": [
 					{
 						"SignedRequestHeader": [],
-						"DigestHeader": []
+						"DigestHeader": [],
+						"ExpiresHeader": []
 					}
 				],
 				"parameters": [
@@ -1038,7 +1051,8 @@
 				"security": [
 					{
 						"SignedRequestHeader": [],
-						"DigestHeader": []
+						"DigestHeader": [],
+						"ExpiresHeader": []
 					}
 				],
 				"parameters": [
@@ -1098,7 +1112,8 @@
 				"security": [
 					{
 						"SignedRequestHeader": [],
-						"DigestHeader": []
+						"DigestHeader": [],
+						"ExpiresHeader": []
 					}
 				],
 				"parameters": [
@@ -1174,7 +1189,8 @@
 				"security": [
 					{
 						"SignedRequestHeader": [],
-						"DigestHeader": []
+						"DigestHeader": [],
+						"ExpiresHeader": []
 					}
 				],
 				"parameters": [

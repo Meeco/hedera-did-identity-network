@@ -315,7 +315,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/did/:did/services',
-            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[]}]),
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[],"DateHeader":[]}]),
 
             function DidServiceController_register(request: any, response: any, next: any) {
             const args = {
