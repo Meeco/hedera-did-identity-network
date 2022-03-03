@@ -90,7 +90,7 @@ Integration tests require `jest.setup.ts` configuration to be filled in with val
 
 ## Authorization
 
-This project uses signed HTTP requests to authorize users. Only user who owns private key listed in `authentication` section of the targeted DID document is allowed to perform modifications. 
+This project uses [signed HTTP requests](https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-message-signatures) to authorize users. Only user who owns private key listed in `authentication` section of the targeted DID document is allowed to perform modifications. 
 There are three endpoints that in this example project have no authorization added:
 
 - `POST /did`
@@ -98,7 +98,7 @@ There are three endpoints that in this example project have no authorization add
 - `GET /did/{did}`
 
 It is up to developers to decide how these endpoints should be secured based on their use case.
-Example of how requests can be made against API please refer to `scripts/make-appnet-api-request.js` script. More details can also be found on `authentication.ts` file and `tests`.
+For an example of how requests can be made against API please refer to `scripts/make-appnet-api-request.js` script. More details can also be found on `authentication.ts` file and `tests`.
 
 ## Contributing
 

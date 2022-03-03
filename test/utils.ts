@@ -6,13 +6,14 @@ const httpSignature = require("@digitalbazaar/http-signature-header");
 export const generateAuthHeaders = async (
   requestOptions: any,
   signer: PrivateKey,
-  keyId: string
+  keyId: string,
+  expires?: Date
 ) => {
   let now = new Date();
   let thirtyMinutesFromNow = now.setMinutes(now.getMinutes() + 30);
   let headers: any = {
     host: "localhost:8000",
-    expires: new Date(thirtyMinutesFromNow).toUTCString(),
+    expires: expires || new Date(thirtyMinutesFromNow).toUTCString(),
   };
 
   const requestBody = requestOptions.body;
@@ -55,7 +56,7 @@ export const generateAuthHeaders = async (
 
   return {
     ...headers,
-    Authorization: authorization,
+    authorization,
   };
 };
 

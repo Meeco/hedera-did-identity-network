@@ -56,7 +56,6 @@ const parseRequest = (request: Request) => {
     signatureHeaderData.params.signature,
     "base64"
   );
-  console.log(request.headers);
   const signatureVerificationData = new TextEncoder().encode(
     httpSignature.createSignatureString({
       includeHeaders,
@@ -83,6 +82,10 @@ const isDigestHeaderValid = async (request: Request): Promise<boolean> => {
   return true;
 };
 
+const isExpiresHeaderValid = (expires: string): boolean => {
+  return Date.parse(expires) > Date.now();
+};
+
 /**
  * Middleware function
  */
@@ -104,7 +107,10 @@ export async function expressAuthentication(
         return Promise.reject(new Error(`Digest header value is invalid`));
       }
 
-      console.log("percent escaped did: " + request.params.did);
+      if (!isExpiresHeaderValid(request.headers.expires as string)) {
+        return Promise.reject(new Error(`Request has expired`));
+      }
+
       const resolver = new ResolverService(request.params.did);
       const document = await resolver.resolveFromDB();
 
