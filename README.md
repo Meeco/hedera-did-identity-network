@@ -1,8 +1,5 @@
 # Hedera™ Hashgraph Appnet - hedera-appnet
 
-[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
-![branch parameter](https://github.com/Meeco/hedera-appnet/actions/workflows/tests.unit.yml/badge.svg?branch=develop)
-
 This project is an example of how appnets can build identity networks on top of Hedera and utilize Hedera DID Method.
 
 ## About
@@ -106,10 +103,6 @@ Example of how requests can be made against API please refer to `scripts/make-ap
 ## Contributing
 
 We welcome participation from all developers!
-
-## License Information
-
-Licensed under [Apache License, Version 2.0](LICENSE).
 
 ## References
 
