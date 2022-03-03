@@ -1,27 +1,29 @@
 sequenceDiagram
 Title: DID Claim ownership
 
-participant Subject as DID Subject
-participant API as API-Appnet
-participant Database as Database
-participant DIDSDK as DID SDK
-participant HCS as Hedera HCS
+participant user as user
+participant API as Appnet
+participant DB as Database
+participant SDK as DID JS SDK
 
-note over Subject,HCS: Claim ownership
-Subject ->> API: Send the DID that you want to claim ownership on (Secured by HTTP Signature)
-API ->> API: Check Message Signing in HTTP Header
-API ->> Database: Resolve DID through Projection
-Database ->> API: Receive DID Document
-API ->> API: Check Signature message signing with Delegate Key of DID Document
-alt Signature validation fails
-API ->> Subject: Return Response Message "Not Authorised"
-else Signature validation success
-API ->> Database: Find DidKeypair
-Database ->> API: Resolve DidKeypair
-API ->> DIDSDK:  Update DIDOwner Event  (Register key from request params as the new Root-key)
-DIDSDK ->> HCS:  Update DIDOwner Event
-HCS ->> DIDSDK: Ack
-DIDSDK ->> API: Ack
-API ->> Database: add Update DIDOwner Event to EventStore
-API ->> Subject: Return DID Document
+
+note over user, SDK: Claim DID Document ownership back from the AppNet. Changes DID root key to the one provided via `privateKeyMultibase` parameter.
+user ->> API: Send multibase private key
+alt auth
+API ->> API: Check payload digest
+API ->> DB: Retrieve DID Event messages
+API ->> API: Resolve DID Document
+API ->> API: Verify signature using <br> resolved DID Document Delegate Key
+end 
+alt auth fails
+API ->> user: Return Response Message "Not Authorised"
+else auth success
+API ->> DB: Find DidKeypair
+DB ->> API: Resolve DidKeypair
+API ->> SDK: Create new DID owner Event with provided multibase private key 
+SDK ->> API: ACK 
+API ->> DB: Add DID owner change event to database
+API ->> DB: Remove previous DidKeypair
+API ->> API: Resolve DID
+API ->> user: Return DID Document
 end
