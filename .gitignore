@@ -61,3 +61,7 @@ typings/
 
 # build folder
 build/
+
+#.env.json script
+scripts/.env.json
+demo/.env.json
