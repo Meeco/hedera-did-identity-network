@@ -1,29 +1,32 @@
 const { generateAuthHeaders } = require("./http-headers");
 const { PrivateKey } = require("@hashgraph/sdk");
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 async function main() {
-  const didIdentifier =
-    "did:hedera:testnet:z6MkqMb2zPN8zzqSA9tV2iia957kRpKNnZBQSRuLBFw9hutu_0.0.30835913";
-  const publicKeyMultiBase = "z6Mktu7jtMFJLE53nNEA7jdp9FGCVsDRqhNrzbkM3JHLDinC";
+  const DID_IDENTIFIER = process.env.DID_IDENTIFIER || "";
+  const DID_PRIVATE_KEY = process.env.DID_PRIVATE_KEY || "";
+
+  console.log(DID_IDENTIFIER);
   const serviceIdentifier =
     "did:hedera:testnet:z6MkubW6fwkWSA97RbKs17MtLgWGHBtShQygUc5SeHueFCaG_0.0.29656231#service-1";
-  const signer = PrivateKey.fromString(
-    "302e020100300506032b6570042204200e83b24dd97d9ebf267c095ed73a99cde94f6b3863d1cd484a3db25c055a626e"
-  );
+
+  const signer = PrivateKey.fromString(DID_PRIVATE_KEY);
 
   const body = {
     service: {
+      id: serviceIdentifier,
       type: "LinkedDomains",
-      serviceEndpoint: "https://test.com/test",
+      serviceEndpoint: "https://example.com/vcs",
     },
   };
 
   const requestOptions = {
     json: true,
     url: `http://localhost:8000/did/${encodeURIComponent(
-      didIdentifier
-    )}/services/${encodeURIComponent(serviceIdentifier)}`,
-    method: "PUT",
+      DID_IDENTIFIER
+    )}/services`,
+    method: "POST",
     headers: {},
     body: body,
   };
@@ -31,11 +34,10 @@ async function main() {
   const authHeaders = await generateAuthHeaders(
     requestOptions,
     signer,
-    "did:hedera:testnet:z6MkqMb2zPN8zzqSA9tV2iia957kRpKNnZBQSRuLBFw9hutu_0.0.30835913#key-1"
+    `${DID_IDENTIFIER}#key-1`
   );
 
-  console.log(didIdentifier);
-  console.log(`${serviceIdentifie}`);
+  console.log(DID_IDENTIFIER);
   console.log({ ...requestOptions.headers, ...authHeaders });
   console.log("body: " + JSON.stringify(body));
 }
