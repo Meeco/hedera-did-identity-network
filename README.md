@@ -109,3 +109,14 @@ We welcome participation from all developers!
 ## License Information
 
 Licensed under [Apache License, Version 2.0](LICENSE).
+
+## References
+
+- <https://github.com/hashgraph/did-method>
+- <https://github.com/hashgraph/hedera-sdk-java>
+- <https://docs.hedera.com/hedera-api/>
+- <https://www.hedera.com/>
+- <https://www.w3.org/TR/did-core/>
+
+[did-method-spec]: https://github.com/hashgraph/did-method
+[openapi]: https://swagger.io/specification
