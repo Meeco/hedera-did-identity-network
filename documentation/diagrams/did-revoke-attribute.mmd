@@ -1,0 +1,26 @@
+sequenceDiagram
+Title: DID Revoke attribute
+
+participant Subject as User
+participant API as Appnet
+participant Database as Database
+participant DIDSDK as DID SDK
+
+note over Subject,DIDSDK: Revoke an attribute
+Subject ->> API: Send Revoke event to endpoint (Secured by HTTP Signature)
+alt auth
+API ->> API: Check payload digest
+API ->> Database: Retrieve DID Event messages
+API ->> API: Resolve DID Document
+API ->> API: Verify signature using <br> resolved DID Document Delegate Key
+end 
+alt auth fails
+API ->> Subject: Return Response Message "Not Authorised"
+else auth success
+API ->> Database: Find DidKeypair
+Database ->> API: Resolve DidKeypair
+API ->> DIDSDK: Send Revoke Event
+DIDSDK ->> API: Ack
+API ->> Database: Add Revoke event to EventStore
+API ->> Subject: Return DID Document
+end

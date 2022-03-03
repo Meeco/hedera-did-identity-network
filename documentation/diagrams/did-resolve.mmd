@@ -1,0 +1,18 @@
+sequenceDiagram
+Title: DID Resolve
+
+  autonumber
+  participant user as User
+  participant App as Appnet 
+  participant DB as Database
+  participant SDK as DID JS SDK
+
+
+user ->> App: Send Hedera DID to endpoint
+App ->> DB: Read stored event messages
+alt Try Fetching new event messages 
+App ->> SDK: Fetch messages 
+App ->> DB: Write messages 
+end
+App ->> App: resolve DID from above messages
+App ->> user: Send DID Document
