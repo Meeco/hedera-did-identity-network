@@ -17,7 +17,7 @@ API ->> Subject: Return Response Message "Not Authorised"
 else Signature validation success
 API ->> Database: Find DidKeypair
 Database ->> API: Resolve DidKeypair
-API ->> DIDSDK: Update Event
+API ->> DIDSDK: Send Update Event
 DIDSDK ->> API: Ack
 API ->> Database: Add Update event to EventStore
 API ->> Subject: Return DID Document
