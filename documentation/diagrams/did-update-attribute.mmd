@@ -10,7 +10,7 @@ note over Subject,DIDSDK: Update an attribute
 Subject ->> API: Send Update event to endpoint (Secured by HTTP Signature)
 alt auth
 API ->> API: Check payload digest
-API ->> Database: Retrive DID Event messages
+API ->> Database: Retrieve DID Event messages
 API ->> API: Resolve DID Document
 API ->> API: Verify signature using <br> resolved DID Document Delegate Key
 end 
