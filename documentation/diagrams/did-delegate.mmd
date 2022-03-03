@@ -35,7 +35,7 @@ API ->> DIDSDK: Update DIDOwnerEvent
 DIDSDK ->> HCS: Update DIDOwnerEvent
 HCS ->> DIDSDK: Ack
 DIDSDK ->> API: Ack
-API ->> Database: Update eventStore with the DIDOnwerEvent
+API ->> Database: Update eventStore with the DIDOwnerEvent
 API ->> DIDSDK: Create VerificationRelationship event (Register the public key as delegate)
 DIDSDK ->> HCS: Create VerificationRelationship
 HCS ->> DIDSDK: Ack
