@@ -1,5 +1,5 @@
 import { app } from "./server";
-import { connectWithRetry } from "./services/connection.service";
+import { connectWithRetry } from "./services";
 require("dotenv").config();
 
 const PORT = process.env.PORT || 8000;

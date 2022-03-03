@@ -38,7 +38,7 @@ export const claim = async (did: string, body: IDidOwnershipClaimPayload) => {
     controller: hcsDid.getIdentifier(),
     newPrivateKey: newPrivateKey,
   });
-  hcsMessages.writeToDB();
+  await hcsMessages.writeToDB();
   await DidKeypairModel.deleteById(hcsDid.getIdentifier());
 
   return new ResolverService(hcsDid.getIdentifier()).resolve();

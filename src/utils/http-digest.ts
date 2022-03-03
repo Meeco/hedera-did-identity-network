@@ -51,9 +51,7 @@ async function _createHeaderValueComponents({
   algorithm = "sha256",
   useMultihash = true,
 }: { data?: string; algorithm?: string; useMultihash?: boolean } = {}) {
-  if (typeof data !== "string") {
-    data = JSON.stringify(data);
-  }
+
   if (algorithm !== "sha256") {
     throw new Error(`Algorithm "${algorithm}" is not supported.`);
   }

@@ -3,7 +3,7 @@ import express, { Application } from "express";
 import morgan from "morgan";
 import "reflect-metadata";
 import swaggerUi from "swagger-ui-express";
-import { errorHanlder, notFoundHandler } from "./middleware";
+import { errorHandler, notFoundHandler } from "./middleware";
 import { RegisterRoutes } from "./routes";
 require("dotenv").config();
 
@@ -35,5 +35,5 @@ app.use(
   })
 );
 app.use(bodyParser.json());
-app.use(errorHanlder);
+app.use(errorHandler);
 app.use(notFoundHandler);
