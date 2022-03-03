@@ -1,13 +1,12 @@
 sequenceDiagram
 Title: DID Revoke attribute
 
-participant Subject as DID Subject
+participant Subject as User
 participant API as API-Appnet
 participant Database as Database
 participant DIDSDK as DID SDK
-participant HCS as Hedera HCS
 
-note over Subject,HCS: Revoke an attribute
+note over Subject,DIDSDK: Revoke an attribute
 Subject ->> API: Send Revoke event to endpoint (Secured by HTTP Signature)
 API ->> API: Check Message Signing in HTTP Header
 API ->> Database: Resolve DID through Projection
@@ -19,8 +18,6 @@ else Signature validation success
 API ->> Database: Find DidKeypair
 Database ->> API: Resolve DidKeypair
 API ->> DIDSDK: Revoke Event
-DIDSDK ->> HCS: Register Event
-HCS ->> DIDSDK: Ack
 DIDSDK ->> API: Ack
 API ->> Database: Add Revoke event to EventStore
 API ->> Subject: Return DID Document
