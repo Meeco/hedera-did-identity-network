@@ -10,6 +10,8 @@ describe("DID Document", () => {
   );
   const DID_PUBLIC_KEY_MULTIBASE = getPublicKeyMultibase(DID_PRIVATE_KEY);
 
+  const dateInThePast = new Date(new Date().getTime() - 1000);
+
   //setup in memory mongodb and mock mongoose db connection
   setupBeforeAndAfter();
   describe("resolve DID Document", () => {
@@ -168,6 +170,47 @@ describe("DID Document", () => {
 
   describe("delete DID Document", () => {
     describe("given valid DID Identifier", () => {
+      it("returns error about expired request", async () => {
+        // register new DID
+        const newDIDDocument = await supertest(app).post("/did").send({
+          publicKeyMultibase: DID_PUBLIC_KEY_MULTIBASE,
+        });
+
+        expect(newDIDDocument.statusCode).toBe(201);
+        expect(newDIDDocument.body).toBeDefined();
+        expect(
+          newDIDDocument.body.verificationMethod[1].publicKeyMultibase
+        ).toEqual(DID_PUBLIC_KEY_MULTIBASE);
+
+        const requestOptions = {
+          json: true,
+          url: `http://localhost:8000/did/${newDIDDocument.body.id}`,
+          method: "DELETE",
+          headers: {},
+        };
+
+        const authHeaders = await generateAuthHeaders(
+          requestOptions,
+          DID_PRIVATE_KEY,
+          newDIDDocument.body.verificationMethod[1].id,
+          dateInThePast
+        );
+
+        const result = await supertest(app)
+          .delete(`/did/${newDIDDocument.body.id}`)
+          .set({ ...requestOptions.headers, ...authHeaders })
+          .send({
+            publicKeyMultibase: DID_PUBLIC_KEY_MULTIBASE,
+          });
+
+        expect(result.statusCode).toBe(500);
+        expect(result.body).toBeDefined();
+        expect(result.body).toEqual({
+          error: "Request has expired",
+          message: "Internal Server Error",
+        });
+      });
+
       it("should return a 204 with no content", async () => {
         // register new DID
         const newDIDDocument = await supertest(app).post("/did").send({

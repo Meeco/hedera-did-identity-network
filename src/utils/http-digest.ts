@@ -50,8 +50,11 @@ async function _createHeaderValueComponents({
   data,
   algorithm = "sha256",
   useMultihash = true,
-}: { data?: string; algorithm?: string; useMultihash?: boolean } = {}) {
-
+}: {
+  data: string;
+  algorithm?: string;
+  useMultihash?: boolean;
+}) {
   if (algorithm !== "sha256") {
     throw new Error(`Algorithm "${algorithm}" is not supported.`);
   }
