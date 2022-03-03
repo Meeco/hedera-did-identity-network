@@ -2,35 +2,17 @@ sequenceDiagram
 Title: DID Resolve
 
   autonumber
-  participant Subject as DID Subject
-  participant App as API-Appnet
-  participant Database as Database
+  participant user as User
+  participant App as Appnet 
+  participant DB as Database
   participant SDK as DID JS SDK
-  participant HSDK as Hashgraph JS SDK
-  participant HMN as Hedera Mirror Node
 
-note over Subject,HMN: Resolve a DID
-Subject ->> App: Send Hedera DID to endpoint
-App ->> Database: Check cache
-alt Document is cached
-note over App,Database: DID that are not managed by the Appnet can be out of sync. We need have system in place to keep the cache in sync
-App ->> Database: Resolve DID through Projection
-Database ->> App: Receive DID Document
-else Document is not cached
-App ->> HSDK: Build Client (No Hedera account info needed)
 
-App ->> SDK: Create HCS DID Object with <br> DID Identifier <br> e.g. (did:hedera:testnet:z6Mk.._0.0.2..)
-App ->> SDK: Resolve a DID
-SDK ->> SDK: Extract topic id from DID
-SDK ->> HSDK: Subscribe to Topic
-HSDK ->> HMN: Subscribe to Topic
-HMN -->> HSDK: Receive all messages
-HSDK -->> SDK: Receive all messages
-SDK ->> SDK: Extract all Events from messages
-SDK ->> SDK: Process events
-SDK ->> SDK: Generate DID Document
-SDK ->> App: Send DID Document
+user ->> App: Send Hedera DID to endpoint
+App ->> DB: Read stored event messages
+alt Try Fetching new event messages 
+App ->> SDK: Fetch messages 
+App ->> DB: Write messages 
 end
-App->>Subject: Return DID Document
-
-
+App ->> App: resolve DID from above messages
+App ->> user: Send DID Document
