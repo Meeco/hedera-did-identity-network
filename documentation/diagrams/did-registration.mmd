@@ -13,11 +13,11 @@ Title: DID Registration
 note over Subject,Database: Register a DID
 Subject ->> App: Send public key to endpoint
 App ->> HSDK: Build Client (Set account that will pay for transaction)
-App ->> HSDK: Generate DID Private Key (DPK)
+App ->> HSDK: Generate DID Protected Key (DPK)
 App ->> SDK: Register DID with DPK
 SDK ->> HSDK: Build Topic Create Transaction <br> By setting Transaction Fees <br> AdminKey, SubmitKey <br> singed by DPK
 SDK ->> HSDK: Execute above transaction with Client <br> (responsible for transaction payment)
-HSDK ->> HCS: Create Private Topic
+HSDK ->> HCS: Create Protected Topic
 HCS ->> HMN: Propagate Topic
 SDK ->> HSDK: Request Receipt for Transaction
 HSDK --> SDK: Send receipt with Topic ID
@@ -37,4 +37,4 @@ HCS ->> App: Ack
 HCS ->> HMN: Propagate Message <br> to Topic
 App ->> Database: Write all the messages to Database
 SDK ->> App: Send DID Identifier <br> e.g. (did:hedera:testnet:z6Mk.._0.0.2..)
-App ->> Subject: Return DID
+App ->> Subject: Return DID Document

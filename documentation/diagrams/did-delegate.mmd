@@ -29,19 +29,17 @@ alt Signature validation fails
 API ->> Subject: Return Response Message "Not Authorised"
 else Signature validation success
 API ->> API: Generate new Adminkey and Submit Key
-API ->> HCS: assign AdminKey and Submit to the topic
+API ->> HCS: Assign AdminKey and update the topic
 HCS -> API: Ack
 API ->> DIDSDK: Update DIDOwnerEvent
 DIDSDK ->> HCS: Update DIDOwnerEvent
 HCS ->> DIDSDK: Ack
 DIDSDK ->> API: Ack
 API ->> Database: Update eventStore with the DIDOnwerEvent
-API ->> Database: Generate projection
 API ->> DIDSDK: Create VerificationRelationship event (Register the public key as delegate)
 DIDSDK ->> HCS: Create VerificationRelationship
 HCS ->> DIDSDK: Ack
 DIDSDK ->> API: Ack
 API ->> Database: Add Create VerificationRelationship event to EventStore
-API ->> Database: Generate projection
-API ->> Subject: Return OK
+API ->> Subject: Return DID Document
 end
