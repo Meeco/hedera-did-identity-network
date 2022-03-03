@@ -1,27 +1,27 @@
 sequenceDiagram
 Title: DID Create attribute
 
-participant Subject as DID Subject
-participant API as API-Appnet
+participant Subject as User
+participant API as Appnet
 participant Database as Database
 participant DIDSDK as DID SDK
-participant HCS as Hedera HCS
 
-note over Subject,HCS: Create an attribute
-Subject ->> API: Send create event to endpoint (Secured by HTTP Signature)
-API ->> API: Check Message Signing in HTTP Header
-API ->> Database: Resolve DID through Projection
-Database ->> API: Receive DID Document
-API ->> API: Check Signature message signing with Delegate Key of DID Document
-alt Signature validation fails
+note over Subject,DIDSDK: Create an attribute
+Subject ->> API: Send Create event to endpoint (Secured by HTTP Signature)
+alt auth
+API ->> API: Check payload digest
+API ->> Database: Retrive DID Event messages
+API ->> API: Resolve DID Document
+API ->> API: Verify signature using <br> resolved DID Document Delegate Key
+end 
+alt auth fails
 API ->> Subject: Return Response Message "Not Authorised"
-else Signature validation success
+else auth success
 API ->> Database: Find DidKeypair
 Database ->> API: Resolve DidKeypair
-API ->> DIDSDK: Create Event
-DIDSDK ->> HCS: Register Event
-HCS ->> DIDSDK: Ack
+API ->> DIDSDK: Send Create Event
 DIDSDK ->> API: Ack
-API ->> Database: Add create event to EventStore
+API ->> Database: Add Create event to EventStore
+API ->> API: Resolve DID Document
 API ->> Subject: Return DID Document
 end
