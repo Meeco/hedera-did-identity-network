@@ -2,39 +2,22 @@ sequenceDiagram
 Title: DID Registration
 
   autonumber
-  participant Subject as DID Subject
-  participant App as API-Appnet
-  participant Database as Database
+  participant user as User
+  participant App as Appnet 
+  participant DB as Database
   participant SDK as DID JS SDK
-  participant HSDK as Hashgraph JS SDK
-  participant HCS as Hedera Consensus Service
-  participant HMN as Hedera Mirror Node
 
-note over Subject,Database: Register a DID
-Subject ->> App: Send public key to endpoint
-App ->> HSDK: Build Client (Set account that will pay for transaction)
-App ->> HSDK: Generate DID Protected Key (DPK)
-App ->> SDK: Register DID with DPK
-SDK ->> HSDK: Build Topic Create Transaction <br> By setting Transaction Fees <br> AdminKey, SubmitKey <br> singed by DPK
-SDK ->> HSDK: Execute above transaction with Client <br> (responsible for transaction payment)
-HSDK ->> HCS: Create Protected Topic
-HCS ->> HMN: Propagate Topic
-SDK ->> HSDK: Request Receipt for Transaction
-HSDK --> SDK: Send receipt with Topic ID
-SDK ->> SDK: Build did identifier with topic id
-SDK ->> SDK: Create DID owner Event <br> with identifier
-SDK ->> HSDK: Build DID owner Event Transaction  <br> signed with DPK
-SDK ->> HSDK: Execute above transaction with Client <br> (responsible for transaction payment)
-HSDK ->> HCS: Submit message to Topic
-HCS ->> HMN: Propagate Message <br> to Topic
-App ->> App: Create DidKeypair
-App ->> Database: Save DidKeypair to Database
-App ->> SDK: Add Verification Relationship
-SDK ->> SDK: Create Verification Relationship event
-SDK ->> SDK: Create the transaction
-SDK ->> HCS: Execute the transaction
-HCS ->> App: Ack
-HCS ->> HMN: Propagate Message <br> to Topic
-App ->> Database: Write all the messages to Database
-SDK ->> App: Send DID Identifier <br> e.g. (did:hedera:testnet:z6Mk.._0.0.2..)
-App ->> Subject: Return DID Document
+
+note over user,SDK: Register a DID
+user ->> App: Send multibase <br> public key
+App ->> App: Generate new keypair <br> to register did (DID-KeyPair)
+App ->> SDK: Register a new DID
+App ->> SDK: Subscribe to recive Event messages
+SDK ->> App: Receive create DID owner Event message
+App ->> DB: Sotre DID-KeyPair 
+note over App: Add multibase public key <br> recieved from user as delegate Key<br> to newly registered DID
+App ->> SDK:  Submit verification relationship <br> DID Event with user <br> multibase public key
+SDK ->> App: Receive create verification relationship DID Event message
+App ->> DB: store all received events
+App ->> App: resolve DID Document
+App ->> user: Send DID Document
