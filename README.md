@@ -1,6 +1,6 @@
 # Hedera™ Hashgraph Appnet - hedera-appnet
 
-[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE) [![Documentation](https://img.shields.io/badge/javadoc-reference-informational)](docs/sdk-javadocs/index.html)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE) 
 
 This project is an example of how appnets can build identity networks on top of Hedera and utilize Hedera DID Method.
 
@@ -101,6 +101,10 @@ There are three endpoints that in this example project have no authorization add
 
 It is up to developers to decide how these endpoints should be secured based on their use case.
 Example of how requests can be made against API please refer to `scripts/make-appnet-api-request.js` script. More details can also be found on `authentication.ts` file and `tests`.
+
+## Contributing
+
+We welcome participation from all developers!
 
 ## License Information
 
