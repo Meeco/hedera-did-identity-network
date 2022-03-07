@@ -30,7 +30,7 @@ describe("HTTP Digest util", () => {
       );
     });
 
-    it("throws error if algorythm is not supported", async () => {
+    it("throws error if algorithm is not supported", async () => {
       let error = null;
 
       await createHeaderValue({
@@ -50,7 +50,7 @@ describe("HTTP Digest util", () => {
       three: 3,
     });
 
-    it("successfuly verifies header value", async () => {
+    it("successfully verifies header value", async () => {
       expect(
         await verifyHeaderValue({
           data,

@@ -1,6 +1,6 @@
-import { HcsDidMessage, MessageEnvelope } from "@hashgraph/did-sdk-js";
-import { CreateMessageDto } from "../dto/create.message.dto";
-import { getMongoose } from "../services";
+import {HcsDidMessage, MessageEnvelope} from "@hashgraph/did-sdk-js";
+import {CreateMessageDto} from "../dto/create.message.dto";
+import {getMongoose} from "../services";
 
 class MessageSchema {
   Schema = getMongoose().Schema;
@@ -48,10 +48,9 @@ class MessageSchema {
       .find({ did: did })
       .sort("timestamp")
       .exec();
-    const didMessages = result.map((message) => {
+    return result.map((message) => {
       return HcsDidMessage.fromJsonTree(message);
     });
-    return didMessages;
   }
 
   async getLastMessageForDID(did: string) {
