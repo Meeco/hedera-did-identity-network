@@ -46,6 +46,7 @@
   "dependencies": {
     "@digitalbazaar/http-signature-header": "^4.0.1",
     "@hashgraph/did-sdk-js": "github:Meeco/did-sdk-js#ff914da5377fc69d8d9d292232a1aba04f1ba74c",
+    "@hashgraph/vc-sl-sdk-js": "github:Meeco/vc-sl-sdk-js#d299e44b0ad8dae09abae9f57791efedc692aab3",
     "base64url-universal": "^1.1.0",
     "body-parser": "^1.19.2",
     "dotenv": "^16.0.0",
