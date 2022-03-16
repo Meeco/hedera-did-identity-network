@@ -18,7 +18,6 @@ The appnet runs on localhost port 8000 be default. It does not expose any user i
       - [Swagger docs](#swagger-docs)
       - [Authorization](#authorization)
    - [Contributing](#contributing)
-   - [License Information](#license-information)
    - [References](#references)
    - 
 ## Configuration

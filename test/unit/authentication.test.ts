@@ -175,7 +175,7 @@ describe("Authorization", () => {
       expect(error).toEqual(new Error("Request signature is invalid"));
     });
 
-    it("successfuly resolves to a DID document", async () => {
+    it("successfully resolves to a DID document", async () => {
       const requestOptions = {
         json: true,
         url: `http://localhost:8000/test/endpoint`,
