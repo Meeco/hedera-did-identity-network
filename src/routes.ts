@@ -12,6 +12,8 @@ import { DidServiceController } from './controllers/did-service.controller';
 import { DidVerificationMethodController } from './controllers/did-verification-method.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { DidVerificationRelationshipController } from './controllers/did-verification-relationship.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { VerifiableCredentialiStatusListController } from './controllers/vc-status-list.controller';
 import { expressAuthentication } from './authentication';
 // @ts-ignore - no great way to install types from subpackage
 const promiseAny = require('promise.any');
@@ -181,6 +183,33 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "verificationRelationship": {"ref":"IVerificationRelationshipUpdateBody","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "VcStatusListInfo": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+            "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["RevocationList2021Status"]},{"dataType":"enum","enums":["SuspensionList2021Status"]}],"required":true},
+            "statusListIndex": {"dataType":"double","required":true},
+            "statusListCredential": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "VcStatusListInfoResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "statusInfo": {"ref":"VcStatusListInfo","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RegisterVcStatusPayload": {
+        "dataType": "refObject",
+        "properties": {
+            "issuerDID": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
@@ -538,6 +567,29 @@ export function RegisterRoutes(app: express.Router) {
 
 
               const promise = controller.revoke.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/vc/register',
+
+            function VerifiableCredentialiStatusListController_register(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"ref":"RegisterVcStatusPayload"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new VerifiableCredentialiStatusListController();
+
+
+              const promise = controller.register.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

@@ -26,3 +26,4 @@ export {
 export * from "./hcs-message-collector.service";
 export * from "./hedera-client";
 export * from "./resolver.service";
+export { register as registerVcStatus } from "./vc-status-list.service";
