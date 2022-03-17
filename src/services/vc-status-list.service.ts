@@ -1,5 +1,6 @@
 import { FileId, PrivateKey } from "@hashgraph/sdk";
 import { HfsVcSl } from "@hashgraph/vc-sl-sdk-js";
+import { VcStatusIndexControllerModel } from "../daos/vc-status-index-controller.dao";
 import { VcStatusFileModel } from "../daos/vc-status-file.dao";
 import { RegisterVcStatusPayload, VcStatusListInfo } from "../models";
 import { client } from "./hedera-client";
@@ -15,7 +16,7 @@ const FILE_KEY = PrivateKey.fromString(
 export const register = async (
   body: RegisterVcStatusPayload
 ): Promise<VcStatusListInfo> => {
-  const { fileId, statusListIndex } = await getNewVcStatusIndex();
+  const { fileId, statusListIndex } = await getNewVcStatusIndex(body.issuerDID);
 
   return Promise.resolve({
     id: `https://${HOST}/vc/status/${fileId}/${statusListIndex}`,
@@ -25,7 +26,7 @@ export const register = async (
   });
 };
 
-export const getNewVcStatusIndex = async () => {
+export const getNewVcStatusIndex = async (controllerDID: string) => {
   let statusFile = await VcStatusFileModel.getCurrent();
 
   if (!statusFile) {
@@ -38,9 +39,11 @@ export const getNewVcStatusIndex = async () => {
     FileId.fromString(statusFile._id)
   );
 
-  /**
-   * TODO: record who controls this new index (new model in a DB)
-   */
+  VcStatusIndexControllerModel.createVcStatusIndexController(
+    statusFile._id,
+    statusFile.lastIndexInUse,
+    controllerDID
+  );
 
   {
     return {

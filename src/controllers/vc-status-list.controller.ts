@@ -8,9 +8,9 @@ import { registerVcStatus } from "../services";
 
 @Route("vc")
 @Tags("Verifiable Credential Status List")
-export class VerifiableCredentialiStatusListController extends Controller {
+export class VerifiableCredentialStatusListController extends Controller {
   /**
-   * Register verifiable cerdential status
+   * Register verifiable credential status
    * @summary Register verifiable credential status.
    * @param body
    * @returns Credential status list information

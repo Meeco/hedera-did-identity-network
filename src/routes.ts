@@ -13,7 +13,7 @@ import { DidVerificationMethodController } from './controllers/did-verification-
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { DidVerificationRelationshipController } from './controllers/did-verification-relationship.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { VerifiableCredentialiStatusListController } from './controllers/vc-status-list.controller';
+import { VerifiableCredentialStatusListController } from './controllers/vc-status-list.controller';
 import { expressAuthentication } from './authentication';
 // @ts-ignore - no great way to install types from subpackage
 const promiseAny = require('promise.any');
@@ -575,7 +575,7 @@ export function RegisterRoutes(app: express.Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/vc/register',
 
-            function VerifiableCredentialiStatusListController_register(request: any, response: any, next: any) {
+            function VerifiableCredentialStatusListController_register(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"RegisterVcStatusPayload"},
             };
@@ -586,7 +586,7 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new VerifiableCredentialiStatusListController();
+                const controller = new VerifiableCredentialStatusListController();
 
 
               const promise = controller.register.apply(controller, validatedArgs as any);

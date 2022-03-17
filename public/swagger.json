@@ -383,6 +383,63 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"VcStatusListInfo": {
+				"properties": {
+					"id": {
+						"type": "string",
+						"example": "https://appnet.meecoo.me/vc/status/0.0.123/614"
+					},
+					"type": {
+						"type": "string",
+						"enum": [
+							"RevocationList2021Status",
+							"SuspensionList2021Status"
+						]
+					},
+					"statusListIndex": {
+						"type": "number",
+						"format": "double",
+						"example": 614
+					},
+					"statusListCredential": {
+						"type": "string",
+						"example": "https://appnet.meecoo.me/vc/status/0.0.123"
+					}
+				},
+				"required": [
+					"id",
+					"type",
+					"statusListIndex",
+					"statusListCredential"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"VcStatusListInfoResponse": {
+				"properties": {
+					"statusInfo": {
+						"$ref": "#/components/schemas/VcStatusListInfo"
+					}
+				},
+				"required": [
+					"statusInfo"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RegisterVcStatusPayload": {
+				"properties": {
+					"issuerDID": {
+						"type": "string",
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
+					}
+				},
+				"required": [
+					"issuerDID"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {
@@ -1260,6 +1317,50 @@
 						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1"
 					}
 				]
+			}
+		},
+		"/vc/register": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"200": {
+						"description": "Credential status list information",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/VcStatusListInfoResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
+					}
+				},
+				"description": "Register verifiable credential status",
+				"summary": "Register verifiable credential status.",
+				"tags": [
+					"Verifiable Credential Status List"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegisterVcStatusPayload"
+							}
+						}
+					}
+				}
 			}
 		}
 	},
