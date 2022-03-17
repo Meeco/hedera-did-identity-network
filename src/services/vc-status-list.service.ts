@@ -76,5 +76,5 @@ export const resolveVcStatusList = async (
     },
   });
 
-  return vcStatusList?.toCredential();
+  return vcStatusList;
 };
