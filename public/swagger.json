@@ -440,6 +440,27 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"status": {
+				"type": "string",
+				"enum": [
+					"revoked",
+					"suspended",
+					"resumed",
+					"active"
+				]
+			},
+			"VcStatusChangePayload": {
+				"properties": {
+					"status": {
+						"$ref": "#/components/schemas/status"
+					}
+				},
+				"required": [
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {
@@ -552,7 +573,7 @@
 				"security": [],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification",
+						"description": "A DID Identifier as defined in DID specification",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -645,7 +666,7 @@
 				],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification",
+						"description": "A DID Identifier as defined in DID specification",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -700,7 +721,7 @@
 				"security": [],
 				"parameters": [
 					{
-						"description": "A percent-escaped DID Identifier as defined in DID specification",
+						"description": "A DID Identifier as defined in DID specification",
 						"in": "path",
 						"name": "did",
 						"required": true,
@@ -1357,6 +1378,107 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/RegisterVcStatusPayload"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/vc/status/{statusListFileId}": {
+			"get": {
+				"operationId": "Status",
+				"responses": {
+					"200": {
+						"description": "Verifiable credential that encapsulates the status list",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
+					}
+				},
+				"description": "Resolve verifiable credential that encapsulates the status list.",
+				"summary": "Resolve verifiable credential status list.",
+				"tags": [
+					"Verifiable Credential Status List"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "statusListFileId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/vc/status/{statusListFileId}/{statusListIndex}": {
+			"put": {
+				"operationId": "Revoke",
+				"responses": {
+					"200": {
+						"description": "Issue, Revoke, Suspend or Resume verifiable credential status",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
+					}
+				},
+				"description": "Issue, Revoke, Suspend or Resume verifiable credential status",
+				"summary": "Issue, Revoke, Suspend or Resume verifiable credential status.",
+				"tags": [
+					"Verifiable Credential Status List"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "statusListFileId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "statusListIndex",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/VcStatusChangePayload"
 							}
 						}
 					}

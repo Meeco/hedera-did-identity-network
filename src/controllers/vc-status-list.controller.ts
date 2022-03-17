@@ -1,6 +1,8 @@
+import { Verifiable, W3CCredential } from "did-jwt-vc";
 import {
   Body,
   Controller,
+  Example,
   Get,
   Path,
   Post,
@@ -57,9 +59,43 @@ export class VerifiableCredentialStatusListController extends Controller {
    * @param statusListFileId
    * @returns Verifiable credential that encapsulates the status list
    */
+  @Example<Verifiable<W3CCredential>>({
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://w3id.org/vc-status-list-2021/v1",
+    ],
+    type: ["VerifiableCredential", "StatusList2021Credential"],
+    additionalProps: {
+      jti: "urn:uuid:a98e123b-17dd-4d85-afbc-a67b2637f733",
+    },
+    id: "https://localhost:8000/vc/status/0.0.33965935",
+    issuer: {
+      id: "did:hedera:testnet:z6MkgYkY291VKXD6JvToXHaF13qg1fY9rSsmC9hWTtxsYfoB_0.0.33965881",
+    },
+    issuanceDate: "2022-03-17T14:47:32.000Z",
+    expirationDate: "2022-03-17T14:47:32.000Z",
+    credentialSubject: {
+      encodedList:
+        "H4sIAAAAAAAAA-3BMQEAAADCoPVPbQsvoAAAAAAAAAAAAAAAAP4GcwM92tQwAAA",
+      type: "RevocationList2021",
+      id: "https://localhost:8000/vc/status/0.0.33965935#list",
+    },
+    proof: {
+      type: "Ed25519Signature2018",
+      proofPurpose: "assertionMethod",
+      created: "2022-03-17T14:47:32.000Z",
+      verificationMethod:
+        "did:hedera:testnet:z6MkgYkY291VKXD6JvToXHaF13qg1fY9rSsmC9hWTtxsYfoB_0.0.33965881#did-root-key",
+      jws: "4WV8waZlbHyEo8o-Pq7wkyz0l1u0HQT_cZp3tgWPTW2l3gbW1lo6-8OLyDNn28YdUPf6AcUyXXnbrB1J8d8HDQ",
+    },
+    jti: "urn:uuid:a98e123b-17dd-4d85-afbc-a67b2637f733",
+    _jwt: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDc1Mjg0NTIsImlkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODAwMC92Yy9zdGF0dXMvMC4wLjMzOTY1OTM1IiwiaXNzIjoiZGlkOmhlZGVyYTp0ZXN0bmV0Ono2TWtnWWtZMjkxVktYRDZKdlRvWEhhRjEzcWcxZlk5clNzbUM5aFdUdHhzWWZvQl8wLjAuMzM5NjU4ODEiLCJqdGkiOiJ1cm46dXVpZDphOThlMTIzYi0xN2RkLTRkODUtYWZiYy1hNjdiMjYzN2Y3MzMiLCJuYmYiOjE2NDc1Mjg0NTIsInN1YiI6Imh0dHBzOi8vbG9jYWxob3N0OjgwMDAvdmMvc3RhdHVzLzAuMC4zMzk2NTkzNSNsaXN0IiwidmMiOnsiQGNvbnRleHQiOlsiaHR0cHM6Ly93d3cudzMub3JnLzIwMTgvY3JlZGVudGlhbHMvdjEiLCJodHRwczovL3czaWQub3JnL3ZjLXN0YXR1cy1saXN0LTIwMjEvdjEiXSwiY3JlZGVudGlhbFN1YmplY3QiOnsiZW5jb2RlZExpc3QiOiJINHNJQUFBQUFBQUFBLTNCTVFFQUFBRENvUFZQYlFzdm9BQUFBQUFBQUFBQUFBQUFBUDRHY3dNOTJ0UXdBQUEiLCJ0eXBlIjoiUmV2b2NhdGlvbkxpc3QyMDIxIn0sImlkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODAwMC92Yy9zdGF0dXMvMC4wLjMzOTY1OTM1IiwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCIsIlN0YXR1c0xpc3QyMDIxQ3JlZGVudGlhbCJdfX0.4WV8waZlbHyEo8o-Pq7wkyz0l1u0HQT_cZp3tgWPTW2l3gbW1lo6-8OLyDNn28YdUPf6AcUyXXnbrB1J8d8HDQ",
+  })
   @Response<ValidateErrorJSON>(422, "Validation Failed")
   @Get("/status/{statusListFileId}")
-  public async status(@Path() statusListFileId: string): Promise<any> {
+  public async status(
+    @Path() statusListFileId: string
+  ): Promise<Verifiable<W3CCredential>> {
     this.setStatus(200);
     return resolveVcStatusList(statusListFileId).then(
       (statusListVc) => statusListVc
@@ -79,7 +115,7 @@ export class VerifiableCredentialStatusListController extends Controller {
     @Path() statusListFileId: string,
     @Path() statusListIndex: number,
     @Body() body: VcStatusChangePayload
-  ): Promise<any> {
+  ): Promise<void> {
     this.setStatus(204);
     switch (body.status) {
       case VCStatus.Revoked:
