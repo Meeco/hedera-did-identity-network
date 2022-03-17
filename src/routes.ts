@@ -13,7 +13,7 @@ import { DidVerificationMethodController } from './controllers/did-verification-
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { DidVerificationRelationshipController } from './controllers/did-verification-relationship.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { VerifiableCredentialiStatusListController } from './controllers/vc-status-list.controller';
+import { VerifiableCredentialStatusListController } from './controllers/vc-status-list.controller';
 import { expressAuthentication } from './authentication';
 // @ts-ignore - no great way to install types from subpackage
 const promiseAny = require('promise.any');
@@ -210,6 +210,19 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "issuerDID": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "status": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["revoked"]},{"dataType":"enum","enums":["suspended"]},{"dataType":"enum","enums":["resumed"]},{"dataType":"enum","enums":["issue"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "VcStatusChangePayload": {
+        "dataType": "refObject",
+        "properties": {
+            "status": {"ref":"status","required":true},
         },
         "additionalProperties": false,
     },
@@ -575,7 +588,7 @@ export function RegisterRoutes(app: express.Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/vc/register',
 
-            function VerifiableCredentialiStatusListController_register(request: any, response: any, next: any) {
+            function VerifiableCredentialStatusListController_register(request: any, response: any, next: any) {
             const args = {
                     body: {"in":"body","name":"body","required":true,"ref":"RegisterVcStatusPayload"},
             };
@@ -586,10 +599,58 @@ export function RegisterRoutes(app: express.Router) {
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
 
-                const controller = new VerifiableCredentialiStatusListController();
+                const controller = new VerifiableCredentialStatusListController();
 
 
               const promise = controller.register.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/vc/status/:statusListFileId',
+
+            function VerifiableCredentialStatusListController_status(request: any, response: any, next: any) {
+            const args = {
+                    statusListFileId: {"in":"path","name":"statusListFileId","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new VerifiableCredentialStatusListController();
+
+
+              const promise = controller.status.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.put('/vc/status/:statusListFileId/:statusListIndex',
+
+            function VerifiableCredentialStatusListController_revoke(request: any, response: any, next: any) {
+            const args = {
+                    statusListFileId: {"in":"path","name":"statusListFileId","required":true,"dataType":"string"},
+                    statusListIndex: {"in":"path","name":"statusListIndex","required":true,"dataType":"double"},
+                    body: {"in":"body","name":"body","required":true,"ref":"VcStatusChangePayload"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new VerifiableCredentialStatusListController();
+
+
+              const promise = controller.revoke.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
