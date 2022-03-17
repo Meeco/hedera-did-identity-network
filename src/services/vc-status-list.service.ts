@@ -1,5 +1,5 @@
 import { FileId, PrivateKey } from "@hashgraph/sdk";
-import { HfsVcSl } from "@hashgraph/vc-sl-sdk-js";
+import { HfsVcSl, VcSlStatus } from "@hashgraph/vc-sl-sdk-js";
 import { VcStatusIndexControllerModel } from "../daos/vc-status-index-controller.dao";
 import { VcStatusFileModel } from "../daos/vc-status-file.dao";
 import { RegisterVcStatusPayload, VcStatusListInfo } from "../models";
@@ -77,4 +77,36 @@ export const resolveVcStatusList = async (
   });
 
   return vcStatusList;
+};
+
+export const revokeVcStatus = async (
+  statusListFileId: string,
+  statusListIndex: number
+): Promise<void> => {
+  const vcSl = new HfsVcSl(client, FILE_KEY_PK);
+  vcSl.revokeByIndex(FileId.fromString(statusListFileId), statusListIndex);
+};
+
+export const suspendVcStatus = async (
+  statusListFileId: string,
+  statusListIndex: number
+): Promise<void> => {
+  const vcSl = new HfsVcSl(client, FILE_KEY_PK);
+  vcSl.suspendByIndex(FileId.fromString(statusListFileId), statusListIndex);
+};
+
+export const resumeVcStatus = async (
+  statusListFileId: string,
+  statusListIndex: number
+): Promise<void> => {
+  const vcSl = new HfsVcSl(client, FILE_KEY_PK);
+  vcSl.resumeByIndex(FileId.fromString(statusListFileId), statusListIndex);
+};
+
+export const activeVcStatus = async (
+  statusListFileId: string,
+  statusListIndex: number
+): Promise<void> => {
+  const vcSl = new HfsVcSl(client, FILE_KEY_PK);
+  vcSl.issueByIndex(FileId.fromString(statusListFileId), statusListIndex);
 };
