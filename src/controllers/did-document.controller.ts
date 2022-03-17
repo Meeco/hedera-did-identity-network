@@ -41,7 +41,7 @@ export class DidDocumentController extends Controller {
    * Resolve DID Document <br /><br />
    * <em>* Based on your use case you might consider securing this endpoint. Endpoint communicates to mirror nodes to resolve DID documents.</em>
    * @summary Resolve DID Document
-   * @param did A percent-escaped DID Identifier as defined in DID specification
+   * @param did A DID Identifier as defined in DID specification
    * @example did "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
    * @returns DidDocument
    */
