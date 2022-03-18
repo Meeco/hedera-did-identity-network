@@ -4,16 +4,16 @@ const { PrivateKey } = require("@hashgraph/sdk");
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, ".env") });
 
-async function main() {
+async function changeStatus(status) {
   const ISSUER_DID = process.env.ISSUER_DID || "";
   const ISSUER_PRIVATE_KEY = process.env.ISSUER_PRIVATE_KEY || "";
-  const STATUS_LIST_FILE_ID = "0.0.33968590";
-  const STATUS_LIST_INDEX = 0;
+  const STATUS_LIST_FILE_ID = process.env.STATUS_LIST_FILE_ID;
+  const STATUS_LIST_INDEX = process.env.STATUS_LIST_INDEX;
 
   const signer = PrivateKey.fromString(ISSUER_PRIVATE_KEY);
 
   const body = {
-    status: "suspended",
+    status,
   };
 
   const postData = JSON.stringify(body);
@@ -72,4 +72,6 @@ async function main() {
   req.end();
 }
 
-main();
+module.exports = {
+  changeStatus,
+};
