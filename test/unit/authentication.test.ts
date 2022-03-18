@@ -20,6 +20,9 @@ jest.mock("../../src/services", () => {
         return TEST_DID_DOCUMENT;
       },
     })),
+    getVcStatusIndexControllerByFileIdAndIndex: jest
+      .fn()
+      .mockImplementation(() => {}),
   };
 });
 

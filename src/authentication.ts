@@ -1,9 +1,11 @@
 import { Hashing } from "@hashgraph/did-sdk-js";
 import { PublicKey } from "@hashgraph/sdk";
 import { Request } from "express";
-import { VcStatusIndexControllerModel } from "./daos/vc-status-index-controller.dao";
 import { DidDocument } from "./models";
-import { ResolverService } from "./services";
+import {
+  ResolverService,
+  getVcStatusIndexControllerByFileIdAndIndex,
+} from "./services";
 import { verifyHeaderValue as verifyDigestHeaderValue } from "./utils";
 
 const httpSignature = require("@digitalbazaar/http-signature-header");
@@ -105,11 +107,10 @@ export async function expressAuthentication(
         request.route.path.startsWith("/vc/status/") &&
         request.route.methods.put
       ) {
-        const result =
-          await VcStatusIndexControllerModel.getVcStatusIndexControllerByFileIdAndIndex(
-            request.params.statusListFileId,
-            Number(request.params.statusListIndex)
-          );
+        const result = await getVcStatusIndexControllerByFileIdAndIndex(
+          request.params.statusListFileId,
+          Number(request.params.statusListIndex)
+        );
 
         if (!result && !result.controllerDID) {
           return Promise.reject(
