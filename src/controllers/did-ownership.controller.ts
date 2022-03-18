@@ -16,7 +16,7 @@ import {
 import { claimDidOwnership, registerDidWithAppNet } from "../services";
 
 @Route("did")
-@Tags("Ownership")
+@Tags("DID - Ownership")
 export class DidOwnershipController extends Controller {
   /**
    * Claim DID Document ownership back from the AppNet. Changes DID root key to the one provided via `privateKeyMultibase` parameter.

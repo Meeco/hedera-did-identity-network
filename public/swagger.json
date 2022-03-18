@@ -441,6 +441,39 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Readonly_W3CCredential_": {
+				"properties": {},
+				"type": "object",
+				"description": "Make all properties in T readonly"
+			},
+			"Proof": {
+				"properties": {
+					"type": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": {}
+			},
+			"Verifiable_W3CCredential_": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Readonly_W3CCredential_"
+					},
+					{
+						"properties": {
+							"proof": {
+								"$ref": "#/components/schemas/Proof"
+							}
+						},
+						"required": [
+							"proof"
+						],
+						"type": "object"
+					}
+				],
+				"description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\r\nproperty that can be used to verify it."
+			},
 			"status": {
 				"type": "string",
 				"enum": [
@@ -524,7 +557,7 @@
 				"description": "Register a new DID document. User provides public key that is going to be added as a delegate key.\nThat allows user to modify created DID document later. <br /><br />\n<em>* Based on your use case you should consider securing this endpoint. Endpoint communicates to Hedera Consensus Services.</em>",
 				"summary": "Register a new DID Document.",
 				"tags": [
-					"Document"
+					"DID - Document"
 				],
 				"security": [],
 				"parameters": [],
@@ -568,7 +601,7 @@
 				"description": "Resolve DID Document <br /><br />\n<em>* Based on your use case you might consider securing this endpoint. Endpoint communicates to mirror nodes to resolve DID documents.</em>",
 				"summary": "Resolve DID Document",
 				"tags": [
-					"Document"
+					"DID - Document"
 				],
 				"security": [],
 				"parameters": [
@@ -604,7 +637,7 @@
 				"description": "Permanently remove DID Document from Appnet registry.\nIn addition to that, new messages will be written to the DID topic stating that document has been removed.",
 				"summary": "Remove DID Document from registry",
 				"tags": [
-					"Document"
+					"DID - Document"
 				],
 				"security": [
 					{
@@ -655,7 +688,7 @@
 				"description": "Claim DID Document ownership back from the AppNet. Changes DID root key to the one provided via `privateKeyMultibase` parameter.\nDID controller remains the same.",
 				"summary": "Claim DID Document ownership back from the AppNet",
 				"tags": [
-					"Ownership"
+					"DID - Ownership"
 				],
 				"security": [
 					{
@@ -716,7 +749,7 @@
 				"description": "Register an existing DID Document with AppNet. Gives away control of the document to the AppNet component.\nPrevious DID root (`privateKeyMultibase` parameter) key becomes a delegate key. <br /><br />\n<em>* Based on your use case you should consider securing this endpoint. Endpoint communicates to Hedera Consensus Services.</em>",
 				"summary": "Register an existing DID Document with AppNet",
 				"tags": [
-					"Ownership"
+					"DID - Ownership"
 				],
 				"security": [],
 				"parameters": [
@@ -771,7 +804,7 @@
 				"description": "Register a new service to the DID Document",
 				"summary": "Register a new service to the DID Document",
 				"tags": [
-					"Service"
+					"DID - Service"
 				],
 				"security": [
 					{
@@ -833,7 +866,7 @@
 				"description": "Update service information on the DID Document",
 				"summary": "Update service information on the DID Document",
 				"tags": [
-					"Service"
+					"DID - Service"
 				],
 				"security": [
 					{
@@ -903,7 +936,7 @@
 				"description": "Remove service information from the DID Document",
 				"summary": "Remove service information from the DID Document",
 				"tags": [
-					"Service"
+					"DID - Service"
 				],
 				"security": [
 					{
@@ -964,7 +997,7 @@
 				"description": "Register a new verification method to the DID document",
 				"summary": "Register a new verification method to the DID document",
 				"tags": [
-					"Verification Method"
+					"DID - Verification Method"
 				],
 				"security": [
 					{
@@ -1026,7 +1059,7 @@
 				"description": "Update verification method on a DID document",
 				"summary": "Update verification method on a DID document",
 				"tags": [
-					"Verification Method"
+					"DID - Verification Method"
 				],
 				"security": [
 					{
@@ -1096,7 +1129,7 @@
 				"description": "Remove verification method from the DID document",
 				"summary": "Remove verification method from the DID document",
 				"tags": [
-					"Verification Method"
+					"DID - Verification Method"
 				],
 				"security": [
 					{
@@ -1157,7 +1190,7 @@
 				"description": "Register a new verification relationship to the DID document",
 				"summary": "Register a new verification relationship to the DID document",
 				"tags": [
-					"Verification Relationship"
+					"DID - Verification Relationship"
 				],
 				"security": [
 					{
@@ -1219,7 +1252,7 @@
 				"description": "Update verification relationship on the DID document",
 				"summary": "Update verification relationship on the DID document",
 				"tags": [
-					"Verification Relationship"
+					"DID - Verification Relationship"
 				],
 				"security": [
 					{
@@ -1298,7 +1331,7 @@
 				"description": "Remove verification relationship from the DID document",
 				"summary": "Remove verification relationship from the DID document",
 				"tags": [
-					"Verification Relationship"
+					"DID - Verification Relationship"
 				],
 				"security": [
 					{
@@ -1368,9 +1401,15 @@
 				"description": "Register verifiable credential status",
 				"summary": "Register verifiable credential status.",
 				"tags": [
-					"Verifiable Credential Status List"
+					"VC - Status List"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -1392,7 +1431,46 @@
 						"description": "Verifiable credential that encapsulates the status list",
 						"content": {
 							"application/json": {
-								"schema": {}
+								"schema": {
+									"$ref": "#/components/schemas/Verifiable_W3CCredential_"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"@context": [
+												"https://www.w3.org/2018/credentials/v1",
+												"https://w3id.org/vc-status-list-2021/v1"
+											],
+											"type": [
+												"VerifiableCredential",
+												"StatusList2021Credential"
+											],
+											"additionalProps": {
+												"jti": "urn:uuid:a98e123b-17dd-4d85-afbc-a67b2637f733"
+											},
+											"id": "https://localhost:8000/vc/status/0.0.33965935",
+											"issuer": {
+												"id": "did:hedera:testnet:z6MkgYkY291VKXD6JvToXHaF13qg1fY9rSsmC9hWTtxsYfoB_0.0.33965881"
+											},
+											"issuanceDate": "2022-03-17T14:47:32.000Z",
+											"expirationDate": "2022-03-17T14:47:32.000Z",
+											"credentialSubject": {
+												"encodedList": "H4sIAAAAAAAAA-3BMQEAAADCoPVPbQsvoAAAAAAAAAAAAAAAAP4GcwM92tQwAAA",
+												"type": "RevocationList2021",
+												"id": "https://localhost:8000/vc/status/0.0.33965935#list"
+											},
+											"proof": {
+												"type": "Ed25519Signature2018",
+												"proofPurpose": "assertionMethod",
+												"created": "2022-03-17T14:47:32.000Z",
+												"verificationMethod": "did:hedera:testnet:z6MkgYkY291VKXD6JvToXHaF13qg1fY9rSsmC9hWTtxsYfoB_0.0.33965881#did-root-key",
+												"jws": "4WV8waZlbHyEo8o-Pq7wkyz0l1u0HQT_cZp3tgWPTW2l3gbW1lo6-8OLyDNn28YdUPf6AcUyXXnbrB1J8d8HDQ"
+											},
+											"jti": "urn:uuid:a98e123b-17dd-4d85-afbc-a67b2637f733",
+											"_jwt": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDc1Mjg0NTIsImlkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODAwMC92Yy9zdGF0dXMvMC4wLjMzOTY1OTM1IiwiaXNzIjoiZGlkOmhlZGVyYTp0ZXN0bmV0Ono2TWtnWWtZMjkxVktYRDZKdlRvWEhhRjEzcWcxZlk5clNzbUM5aFdUdHhzWWZvQl8wLjAuMzM5NjU4ODEiLCJqdGkiOiJ1cm46dXVpZDphOThlMTIzYi0xN2RkLTRkODUtYWZiYy1hNjdiMjYzN2Y3MzMiLCJuYmYiOjE2NDc1Mjg0NTIsInN1YiI6Imh0dHBzOi8vbG9jYWxob3N0OjgwMDAvdmMvc3RhdHVzLzAuMC4zMzk2NTkzNSNsaXN0IiwidmMiOnsiQGNvbnRleHQiOlsiaHR0cHM6Ly93d3cudzMub3JnLzIwMTgvY3JlZGVudGlhbHMvdjEiLCJodHRwczovL3czaWQub3JnL3ZjLXN0YXR1cy1saXN0LTIwMjEvdjEiXSwiY3JlZGVudGlhbFN1YmplY3QiOnsiZW5jb2RlZExpc3QiOiJINHNJQUFBQUFBQUFBLTNCTVFFQUFBRENvUFZQYlFzdm9BQUFBQUFBQUFBQUFBQUFBUDRHY3dNOTJ0UXdBQUEiLCJ0eXBlIjoiUmV2b2NhdGlvbkxpc3QyMDIxIn0sImlkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODAwMC92Yy9zdGF0dXMvMC4wLjMzOTY1OTM1IiwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCIsIlN0YXR1c0xpc3QyMDIxQ3JlZGVudGlhbCJdfX0.4WV8waZlbHyEo8o-Pq7wkyz0l1u0HQT_cZp3tgWPTW2l3gbW1lo6-8OLyDNn28YdUPf6AcUyXXnbrB1J8d8HDQ"
+										}
+									}
+								}
 							}
 						}
 					},
@@ -1410,7 +1488,7 @@
 				"description": "Resolve verifiable credential that encapsulates the status list.",
 				"summary": "Resolve verifiable credential status list.",
 				"tags": [
-					"Verifiable Credential Status List"
+					"VC - Status List"
 				],
 				"security": [],
 				"parameters": [
@@ -1429,13 +1507,8 @@
 			"put": {
 				"operationId": "Revoke",
 				"responses": {
-					"200": {
-						"description": "Issue, Revoke, Suspend or Resume verifiable credential status",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
+					"204": {
+						"description": "No content"
 					},
 					"422": {
 						"description": "Validation Failed",
@@ -1448,12 +1521,18 @@
 						}
 					}
 				},
-				"description": "Issue, Revoke, Suspend or Resume verifiable credential status",
-				"summary": "Issue, Revoke, Suspend or Resume verifiable credential status.",
+				"description": "active, revoked, suspended or resumed verifiable credential status",
+				"summary": "active, revoked, suspended or resumed verifiable credential status.",
 				"tags": [
-					"Verifiable Credential Status List"
+					"VC - Status List"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",

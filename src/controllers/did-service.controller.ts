@@ -20,7 +20,7 @@ import {
 import { registerService, revokeService, updateService } from "../services";
 
 @Route("did")
-@Tags("Service")
+@Tags("DID - Service")
 export class DidServiceController extends Controller {
   /**
    * Register a new service to the DID Document

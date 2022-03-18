@@ -35,7 +35,7 @@ enum VCStatus {
 }
 
 @Route("vc")
-@Tags("Verifiable Credential Status List")
+@Tags("VC - Status List")
 export class VerifiableCredentialStatusListController extends Controller {
   /**
    * Register verifiable credential status

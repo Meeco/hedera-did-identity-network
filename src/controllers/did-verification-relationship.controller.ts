@@ -25,7 +25,7 @@ import {
 } from "../services";
 
 @Route("did")
-@Tags("Verification Relationship")
+@Tags("DID - Verification Relationship")
 export class DidVerificationRelationshipController extends Controller {
   /**
    * Register a new verification relationship to the DID document
