@@ -1,7 +1,4 @@
-import { FileId } from "@hashgraph/sdk";
 import { getMongoose } from "../services";
-
-const MAX_INDEX_SIZE = 20;
 
 class VcStatusIndexControllerSchema {
   Schema = getMongoose().Schema;

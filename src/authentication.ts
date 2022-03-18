@@ -3,8 +3,8 @@ import { PublicKey } from "@hashgraph/sdk";
 import { Request } from "express";
 import { DidDocument } from "./models";
 import {
-  ResolverService,
   getVcStatusIndexControllerByFileIdAndIndex,
+  ResolverService,
 } from "./services";
 import { verifyHeaderValue as verifyDigestHeaderValue } from "./utils";
 
@@ -102,30 +102,27 @@ export async function expressAuthentication(
     try {
       let didToResolve = request.params.did || request.body.issuerDID;
 
-      if (
-        !didToResolve &&
-        request.route.path.startsWith("/vc/status/") &&
-        request.route.methods.put
-      ) {
+      if (request.route.path.startsWith("/vc/status/")) {
         const result = await getVcStatusIndexControllerByFileIdAndIndex(
           request.params.statusListFileId,
           Number(request.params.statusListIndex)
         );
 
-        if (!result && !result.controllerDID) {
+        if (!result?.controllerDID) {
           return Promise.reject(
             new Error(
-              `Not authorized to operate on File ${request.params.statusListFileId} & Index ${request.params.statusListIndex} `
+              `Not authorized to operate on File ${request.params.statusListFileId} & Index ${request.params.statusListIndex}`
             )
           );
         }
+
         didToResolve = result.controllerDID;
       }
 
       if (!didToResolve) {
         return Promise.reject(
           new Error(
-            `Validation Failed: either 'did' param or 'issuerDID' in payload is required `
+            `Validation Failed: either 'did' param or 'issuerDID' in payload is required`
           )
         );
       }
