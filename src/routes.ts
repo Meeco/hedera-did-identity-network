@@ -605,6 +605,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/vc/register',
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[],"ExpiresHeader":[]}]),
 
             function VerifiableCredentialStatusListController_register(request: any, response: any, next: any) {
             const args = {
@@ -651,6 +652,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.put('/vc/status/:statusListFileId/:statusListIndex',
+            authenticateMiddleware([{"SignedRequestHeader":[],"DigestHeader":[],"ExpiresHeader":[]}]),
 
             function VerifiableCredentialStatusListController_revoke(request: any, response: any, next: any) {
             const args = {

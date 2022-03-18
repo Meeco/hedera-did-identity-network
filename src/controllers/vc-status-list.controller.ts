@@ -9,6 +9,7 @@ import {
   Put,
   Response,
   Route,
+  Security,
   Tags,
 } from "tsoa";
 import {
@@ -42,6 +43,7 @@ export class VerifiableCredentialStatusListController extends Controller {
    * @param body
    * @returns Credential status list information
    */
+  @Security({ SignedRequestHeader: [], DigestHeader: [], ExpiresHeader: [] })
   @Response<ValidateErrorJSON>(422, "Validation Failed")
   @Post("/register")
   public async register(
@@ -103,12 +105,13 @@ export class VerifiableCredentialStatusListController extends Controller {
   }
 
   /**
-   * Issue, Revoke, Suspend or Resume verifiable credential status
-   * @summary Issue, Revoke, Suspend or Resume verifiable credential status.
+   * active, revoked, suspended or resumed verifiable credential status
+   * @summary active, revoked, suspended or resumed verifiable credential status.
    * @param statusListFileId
    * @param statusListIndex
-   * @returns Issue, Revoke, Suspend or Resume verifiable credential status
+   * @returns active, revoked, suspended or resumed verifiable credential status
    */
+  @Security({ SignedRequestHeader: [], DigestHeader: [], ExpiresHeader: [] })
   @Response<ValidateErrorJSON>(422, "Validation Failed")
   @Put("/status/{statusListFileId}/{statusListIndex}")
   public async revoke(
