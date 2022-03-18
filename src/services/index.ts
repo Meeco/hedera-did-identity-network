@@ -33,4 +33,5 @@ export {
   resumeVcStatus,
   suspendVcStatus,
   activeVcStatus as issueVcStatus,
+  getVcStatusIndexControllerByFileIdAndIndex,
 } from "./vc-status-list.service";

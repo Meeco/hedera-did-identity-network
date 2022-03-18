@@ -2,7 +2,10 @@ import { Hashing } from "@hashgraph/did-sdk-js";
 import { PublicKey } from "@hashgraph/sdk";
 import { Request } from "express";
 import { DidDocument } from "./models";
-import { ResolverService } from "./services";
+import {
+  ResolverService,
+  getVcStatusIndexControllerByFileIdAndIndex,
+} from "./services";
 import { verifyHeaderValue as verifyDigestHeaderValue } from "./utils";
 
 const httpSignature = require("@digitalbazaar/http-signature-header");
@@ -97,6 +100,36 @@ export async function expressAuthentication(
 ): Promise<DidDocument | null> {
   if (securityName === "SignedRequestHeader") {
     try {
+      let didToResolve = request.params.did || request.body.issuerDID;
+
+      if (
+        !didToResolve &&
+        request.route.path.startsWith("/vc/status/") &&
+        request.route.methods.put
+      ) {
+        const result = await getVcStatusIndexControllerByFileIdAndIndex(
+          request.params.statusListFileId,
+          Number(request.params.statusListIndex)
+        );
+
+        if (!result && !result.controllerDID) {
+          return Promise.reject(
+            new Error(
+              `Not authorized to operate on File ${request.params.statusListFileId} & Index ${request.params.statusListIndex} `
+            )
+          );
+        }
+        didToResolve = result.controllerDID;
+      }
+
+      if (!didToResolve) {
+        return Promise.reject(
+          new Error(
+            `Validation Failed: either 'did' param or 'issuerDID' in payload is required `
+          )
+        );
+      }
+
       const {
         signatureHeaderData,
         signatureBuffer,
@@ -111,7 +144,7 @@ export async function expressAuthentication(
         return Promise.reject(new Error(`Request has expired`));
       }
 
-      const resolver = new ResolverService(request.params.did);
+      const resolver = new ResolverService(didToResolve);
       const document = await resolver.resolveFromDB();
 
       const publicKey = findAuthenticationPublicKey(
@@ -121,9 +154,7 @@ export async function expressAuthentication(
 
       if (!publicKey) {
         return Promise.reject(
-          new Error(
-            `Not authorized to operate on ${request.params.did} DID document`
-          )
+          new Error(`Not authorized to operate on ${didToResolve} DID document`)
         );
       }
 

@@ -35,7 +35,7 @@ class VcStatusIndexControllerSchema {
   }
 
   async createVcStatusIndexController(
-    fileId: FileId,
+    fileId: string,
     fileIndex: Number,
     controllerDID: string
   ) {
@@ -46,6 +46,17 @@ class VcStatusIndexControllerSchema {
     });
     await vcStatusIndexController.save();
     return vcStatusIndexController;
+  }
+
+  async getVcStatusIndexControllerByFileIdAndIndex(
+    fileId: string,
+    fileIndex: Number
+  ) {
+    const result = await this.vcStatusIndexController
+      .findOne({ fileId, fileIndex })
+      .exec();
+
+    return result;
   }
 }
 

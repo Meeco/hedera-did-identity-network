@@ -18,7 +18,7 @@ import {
 import { registerDid, resolveDid, revokeDid } from "../services";
 
 @Route("did")
-@Tags("Document")
+@Tags("DID - Document")
 export class DidDocumentController extends Controller {
   /**
    * Register a new DID document. User provides public key that is going to be added as a delegate key.

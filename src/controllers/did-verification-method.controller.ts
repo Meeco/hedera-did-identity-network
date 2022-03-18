@@ -24,7 +24,7 @@ import {
 } from "../services";
 
 @Route("did")
-@Tags("Verification Method")
+@Tags("DID - Verification Method")
 export class DidVerificationMethodController extends Controller {
   /**
    * Register a new verification method to the DID document
