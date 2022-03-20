@@ -18,7 +18,7 @@ import {
 import { registerDid, resolveDid, revokeDid } from "../services";
 
 @Route("did")
-@Tags("Document")
+@Tags("DID - Document")
 export class DidDocumentController extends Controller {
   /**
    * Register a new DID document. User provides public key that is going to be added as a delegate key.
@@ -41,7 +41,7 @@ export class DidDocumentController extends Controller {
    * Resolve DID Document <br /><br />
    * <em>* Based on your use case you might consider securing this endpoint. Endpoint communicates to mirror nodes to resolve DID documents.</em>
    * @summary Resolve DID Document
-   * @param did A percent-escaped DID Identifier as defined in DID specification
+   * @param did A DID Identifier as defined in DID specification
    * @example did "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
    * @returns DidDocument
    */
