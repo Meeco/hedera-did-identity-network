@@ -3,23 +3,25 @@
 This project is an example of how appnets can build identity networks on top of Hedera and utilize Hedera DID Method.
 
 ## About
+
 The appnet runs on localhost port 8000 be default. It does not expose any user interface, instead there is a Swagger (OpenAPI) Definitions Collection available [here](/public/swagger.json) that demonstrate a full end-to-end flow of DID documents generation, publishing, update and deletion.
 
 ## Table of Contents
 
 - [Hedera™ Hashgraph Appnet - hedera-appnet](#hedera%e2%84%a2-hashgraph-appnet---hedera-appnet)
-   - [Table of Contents](#table-of-contents)
-   - [Configuration](#configuration)
-   - [Usage](#usage)
-      - [Run locally](#run-locally)
-      - [Run locally using docker-compose](#run-locally-using-docker-compose)
-      - [Run Production](#run-production)
-      - [Run tests](#run-tests)
-      - [Swagger docs](#swagger-docs)
-      - [Authorization](#authorization)
-   - [Contributing](#contributing)
-   - [References](#references)
-   - 
+  - [Table of Contents](#table-of-contents)
+  - [Configuration](#configuration)
+  - [Usage](#usage)
+    - [Run locally](#run-locally)
+    - [Run locally using docker-compose](#run-locally-using-docker-compose)
+    - [Run Production](#run-production)
+    - [Run tests](#run-tests)
+    - [Swagger docs](#swagger-docs)
+    - [Authorization](#authorization)
+  - [Contributing](#contributing)
+  - [References](#references)
+  -
+
 ## Configuration
 
 The following environment variables are required to be set up before running the application:
@@ -34,6 +36,9 @@ The following environment variables are required to be set up before running the
 - `MONGODB_DOCKER_PORT` - MongoDB docker port, its 27017 by default.
 - `MONGODB_USER` - MongoDB username, its root by default.
 - `MONGODB_PASSWORD` - MongoDB user password, its 123456 by default.
+- `FILE_KEY` - Private key to manage file on a Hedera network.
+- `ISSUER_KEY` - Private key manage by appnet (as issuer) to sign verifiable credential that encapsulates the VC status list.
+- `ISSUER_DID` - DID manage by appnet (as issuer) for expressing the issuer of a verifiable credential that encapsulates the VC status list.
 
 ## Usage
 
@@ -83,13 +88,13 @@ npm test
 
 Integration tests require `jest.setup.ts` configuration to be filled in with valid operator details. Tests will run requests against `testnet` consensus services.
 
-
 ## Swagger docs
+
 <http://localhost:8000/docs>
 
 ## Authorization
 
-This project uses [signed HTTP requests](https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-message-signatures) to authorize users. Only user who owns private key listed in `authentication` section of the targeted DID document is allowed to perform modifications. 
+This project uses [signed HTTP requests](https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-message-signatures) to authorize users. Only user who owns private key listed in `authentication` section of the targeted DID document is allowed to perform modifications.
 There are three endpoints that in this example project have no authorization added:
 
 - `POST /did`

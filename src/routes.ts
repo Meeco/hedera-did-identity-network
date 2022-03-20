@@ -688,7 +688,7 @@ export function RegisterRoutes(app: express.Router) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
-            // keep track of failed auth attempts, so we can hand back the most
+            // keep track of failed auth attempts so we can hand back the most
             // recent one.  This behavior was previously existing so preserving it
             // here
             const failedAttempts: any[] = [];
@@ -787,7 +787,7 @@ export function RegisterRoutes(app: express.Router) {
         return function(status, data, headers) {
             returnHandler(response, status, data, headers);
         };
-    }
+    };
 
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
