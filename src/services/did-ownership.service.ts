@@ -16,11 +16,12 @@ import { client } from "./hedera-client";
 export const claim = async (did: string, body: IDidOwnershipClaimPayload) => {
   const hcsMessages = new HcsMessageCollectorService();
   const didKeypair = await DidKeypairModel.findById(did);
-  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
 
   if (!didKeypair) {
     throw new Error("DID is not controller by the AppNet");
   }
+
+  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
 
   const hcsDid = new HcsDid({
     identifier: did,
