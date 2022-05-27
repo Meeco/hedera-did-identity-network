@@ -1,13 +1,7 @@
-// src/middleware/not-found.middleware.ts
+import { Request, Response } from "express";
 
-import { NextFunction, Request, Response } from "express";
-
-export const notFoundHandler = (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
-  const message = "Resource not found";
-
-  response.status(404).send(message);
+export const notFoundHandler = (_req: Request, res: Response): void => {
+  res.status(404).send({
+    message: "Not Found",
+  });
 };

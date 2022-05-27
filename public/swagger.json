@@ -9,16 +9,24 @@
 			"VerificationMethod": {
 				"properties": {
 					"id": {
-						"type": "string"
+						"type": "string",
+						"description": "Verification method ID consists of two parts: <br />\n1) DID document ID verification method belongs to <br />\n2) Unique verification method identifier in a format \"#key-{number}\"",
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1"
 					},
 					"controller": {
-						"type": "string"
+						"type": "string",
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
 					},
 					"type": {
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"Ed25519VerificationKey2018"
+						],
+						"nullable": false
 					},
 					"publicKeyMultibase": {
-						"type": "string"
+						"type": "string",
+						"example": "z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5"
 					}
 				},
 				"required": [
@@ -33,13 +41,20 @@
 			"Service": {
 				"properties": {
 					"id": {
-						"type": "string"
+						"type": "string",
+						"description": "Service ID consists of two parts: <br />\n1) DID document ID service belongs to <br />\n2) Unique service identifier in a format \"#service-{number}\"",
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#service-1"
 					},
 					"type": {
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"LinkedDomains",
+							"DIDCommMessaging"
+						]
 					},
 					"serviceEndpoint": {
-						"type": "string"
+						"type": "string",
+						"example": "https://your.service/did-comm"
 					}
 				},
 				"required": [
@@ -117,18 +132,63 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ValidateErrorJSON": {
+				"properties": {
+					"message": {
+						"type": "string",
+						"enum": [
+							"Validation failed"
+						],
+						"nullable": false
+					},
+					"details": {
+						"properties": {},
+						"additionalProperties": {},
+						"type": "object"
+					}
+				},
+				"required": [
+					"message",
+					"details"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IDidDocumentRegisterPayload": {
 				"properties": {
 					"publicKeyMultibase": {
 						"type": "string",
-						"enum": [
-							"string"
-						],
-						"nullable": false
+						"example": "z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5"
 					}
 				},
 				"required": [
 					"publicKeyMultibase"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IDidOwnershipClaimPayload": {
+				"properties": {
+					"privateKeyMultibase": {
+						"type": "string",
+						"example": "z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5"
+					}
+				},
+				"required": [
+					"privateKeyMultibase"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IDidOwnershipRegisterPayload": {
+				"properties": {
+					"privateKeyMultibase": {
+						"type": "string",
+						"example": "z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5"
+					}
+				},
+				"required": [
+					"privateKeyMultibase"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -148,10 +208,15 @@
 			"IServiceUpdateBody": {
 				"properties": {
 					"type": {
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"LinkedDomains",
+							"DIDCommMessaging"
+						]
 					},
 					"serviceEndpoint": {
-						"type": "string"
+						"type": "string",
+						"example": "https://your.service/did-comm"
 					}
 				},
 				"required": [
@@ -188,13 +253,19 @@
 			"IVerificationMethodUpdateBody": {
 				"properties": {
 					"controller": {
-						"type": "string"
+						"type": "string",
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
 					},
 					"type": {
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"Ed25519VerificationKey2018"
+						],
+						"nullable": false
 					},
 					"publicKeyMultibase": {
-						"type": "string"
+						"type": "string",
+						"example": "z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5"
 					}
 				},
 				"required": [
@@ -217,22 +288,40 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"RelationshipTypeType": {
+				"type": "string",
+				"enum": [
+					"authentication",
+					"assertionMethod",
+					"keyAgreement",
+					"capabilityDelegation",
+					"capabilityInvocation"
+				]
+			},
 			"IVerificationRelationship": {
 				"properties": {
 					"id": {
-						"type": "string"
+						"type": "string",
+						"description": "Verification relationship ID. References a key in verification methods list.",
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1"
 					},
 					"controller": {
-						"type": "string"
+						"type": "string",
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
 					},
 					"type": {
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"Ed25519VerificationKey2018"
+						],
+						"nullable": false
 					},
 					"relationshipType": {
-						"type": "string"
+						"$ref": "#/components/schemas/RelationshipTypeType"
 					},
 					"publicKeyMultibase": {
-						"type": "string"
+						"type": "string",
+						"example": "z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5"
 					}
 				},
 				"required": [
@@ -260,22 +349,24 @@
 			"IVerificationRelationshipUpdateBody": {
 				"properties": {
 					"controller": {
-						"type": "string"
+						"type": "string",
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
 					},
 					"type": {
-						"type": "string"
-					},
-					"relationshipType": {
-						"type": "string"
+						"type": "string",
+						"enum": [
+							"Ed25519VerificationKey2018"
+						],
+						"nullable": false
 					},
 					"publicKeyMultibase": {
-						"type": "string"
+						"type": "string",
+						"example": "z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5"
 					}
 				},
 				"required": [
 					"controller",
 					"type",
-					"relationshipType",
 					"publicKeyMultibase"
 				],
 				"type": "object",
@@ -292,14 +383,149 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"VcStatusListInfo": {
+				"properties": {
+					"id": {
+						"type": "string",
+						"example": "https://appnet.meecoo.me/vc/status/0.0.123/614"
+					},
+					"type": {
+						"type": "string",
+						"enum": [
+							"RevocationList2021Status",
+							"SuspensionList2021Status"
+						]
+					},
+					"statusListIndex": {
+						"type": "number",
+						"format": "double",
+						"example": 614
+					},
+					"statusListCredential": {
+						"type": "string",
+						"example": "https://appnet.meecoo.me/vc/status/0.0.123"
+					}
+				},
+				"required": [
+					"id",
+					"type",
+					"statusListIndex",
+					"statusListCredential"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"VcStatusListInfoResponse": {
+				"properties": {
+					"statusInfo": {
+						"$ref": "#/components/schemas/VcStatusListInfo"
+					}
+				},
+				"required": [
+					"statusInfo"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RegisterVcStatusPayload": {
+				"properties": {
+					"issuerDID": {
+						"type": "string",
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
+					}
+				},
+				"required": [
+					"issuerDID"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Readonly_W3CCredential_": {
+				"properties": {},
+				"type": "object",
+				"description": "Make all properties in T readonly"
+			},
+			"Proof": {
+				"properties": {
+					"type": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": {}
+			},
+			"Verifiable_W3CCredential_": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Readonly_W3CCredential_"
+					},
+					{
+						"properties": {
+							"proof": {
+								"$ref": "#/components/schemas/Proof"
+							}
+						},
+						"required": [
+							"proof"
+						],
+						"type": "object"
+					}
+				],
+				"description": "Represents a readonly representation of a verifiable object, including the {@link Proof}\r\nproperty that can be used to verify it."
+			},
+			"status": {
+				"type": "string",
+				"enum": [
+					"revoked",
+					"suspended",
+					"resumed",
+					"active"
+				]
+			},
+			"VcStatusChangePayload": {
+				"properties": {
+					"status": {
+						"$ref": "#/components/schemas/status"
+					}
+				},
+				"required": [
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
-		"securitySchemes": {}
+		"securitySchemes": {
+			"SignedRequestHeader": {
+				"type": "apiKey",
+				"name": "Authorization",
+				"in": "header"
+			},
+			"DigestHeader": {
+				"type": "apiKey",
+				"name": "Digest",
+				"in": "header"
+			},
+			"ExpiresHeader": {
+				"type": "apiKey",
+				"name": "Expires",
+				"in": "header"
+			}
+		}
 	},
 	"info": {
 		"title": "hedera-appnet",
 		"version": "1.0.0",
-		"contact": {}
+		"description": "Hedera Appnet API",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {
+			"name": "Meeco",
+			"url": "https://meeco.me",
+			"email": "‍support@meeco.me"
+		}
 	},
 	"openapi": "3.0.0",
 	"paths": {
@@ -308,7 +534,7 @@
 				"operationId": "Register",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -316,12 +542,22 @@
 								}
 							}
 						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
 					}
 				},
-				"description": "Register a new DID document. User provides public key that is going to be added as a delegate key that allows user to modify created DID document later.",
+				"description": "Register a new DID document. User provides public key that is going to be added as a delegate key.\nThat allows user to modify created DID document later. <br /><br />\n<em>* Based on your use case you should consider securing this endpoint. Endpoint communicates to Hedera Consensus Services.</em>",
 				"summary": "Register a new DID Document.",
 				"tags": [
-					"Document"
+					"DID - Document"
 				],
 				"security": [],
 				"parameters": [],
@@ -342,7 +578,7 @@
 				"operationId": "Resolve",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -350,39 +586,66 @@
 								}
 							}
 						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
 					}
 				},
-				"description": "Resolve DID Document",
+				"description": "Resolve DID Document <br /><br />\n<em>* Based on your use case you might consider securing this endpoint. Endpoint communicates to mirror nodes to resolve DID documents.</em>",
 				"summary": "Resolve DID Document",
 				"tags": [
-					"Document"
+					"DID - Document"
 				],
 				"security": [],
 				"parameters": [
 					{
-						"description": "Identifier as defined in DID specification",
+						"description": "A DID Identifier as defined in DID specification",
 						"in": "path",
 						"name": "did",
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
 					}
 				]
 			},
 			"delete": {
-				"operationId": "Remove",
+				"operationId": "Revoke",
 				"responses": {
 					"204": {
 						"description": "No content"
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
 					}
 				},
-				"description": "Permanently remove DID Document from Appnet registry. In addition to that, new messages will be written to the DID topic stating that document has been removed.",
+				"description": "Permanently remove DID Document from Appnet registry.\nIn addition to that, new messages will be written to the DID topic stating that document has been removed.",
 				"summary": "Remove DID Document from registry",
 				"tags": [
-					"Document"
+					"DID - Document"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "DID Identifier as defined in DID specification",
@@ -391,21 +654,148 @@
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
 					}
 				]
+			}
+		},
+		"/did/{did}/claim": {
+			"post": {
+				"operationId": "Claim",
+				"responses": {
+					"200": {
+						"description": "DidDocument",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
+					}
+				},
+				"description": "Claim DID Document ownership back from the AppNet. Changes DID root key to the one provided via `privateKeyMultibase` parameter.\nDID controller remains the same.",
+				"summary": "Claim DID Document ownership back from the AppNet",
+				"tags": [
+					"DID - Ownership"
+				],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "A DID Identifier as defined in DID specification",
+						"in": "path",
+						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IDidOwnershipClaimPayload"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/did/{did}/register": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"200": {
+						"description": "DidDocument",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
+					}
+				},
+				"description": "Register an existing DID Document with AppNet. Gives away control of the document to the AppNet component.\nPrevious DID root (`privateKeyMultibase` parameter) key becomes a delegate key. <br /><br />\n<em>* Based on your use case you should consider securing this endpoint. Endpoint communicates to Hedera Consensus Services.</em>",
+				"summary": "Register an existing DID Document with AppNet",
+				"tags": [
+					"DID - Ownership"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "A DID Identifier as defined in DID specification",
+						"in": "path",
+						"name": "did",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IDidOwnershipRegisterPayload"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/did/{did}/services": {
 			"post": {
 				"operationId": "Register",
 				"responses": {
-					"200": {
-						"description": "Ok",
+					"201": {
+						"description": "Created",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
 								}
 							}
 						}
@@ -414,9 +804,15 @@
 				"description": "Register a new service to the DID Document",
 				"summary": "Register a new service to the DID Document",
 				"tags": [
-					"Service"
+					"DID - Service"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -425,7 +821,8 @@
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
 					}
 				],
 				"requestBody": {
@@ -446,11 +843,21 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
 								}
 							}
 						}
@@ -459,9 +866,15 @@
 				"description": "Update service information on the DID Document",
 				"summary": "Update service information on the DID Document",
 				"tags": [
-					"Service"
+					"DID - Service"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -470,7 +883,8 @@
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
 					},
 					{
 						"description": "Service ID string",
@@ -479,7 +893,8 @@
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#service-1"
 					}
 				],
 				"requestBody": {
@@ -495,14 +910,24 @@
 				}
 			},
 			"delete": {
-				"operationId": "Remove",
+				"operationId": "Revoke",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
 								}
 							}
 						}
@@ -511,9 +936,15 @@
 				"description": "Remove service information from the DID Document",
 				"summary": "Remove service information from the DID Document",
 				"tags": [
-					"Service"
+					"DID - Service"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -522,7 +953,8 @@
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
 					},
 					{
 						"description": "Service ID string",
@@ -531,7 +963,8 @@
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#service-1"
 					}
 				]
 			}
@@ -540,12 +973,22 @@
 			"post": {
 				"operationId": "Register",
 				"responses": {
-					"200": {
-						"description": "Ok",
+					"201": {
+						"description": "Created",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
 								}
 							}
 						}
@@ -554,9 +997,15 @@
 				"description": "Register a new verification method to the DID document",
 				"summary": "Register a new verification method to the DID document",
 				"tags": [
-					"Verification Method"
+					"DID - Verification Method"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -565,7 +1014,8 @@
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
 					}
 				],
 				"requestBody": {
@@ -586,11 +1036,21 @@
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
 								}
 							}
 						}
@@ -599,9 +1059,15 @@
 				"description": "Update verification method on a DID document",
 				"summary": "Update verification method on a DID document",
 				"tags": [
-					"Verification Method"
+					"DID - Verification Method"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -610,16 +1076,18 @@
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
 					},
 					{
-						"description": "Verification method ID string",
+						"description": "Verification Method ID string",
 						"in": "path",
 						"name": "id",
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1"
 					}
 				],
 				"requestBody": {
@@ -635,14 +1103,24 @@
 				}
 			},
 			"delete": {
-				"operationId": "Remove",
+				"operationId": "Revoke",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
 								}
 							}
 						}
@@ -651,9 +1129,15 @@
 				"description": "Remove verification method from the DID document",
 				"summary": "Remove verification method from the DID document",
 				"tags": [
-					"Verification Method"
+					"DID - Verification Method"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -662,16 +1146,18 @@
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
 					},
 					{
-						"description": "Verification method ID string",
+						"description": "Verification Method ID string",
 						"in": "path",
 						"name": "id",
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1"
 					}
 				]
 			}
@@ -680,12 +1166,22 @@
 			"post": {
 				"operationId": "Register",
 				"responses": {
-					"200": {
-						"description": "Ok",
+					"201": {
+						"description": "Created",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
 								}
 							}
 						}
@@ -694,9 +1190,15 @@
 				"description": "Register a new verification relationship to the DID document",
 				"summary": "Register a new verification relationship to the DID document",
 				"tags": [
-					"Verification Relationship"
+					"DID - Verification Relationship"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -705,7 +1207,8 @@
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
 					}
 				],
 				"requestBody": {
@@ -721,16 +1224,26 @@
 				}
 			}
 		},
-		"/did/{did}/verification-relationships/{id}": {
+		"/did/{did}/verification-relationships/{relationshipType}/{id}": {
 			"put": {
 				"operationId": "Update",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
 								}
 							}
 						}
@@ -739,9 +1252,15 @@
 				"description": "Update verification relationship on the DID document",
 				"summary": "Update verification relationship on the DID document",
 				"tags": [
-					"Verification Relationship"
+					"DID - Verification Relationship"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -750,16 +1269,27 @@
 						"required": true,
 						"schema": {
 							"type": "string"
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
+					},
+					{
+						"description": "String to specify which relationship type key belongs to",
+						"in": "path",
+						"name": "relationshipType",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/RelationshipTypeType"
 						}
 					},
 					{
-						"description": "Verification relationship ID string",
+						"description": "Verification Method ID string",
 						"in": "path",
 						"name": "id",
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1"
 					}
 				],
 				"requestBody": {
@@ -775,14 +1305,24 @@
 				}
 			},
 			"delete": {
-				"operationId": "Remove",
+				"operationId": "Revoke",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "DidDocument",
 						"content": {
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/DidDocument"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
 								}
 							}
 						}
@@ -791,9 +1331,15 @@
 				"description": "Remove verification relationship from the DID document",
 				"summary": "Remove verification relationship from the DID document",
 				"tags": [
-					"Verification Relationship"
+					"DID - Verification Relationship"
 				],
-				"security": [],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
 				"parameters": [
 					{
 						"description": "Identifier as defined in DID specification",
@@ -802,18 +1348,220 @@
 						"required": true,
 						"schema": {
 							"type": "string"
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719"
+					},
+					{
+						"description": "String to specify which relationship type key belongs to",
+						"in": "path",
+						"name": "relationshipType",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/RelationshipTypeType"
 						}
 					},
 					{
-						"description": "Verification relationship ID string",
+						"description": "Verification Method ID string",
 						"in": "path",
 						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"example": "did:hedera:testnet:z6Mkfza16PqnyMyxPZd7dVhs6ySUettURTztjNJ8qBKwyHg5_0.0.30835719#key-1"
+					}
+				]
+			}
+		},
+		"/vc/register": {
+			"post": {
+				"operationId": "Register",
+				"responses": {
+					"200": {
+						"description": "Credential status list information",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/VcStatusListInfoResponse"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
+					}
+				},
+				"description": "Register verifiable credential status",
+				"summary": "Register verifiable credential status.",
+				"tags": [
+					"VC - Status List"
+				],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegisterVcStatusPayload"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/vc/status/{statusListFileId}": {
+			"get": {
+				"operationId": "Status",
+				"responses": {
+					"200": {
+						"description": "Verifiable credential that encapsulates the status list",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Verifiable_W3CCredential_"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"@context": [
+												"https://www.w3.org/2018/credentials/v1",
+												"https://w3id.org/vc-status-list-2021/v1"
+											],
+											"type": [
+												"VerifiableCredential",
+												"StatusList2021Credential"
+											],
+											"additionalProps": {
+												"jti": "urn:uuid:a98e123b-17dd-4d85-afbc-a67b2637f733"
+											},
+											"id": "https://localhost:8000/vc/status/0.0.33965935",
+											"issuer": {
+												"id": "did:hedera:testnet:z6MkgYkY291VKXD6JvToXHaF13qg1fY9rSsmC9hWTtxsYfoB_0.0.33965881"
+											},
+											"issuanceDate": "2022-03-17T14:47:32.000Z",
+											"expirationDate": "2022-03-17T14:47:32.000Z",
+											"credentialSubject": {
+												"encodedList": "H4sIAAAAAAAAA-3BMQEAAADCoPVPbQsvoAAAAAAAAAAAAAAAAP4GcwM92tQwAAA",
+												"type": "RevocationList2021",
+												"id": "https://localhost:8000/vc/status/0.0.33965935#list"
+											},
+											"proof": {
+												"type": "Ed25519Signature2018",
+												"proofPurpose": "assertionMethod",
+												"created": "2022-03-17T14:47:32.000Z",
+												"verificationMethod": "did:hedera:testnet:z6MkgYkY291VKXD6JvToXHaF13qg1fY9rSsmC9hWTtxsYfoB_0.0.33965881#did-root-key",
+												"jws": "4WV8waZlbHyEo8o-Pq7wkyz0l1u0HQT_cZp3tgWPTW2l3gbW1lo6-8OLyDNn28YdUPf6AcUyXXnbrB1J8d8HDQ"
+											},
+											"jti": "urn:uuid:a98e123b-17dd-4d85-afbc-a67b2637f733",
+											"_jwt": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDc1Mjg0NTIsImlkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODAwMC92Yy9zdGF0dXMvMC4wLjMzOTY1OTM1IiwiaXNzIjoiZGlkOmhlZGVyYTp0ZXN0bmV0Ono2TWtnWWtZMjkxVktYRDZKdlRvWEhhRjEzcWcxZlk5clNzbUM5aFdUdHhzWWZvQl8wLjAuMzM5NjU4ODEiLCJqdGkiOiJ1cm46dXVpZDphOThlMTIzYi0xN2RkLTRkODUtYWZiYy1hNjdiMjYzN2Y3MzMiLCJuYmYiOjE2NDc1Mjg0NTIsInN1YiI6Imh0dHBzOi8vbG9jYWxob3N0OjgwMDAvdmMvc3RhdHVzLzAuMC4zMzk2NTkzNSNsaXN0IiwidmMiOnsiQGNvbnRleHQiOlsiaHR0cHM6Ly93d3cudzMub3JnLzIwMTgvY3JlZGVudGlhbHMvdjEiLCJodHRwczovL3czaWQub3JnL3ZjLXN0YXR1cy1saXN0LTIwMjEvdjEiXSwiY3JlZGVudGlhbFN1YmplY3QiOnsiZW5jb2RlZExpc3QiOiJINHNJQUFBQUFBQUFBLTNCTVFFQUFBRENvUFZQYlFzdm9BQUFBQUFBQUFBQUFBQUFBUDRHY3dNOTJ0UXdBQUEiLCJ0eXBlIjoiUmV2b2NhdGlvbkxpc3QyMDIxIn0sImlkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODAwMC92Yy9zdGF0dXMvMC4wLjMzOTY1OTM1IiwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCIsIlN0YXR1c0xpc3QyMDIxQ3JlZGVudGlhbCJdfX0.4WV8waZlbHyEo8o-Pq7wkyz0l1u0HQT_cZp3tgWPTW2l3gbW1lo6-8OLyDNn28YdUPf6AcUyXXnbrB1J8d8HDQ"
+										}
+									}
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
+					}
+				},
+				"description": "Resolve verifiable credential that encapsulates the status list.",
+				"summary": "Resolve verifiable credential status list.",
+				"tags": [
+					"VC - Status List"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "statusListFileId",
 						"required": true,
 						"schema": {
 							"type": "string"
 						}
 					}
 				]
+			}
+		},
+		"/vc/status/{statusListFileId}/{statusListIndex}": {
+			"put": {
+				"operationId": "Revoke",
+				"responses": {
+					"204": {
+						"description": "No content"
+					},
+					"422": {
+						"description": "Validation Failed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
+					}
+				},
+				"description": "active, revoked, suspended or resumed verifiable credential status",
+				"summary": "active, revoked, suspended or resumed verifiable credential status.",
+				"tags": [
+					"VC - Status List"
+				],
+				"security": [
+					{
+						"SignedRequestHeader": [],
+						"DigestHeader": [],
+						"ExpiresHeader": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "statusListFileId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "statusListIndex",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/VcStatusChangePayload"
+							}
+						}
+					}
+				}
 			}
 		}
 	},

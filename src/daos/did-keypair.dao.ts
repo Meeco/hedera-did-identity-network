@@ -1,5 +1,5 @@
 import { CreateDidKeypairDto } from "../dto/create.did-keypair.dto";
-import { getMongoose } from "../services/connection.service";
+import { getMongoose } from "../services";
 
 class DidKeypairSchema {
   Schema = getMongoose().Schema;
@@ -25,6 +25,10 @@ class DidKeypairSchema {
     });
     await didKeypair.save();
     return didKeypair;
+  }
+
+  async deleteById(did: string) {
+    return this.didKeypair.deleteOne({ _id: did });
   }
 
   async findById(did: string) {

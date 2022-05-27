@@ -1,0 +1,27 @@
+sequenceDiagram
+Title: Register an external DID with AppNet
+
+participant user as user
+participant API as Appnet
+participant DB as Database
+participant SDK as DID JS SDK
+
+
+note over user, SDK: Register an existing DID Document with AppNet. Gives away control of the document to the AppNet component.
+user ->> API: Send multibase private key
+alt validate
+API ->> API: Check DID already registered 
+end 
+alt validation fails
+API ->> user: Return Response <br> "DID is already registered with AppNet"
+else validation success
+API ->> API: Generate  New DidKeypair
+API ->> SDK: Create new DID owner Event with DidKeypair and provided multibase private key
+SDK ->> API: Receive create DID owner Event message 
+API ->> DB: Store new DidKeypair
+API ->> SDK:  Submit verification relationship <br> DID Event with user <br> multibase public key
+SDK ->> API: Receive create verification relationship DID Event message
+API ->> DB: store all received events
+API ->> API: Resolve DID
+API ->> user: Return DID Document
+end

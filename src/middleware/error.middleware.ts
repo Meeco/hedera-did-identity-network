@@ -1,15 +1,29 @@
-// src/middleware/error.middleware.ts
-
 import { NextFunction, Request, Response } from "express";
-import HttpException from "../common/http-exception";
+import { ValidateError } from "tsoa";
 
 export const errorHandler = (
-  error: HttpException,
-  request: Request,
-  response: Response,
+  err: unknown,
+  req: Request,
+  res: Response,
   next: NextFunction
-) => {
-  const status = error.statusCode || error.status || 500;
+): void => {
+  if (err instanceof ValidateError) {
+    console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
 
-  response.status(status).send(error);
+    res.status(422).json({
+      message: "Validation Failed",
+      details: err?.fields,
+    });
+    return;
+  }
+
+  if (err instanceof Error) {
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: err.message,
+    });
+    return;
+  }
+
+  next();
 };

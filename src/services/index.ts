@@ -5,6 +5,10 @@ export {
   revoke as revokeDid,
 } from "./did-document.service";
 export {
+  claim as claimDidOwnership,
+  register as registerDidWithAppNet,
+} from "./did-ownership.service";
+export {
   register as registerService,
   revoke as revokeService,
   update as updateService,
@@ -22,3 +26,12 @@ export {
 export * from "./hcs-message-collector.service";
 export * from "./hedera-client";
 export * from "./resolver.service";
+export {
+  register as registerVcStatus,
+  resolveVcStatusList,
+  revokeVcStatus,
+  resumeVcStatus,
+  suspendVcStatus,
+  activeVcStatus as issueVcStatus,
+  getVcStatusIndexControllerByFileIdAndIndex,
+} from "./vc-status-list.service";

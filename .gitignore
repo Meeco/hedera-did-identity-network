@@ -58,3 +58,11 @@ typings/
 
 # emacs temp files
 *~
+
+# build folder
+build/
+
+#.env.json script
+scripts/.env.json
+demo/.env.json
+jest.setup.example.js

@@ -1,0 +1,23 @@
+sequenceDiagram
+Title: DID Registration
+
+  autonumber
+  participant user as User
+  participant App as Appnet 
+  participant DB as Database
+  participant SDK as DID JS SDK
+
+
+note over user,SDK: Register a DID
+user ->> App: Send multibase <br> public key
+App ->> App: Generate new keypair <br> to register did (DID-KeyPair)
+App ->> SDK: Register a new DID
+App ->> SDK: Subscribe to receive Event messages
+SDK ->> App: Receive create DID owner Event message
+App ->> DB: Store DID-KeyPair
+note over App: Add multibase public key <br> received from user as delegate Key<br> to newly registered DID
+App ->> SDK:  Submit verification relationship <br> DID Event with user <br> multibase public key
+SDK ->> App: Receive create verification relationship DID Event message
+App ->> DB: store all received events
+App ->> App: resolve DID Document
+App ->> user: Send DID Document
