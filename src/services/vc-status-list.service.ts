@@ -37,15 +37,15 @@ export const getNewVcStatusIndex = async (controllerDID: string) => {
   );
 
   VcStatusIndexControllerModel.createVcStatusIndexController(
-    statusFile._id,
-    statusFile.lastIndexInUse,
+    statusFile!._id,
+    statusFile!.lastIndexInUse!,
     controllerDID
   );
 
   {
     return {
-      fileId: statusFile._id,
-      statusListIndex: statusFile.lastIndexInUse,
+      fileId: statusFile!._id,
+      statusListIndex: statusFile!.lastIndexInUse!,
     };
   }
 };

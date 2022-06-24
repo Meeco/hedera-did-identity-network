@@ -20,7 +20,7 @@ export const register = async (
 ): Promise<DidDocument> => {
   const hcsMessages = new HcsMessageCollectorService();
   const didKeypair = await DidKeypairModel.findById(did);
-  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
+  const privateKey = PrivateKey.fromString(didKeypair!.privateKey!);
 
   const hcsDid = new HcsDid({
     identifier: did,
@@ -46,7 +46,7 @@ export const update = async (
 ): Promise<DidDocument> => {
   const hcsMessages = new HcsMessageCollectorService();
   const didKeypair = await DidKeypairModel.findById(did);
-  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
+  const privateKey = PrivateKey.fromString(didKeypair!.privateKey!);
 
   const hcsDid = new HcsDid({
     identifier: did,
@@ -68,7 +68,7 @@ export const update = async (
 export const revoke = async (did: string, id: string) => {
   const hcsMessages = new HcsMessageCollectorService();
   const didKeypair = await DidKeypairModel.findById(did);
-  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
+  const privateKey = PrivateKey.fromString(didKeypair!.privateKey!);
 
   const hcsDid = new HcsDid({
     identifier: did,

@@ -21,7 +21,7 @@ export const claim = async (did: string, body: IDidOwnershipClaimPayload) => {
     throw new Error("DID is not controller by the AppNet");
   }
 
-  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
+  const privateKey = PrivateKey.fromString(didKeypair.privateKey!);
 
   const hcsDid = new HcsDid({
     identifier: did,

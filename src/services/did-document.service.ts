@@ -61,7 +61,7 @@ export const register = async (
 export const revoke = async (did: string): Promise<void> => {
   const hcsMessages = new HcsMessageCollectorService();
   const didKeypair = await DidKeypairModel.findById(did);
-  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
+  const privateKey = PrivateKey.fromString(didKeypair!.privateKey!);
 
   const hcsDid = new HcsDid({
     identifier: did,
