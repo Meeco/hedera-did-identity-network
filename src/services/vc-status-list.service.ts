@@ -28,7 +28,7 @@ export const getNewVcStatusIndex = async (controllerDID: string) => {
 
   if (!statusFile) {
     const vcSl = new HfsVcSl(client, FILE_KEY_PK);
-    const fileId = await vcSl.createRevocationListFile();
+    const fileId = await vcSl.createStatusListFile();
     statusFile = await VcStatusFileModel.createVcStatusFile(fileId);
   }
 
@@ -56,7 +56,7 @@ export const resolveVcStatusList = async (
   const verifiableCredential = new VC(ISSUER_DID || "", ISSUER_KEY_PK);
 
   const vcSl = new HfsVcSl(client, FILE_KEY_PK);
-  const statusList = await vcSl.loadRevocationList(
+  const statusList = await vcSl.loadStatusList(
     FileId.fromString(statusListFileId)
   );
   const encodedVcStatusList = await statusList.encode();
