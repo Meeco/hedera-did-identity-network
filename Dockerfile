@@ -1,4 +1,4 @@
-FROM node:17-alpine AS builder
+FROM node:16-alpine AS builder
 ENV NODE_ENV build
 WORKDIR /app
 COPY . /app
@@ -7,7 +7,7 @@ RUN npm install \
     && npm run build \
     && npm prune --production
 
-FROM node:17-alpine AS production
+FROM node:16-alpine AS production
 WORKDIR /app
 COPY --from=builder /app/package*.json /app/
 COPY --from=builder /app/node_modules/ /app/node_modules/
