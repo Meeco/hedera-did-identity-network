@@ -30,7 +30,7 @@ jobs:
           context: .
           push: true
           tags: |
-            docker.pkg.github.com/${{ github.repository }}/identity-network:latest
-            docker.pkg.github.com/${{ github.repository }}/identity-network:${{ steps.get_version.outputs.version-without-v }}
+            docker.pkg.github.com/meeco/identity-network:latest
+            docker.pkg.github.com/meeco/identity-network:${{ steps.get_version.outputs.version-without-v }}
             meeco/identity-network:latest
             meeco/identity-network:${{ steps.get_version.outputs.version-without-v }}
