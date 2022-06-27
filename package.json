@@ -1,5 +1,5 @@
 {
-  "name": "hedera-appnet",
+  "name": "identity-network",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -17,14 +17,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Meeco/hedera-appnet.git"
+    "url": "git+https://github.com/Meeco/identity-network.git"
   },
   "keywords": [],
   "author": "",
   "bugs": {
-    "url": "https://github.com/Meeco/hedera-appnet/issues"
+    "url": "https://github.com/Meeco/identity-network/issues"
   },
-  "homepage": "https://github.com/Meeco/hedera-appnet#readme",
+  "homepage": "https://github.com/Meeco/identity-network#readme",
   "devDependencies": {
     "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
