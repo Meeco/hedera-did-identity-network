@@ -8,10 +8,10 @@ export const getMongoose = () => {
 
 export const connectWithRetry = async () => {
   console.log(
-    `Attempting MongoDB connection (will retry if needed) mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin&ssl=false`
+    `Attempting MongoDB connection (will retry if needed) mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin`
   );
 
   await mongoose.connect(
-    `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin&ssl=false`
+    `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin`
   );
 };
