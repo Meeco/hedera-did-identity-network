@@ -13,6 +13,10 @@ app.use(express.json());
 app.use(morgan("tiny"));
 app.use(express.static("public"));
 
+app.get("/", (_req, res) => {
+  res.redirect("/docs");
+});
+
 app.use(
   "/docs",
   swaggerUi.serve,
