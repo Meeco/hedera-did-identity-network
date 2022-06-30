@@ -61,7 +61,12 @@ export const register = async (
 export const revoke = async (did: string): Promise<void> => {
   const hcsMessages = new HcsMessageCollectorService();
   const didKeypair = await DidKeypairModel.findById(did);
-  const privateKey = PrivateKey.fromString(didKeypair!.privateKey!);
+
+  if (!didKeypair || !didKeypair.privateKey) {
+    throw new Error(`DID is not controller by the AppNet`);
+  }
+
+  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
 
   const hcsDid = new HcsDid({
     identifier: did,

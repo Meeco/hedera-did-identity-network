@@ -20,7 +20,10 @@ export const register = async (
 ): Promise<DidDocument> => {
   const hcsMessages = new HcsMessageCollectorService();
   const didKeypair = await DidKeypairModel.findById(did);
-  const privateKey = PrivateKey.fromString(didKeypair!.privateKey!);
+  if (!didKeypair || !didKeypair.privateKey) {
+    throw new Error(`DID is not controller by the AppNet`);
+  }
+  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
 
   const hcsDid = new HcsDid({
     identifier: did,
@@ -51,7 +54,10 @@ export const update = async (
 ): Promise<DidDocument> => {
   const hcsMessages = new HcsMessageCollectorService();
   const didKeypair = await DidKeypairModel.findById(did);
-  const privateKey = PrivateKey.fromString(didKeypair!.privateKey!);
+  if (!didKeypair || !didKeypair.privateKey) {
+    throw new Error(`DID is not controller by the AppNet`);
+  }
+  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
 
   const hcsDid = new HcsDid({
     identifier: did,
@@ -82,7 +88,10 @@ export const update = async (
 export const revoke = async (did: string, id: string) => {
   const hcsMessages = new HcsMessageCollectorService();
   const didKeypair = await DidKeypairModel.findById(did);
-  const privateKey = PrivateKey.fromString(didKeypair!.privateKey!);
+  if (!didKeypair || !didKeypair.privateKey) {
+    throw new Error(`DID is not controller by the AppNet`);
+  }
+  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
 
   const hcsDid = new HcsDid({
     identifier: did,
