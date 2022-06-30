@@ -9,6 +9,7 @@ The identity-network runs on localhost port 8000 be default. It does not expose 
 ## Table of Contents
 
 - [Hedera™ Hashgraph Identity Network - hedera-identity-network](#hedera%e2%84%a2-hashgraph-identity-network---hedera-identity-network)
+
   - [Table of Contents](#table-of-contents)
   - [Configuration](#configuration)
   - [Usage](#usage)
@@ -47,9 +48,9 @@ The following environment variables are required to be set up before running the
 
 Install dependencies.
 
-   ```sh
-   npm install && npm run start:dev
-   ```
+```sh
+npm install && npm run start:dev
+```
 
 ## Run locally using docker-compose
 
@@ -57,9 +58,9 @@ Install dependencies.
 
 Fill in `.env` configuration variables.
 
-   ```sh
-   docker-compose up
-   ```
+```sh
+docker-compose up
+```
 
 ## Run Production
 

@@ -43,6 +43,7 @@
     "faker": "^6.6.6",
     "jest": "^28.1.1",
     "nodemon": "^2.0.4",
+    "prettier": "2.7.1",
     "supertest": "^6.2.2",
     "ts-jest": "^28.0.5",
     "ts-node": "^10.5.0",
@@ -51,8 +52,8 @@
   "dependencies": {
     "@digitalbazaar/http-signature-header": "^4.0.1",
     "@hashgraph/did-sdk-js": "github:Meeco/did-sdk-js#00453238ea925ecf67be073ef133d9ea4373b22b",
-    "@hashgraph/vc-sl-sdk-js": "github:Meeco/vc-sl-sdk-js#18485f291cdb5f910990b44534b4f96c87f26e8a",
     "@hashgraph/sdk": "^2.16.1",
+    "@hashgraph/vc-sl-sdk-js": "github:Meeco/vc-sl-sdk-js#18485f291cdb5f910990b44534b4f96c87f26e8a",
     "base64url-universal": "^1.1.0",
     "body-parser": "^1.19.2",
     "bs58": "^5.0.0",
