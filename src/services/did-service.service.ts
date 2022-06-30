@@ -21,7 +21,7 @@ export const register = async (
   const hcsMessages = new HcsMessageCollectorService();
   const didKeypair = await DidKeypairModel.findById(did);
   if (!didKeypair || !didKeypair.privateKey) {
-    throw new Error(`DID is not controller by the AppNet`);
+    throw new Error(`DID is not controller by the identity-network`);
   }
   const privateKey = PrivateKey.fromString(didKeypair.privateKey);
 
@@ -51,7 +51,7 @@ export const update = async (
   const didKeypair = await DidKeypairModel.findById(did);
 
   if (!didKeypair || !didKeypair.privateKey) {
-    throw new Error(`DID is not controller by the AppNet`);
+    throw new Error(`DID is not controller by the identity-network`);
   }
   const privateKey = PrivateKey.fromString(didKeypair.privateKey);
 
@@ -76,7 +76,7 @@ export const revoke = async (did: string, id: string) => {
   const hcsMessages = new HcsMessageCollectorService();
   const didKeypair = await DidKeypairModel.findById(did);
   if (!didKeypair || !didKeypair.privateKey) {
-    throw new Error(`DID is not controller by the AppNet`);
+    throw new Error(`DID is not controller by the identity-network`);
   }
   const privateKey = PrivateKey.fromString(didKeypair.privateKey);
 

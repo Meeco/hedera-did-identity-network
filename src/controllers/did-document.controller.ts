@@ -52,7 +52,7 @@ export class DidDocumentController extends Controller {
   }
 
   /**
-   * Permanently remove DID Document from Appnet registry.
+   * Permanently remove DID Document from identity-network registry.
    * In addition to that, new messages will be written to the DID topic stating that document has been removed.
    * @summary Remove DID Document from registry
    * @param did DID Identifier as defined in DID specification

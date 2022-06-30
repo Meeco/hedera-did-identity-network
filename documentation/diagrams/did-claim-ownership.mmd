@@ -2,12 +2,12 @@ sequenceDiagram
 Title: DID Claim ownership
 
 participant user as user
-participant API as Appnet
+participant API as identity-network
 participant DB as Database
 participant SDK as DID JS SDK
 
 
-note over user, SDK: Claim DID Document ownership back from the AppNet. Changes DID root key to the one provided via `privateKeyMultibase` parameter.
+note over user, SDK: Claim DID Document ownership back from the identity-network. Changes DID root key to the one provided via `privateKeyMultibase` parameter.
 user ->> API: Send multibase private key
 alt auth
 API ->> API: Check payload digest

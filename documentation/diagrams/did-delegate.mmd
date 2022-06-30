@@ -1,19 +1,19 @@
 sequenceDiagram
-Title: Register an external DID with AppNet
+Title: Register an external DID with identity-network
 
 participant user as user
-participant API as Appnet
+participant API as identity-network
 participant DB as Database
 participant SDK as DID JS SDK
 
 
-note over user, SDK: Register an existing DID Document with AppNet. Gives away control of the document to the AppNet component.
+note over user, SDK: Register an existing DID Document with identity-network. Gives away control of the document to the identity-network component.
 user ->> API: Send multibase private key
 alt validate
 API ->> API: Check DID already registered 
 end 
 alt validation fails
-API ->> user: Return Response <br> "DID is already registered with AppNet"
+API ->> user: Return Response <br> "DID is already registered with identity-network"
 else validation success
 API ->> API: Generate  New DidKeypair
 API ->> SDK: Create new DID owner Event with DidKeypair and provided multibase private key

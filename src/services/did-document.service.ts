@@ -15,7 +15,7 @@ export const resolve = async (did: string): Promise<DidDocument> => {
 };
 
 /**
- * Register new DID with the Appnet
+ * Register new DID with the identity-network
  * @returns Registered DID document information
  */
 export const register = async (
@@ -63,7 +63,7 @@ export const revoke = async (did: string): Promise<void> => {
   const didKeypair = await DidKeypairModel.findById(did);
 
   if (!didKeypair || !didKeypair.privateKey) {
-    throw new Error(`DID is not controller by the AppNet`);
+    throw new Error(`DID is not controller by the identity-network`);
   }
 
   const privateKey = PrivateKey.fromString(didKeypair.privateKey);

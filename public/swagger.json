@@ -388,7 +388,7 @@
 				"properties": {
 					"id": {
 						"type": "string",
-						"example": "https://appnet.meecoo.me/vc/status/0.0.123/614"
+						"example": "https://identity-network.meecoo.me/vc/status/0.0.123/614"
 					},
 					"type": {
 						"type": "string",
@@ -404,7 +404,7 @@
 					},
 					"statusListCredential": {
 						"type": "string",
-						"example": "https://appnet.meecoo.me/vc/status/0.0.123"
+						"example": "https://identity-network.meecoo.me/vc/status/0.0.123"
 					}
 				},
 				"required": [
@@ -517,7 +517,7 @@
 	"info": {
 		"title": "identity-network",
 		"version": "1.0.0",
-		"description": "Hedera Appnet API",
+		"description": "identity-network API",
 		"license": {
 			"name": "MIT"
 		},
@@ -634,7 +634,7 @@
 						}
 					}
 				},
-				"description": "Permanently remove DID Document from Appnet registry.\nIn addition to that, new messages will be written to the DID topic stating that document has been removed.",
+				"description": "Permanently remove DID Document from identity-network registry.\nIn addition to that, new messages will be written to the DID topic stating that document has been removed.",
 				"summary": "Remove DID Document from registry",
 				"tags": [
 					"DID - Document"
@@ -685,8 +685,8 @@
 						}
 					}
 				},
-				"description": "Claim DID Document ownership back from the AppNet. Changes DID root key to the one provided via `privateKeyMultibase` parameter.\nDID controller remains the same.",
-				"summary": "Claim DID Document ownership back from the AppNet",
+				"description": "Claim DID Document ownership back from the identity-network. Changes DID root key to the one provided via `privateKeyMultibase` parameter.\nDID controller remains the same.",
+				"summary": "Claim DID Document ownership back from the identity-network",
 				"tags": [
 					"DID - Ownership"
 				],
@@ -746,8 +746,8 @@
 						}
 					}
 				},
-				"description": "Register an existing DID Document with AppNet. Gives away control of the document to the AppNet component.\nPrevious DID root (`privateKeyMultibase` parameter) key becomes a delegate key. <br /><br />\n<em>* Based on your use case you should consider securing this endpoint. Endpoint communicates to Hedera Consensus Services.</em>",
-				"summary": "Register an existing DID Document with AppNet",
+				"description": "Register an existing DID Document with identity-network. Gives away control of the document to the identity-network component.\nPrevious DID root (`privateKeyMultibase` parameter) key becomes a delegate key. <br /><br />\n<em>* Based on your use case you should consider securing this endpoint. Endpoint communicates to Hedera Consensus Services.</em>",
+				"summary": "Register an existing DID Document with identity-network",
 				"tags": [
 					"DID - Ownership"
 				],

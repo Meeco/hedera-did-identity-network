@@ -6,7 +6,7 @@ export {
 } from "./did-document.service";
 export {
   claim as claimDidOwnership,
-  register as registerDidWithAppNet,
+  register as registerDidWithIdentityNetwork,
 } from "./did-ownership.service";
 export {
   register as registerService,
