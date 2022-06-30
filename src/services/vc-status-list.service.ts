@@ -1,10 +1,10 @@
 import { FileId, PrivateKey } from "@hashgraph/sdk";
 import { HfsVcSl } from "@hashgraph/vc-sl-sdk-js";
-import { VcStatusIndexControllerModel } from "../daos/vc-status-index-controller.dao";
 import { VcStatusFileModel } from "../daos/vc-status-file.dao";
+import { VcStatusIndexControllerModel } from "../daos/vc-status-index-controller.dao";
 import { RegisterVcStatusPayload, VcStatusListInfo } from "../models";
-import { client } from "./hedera-client";
 import { VC } from "../utils/vc";
+import { client } from "./hedera-client";
 
 const { FILE_KEY, HOST, ISSUER_KEY, ISSUER_DID } = process.env;
 const FILE_KEY_PK = PrivateKey.fromString(FILE_KEY || "");
@@ -37,17 +37,15 @@ export const getNewVcStatusIndex = async (controllerDID: string) => {
   );
 
   VcStatusIndexControllerModel.createVcStatusIndexController(
-    statusFile!._id,
-    statusFile!.lastIndexInUse!,
+    statusFile._id,
+    statusFile.lastIndexInUse,
     controllerDID
   );
 
-  {
-    return {
-      fileId: statusFile!._id,
-      statusListIndex: statusFile!.lastIndexInUse!,
-    };
-  }
+  return {
+    fileId: statusFile._id,
+    statusListIndex: statusFile.lastIndexInUse,
+  };
 };
 
 export const resolveVcStatusList = async (
