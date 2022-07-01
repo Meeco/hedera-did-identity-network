@@ -1,14 +1,15 @@
-# Hedera™ Hashgraph Appnet - hedera-appnet
+# Hedera™ Hashgraph Identity Network - hedera-identity-network
 
-This project is an example of how appnets can build identity networks on top of Hedera and utilize Hedera DID Method.
+This project is an example of how identity-networks can build on top of Hedera and utilize Hedera DID Method.
 
 ## About
 
-The appnet runs on localhost port 8000 be default. It does not expose any user interface, instead there is a Swagger (OpenAPI) Definitions Collection available [here](/public/swagger.json) that demonstrate a full end-to-end flow of DID documents generation, publishing, update and deletion.
+The identity-network runs on localhost port 8000 be default. It does not expose any user interface, instead there is a Swagger (OpenAPI) Definitions Collection available [here](/public/swagger.json) that demonstrate a full end-to-end flow of DID documents generation, publishing, update and deletion.
 
 ## Table of Contents
 
-- [Hedera™ Hashgraph Appnet - hedera-appnet](#hedera%e2%84%a2-hashgraph-appnet---hedera-appnet)
+- [Hedera™ Hashgraph Identity Network - hedera-identity-network](#hedera%e2%84%a2-hashgraph-identity-network---hedera-identity-network)
+
   - [Table of Contents](#table-of-contents)
   - [Configuration](#configuration)
   - [Usage](#usage)
@@ -20,6 +21,7 @@ The appnet runs on localhost port 8000 be default. It does not expose any user i
     - [Authorization](#authorization)
   - [Contributing](#contributing)
   - [References](#references)
+
   -
 
 ## Configuration
@@ -31,14 +33,14 @@ The following environment variables are required to be set up before running the
 - `HEDERA_NETWORK` - The Hedera network this application should connect to (testnet, previewnet, mainnet)
 - `NODE_LOCAL_PORT` - Node local port, its 8000 by default.
 - `NODE_DOCKER_PORT` - Node docker port, its 8000 by default.
-- `MONGODB_DATABASE` - MongoDB database name, its appnet_dev by default.
-- `MONGODB_LOCAL_PORT` - MongoDB local port, its 7017 by default.
-- `MONGODB_DOCKER_PORT` - MongoDB docker port, its 27017 by default.
-- `MONGODB_USER` - MongoDB username, its root by default.
-- `MONGODB_PASSWORD` - MongoDB user password, its 123456 by default.
+- `DB_DATABASE` - MongoDB database name, its identity-network_dev by default.
+- `DB_LOCAL_PORT` - MongoDB local port, its 7017 by default.
+- `DB_DOCKER_PORT` - MongoDB docker port, its 27017 by default.
+- `DB_USER` - MongoDB username, its root by default.
+- `DB_PASSWORD` - MongoDB user password, its 123456 by default.
 - `FILE_KEY` - Private key to manage file on a Hedera network.
-- `ISSUER_KEY` - Private key manage by appnet (as issuer) to sign verifiable credential that encapsulates the VC status list.
-- `ISSUER_DID` - DID manage by appnet (as issuer) for expressing the issuer of a verifiable credential that encapsulates the VC status list.
+- `ISSUER_KEY` - Private key manage by identity-network (as issuer) to sign verifiable credential that encapsulates the VC status list.
+- `ISSUER_DID` - DID manage by identity-network (as issuer) for expressing the issuer of a verifiable credential that encapsulates the VC status list.
 
 ## Usage
 
@@ -46,9 +48,9 @@ The following environment variables are required to be set up before running the
 
 Install dependencies.
 
-   ```sh
-   npm install && npm start:dev
-   ```
+```sh
+npm install && npm run start:dev
+```
 
 ## Run locally using docker-compose
 
@@ -56,9 +58,9 @@ Install dependencies.
 
 Fill in `.env` configuration variables.
 
-   ```sh
-   docker-compose up
-   ```
+```sh
+docker-compose up
+```
 
 ## Run Production
 
@@ -102,7 +104,7 @@ There are three endpoints that in this example project have no authorization add
 - `GET /did/{did}`
 
 It is up to developers to decide how these endpoints should be secured based on their use case.
-For an example of how requests can be made against API please refer to `scripts/make-appnet-api-request.js` script. More details can also be found on `authentication.ts` file and `tests`.
+For an example of how requests can be made against API please refer to `scripts/make-identity-network-api-request.js` script. More details can also be found on `authentication.ts` file and `tests`.
 
 ## Contributing
 

@@ -1,6 +1,6 @@
-import {HcsDidMessage, MessageEnvelope} from "@hashgraph/did-sdk-js";
-import {CreateMessageDto} from "../dto/create.message.dto";
-import {getMongoose} from "../services";
+import { HcsDidMessage, MessageEnvelope } from "@hashgraph/did-sdk-js";
+import { CreateMessageDto } from "../dto/create.message.dto";
+import { getMongoose } from "../services";
 
 class MessageSchema {
   Schema = getMongoose().Schema;

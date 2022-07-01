@@ -5,9 +5,9 @@
   "spec": {
     "outputDirectory": "public",
     "specVersion": 3,
-    "title": "Hedera Appnet API",
+    "title": "identity-network API",
     "version": "1.0.0",
-    "description": "Hedera Appnet API",
+    "description": "identity-network API",
     "license": "MIT",
     "contact": {
       "name": "Meeco",

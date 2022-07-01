@@ -10,7 +10,7 @@ import { HcsMessageCollectorService } from "./hcs-message-collector.service";
 import { client } from "./hedera-client";
 
 /**
- * Changes DID root key to the one passed via parameters. AppNet loses ownership of the document.
+ * Changes DID root key to the one passed via parameters. identity-network loses ownership of the document.
  * @returns Update DID document information
  */
 export const claim = async (did: string, body: IDidOwnershipClaimPayload) => {
@@ -18,10 +18,10 @@ export const claim = async (did: string, body: IDidOwnershipClaimPayload) => {
   const didKeypair = await DidKeypairModel.findById(did);
 
   if (!didKeypair) {
-    throw new Error("DID is not controller by the AppNet");
+    throw new Error("DID is not controller by the identity-network");
   }
 
-  const privateKey = PrivateKey.fromString(didKeypair.privateKey);
+  const privateKey = PrivateKey.fromString(didKeypair.privateKey!);
 
   const hcsDid = new HcsDid({
     identifier: did,
@@ -46,7 +46,7 @@ export const claim = async (did: string, body: IDidOwnershipClaimPayload) => {
 };
 
 /**
- * Makes AppNet an owner of the did document. Public key of an old root keypair is later added as a delegate to the document.
+ * Makes identity-network an owner of the did document. Public key of an old root keypair is later added as a delegate to the document.
  * @returns Update DID document information
  */
 export const register = async (
@@ -56,7 +56,7 @@ export const register = async (
   const existingDidKeypair = await DidKeypairModel.findById(did);
 
   if (existingDidKeypair) {
-    throw new Error("DID is already registered with AppNet");
+    throw new Error("DID is already registered with identity-network");
   }
 
   const hcsMessages = new HcsMessageCollectorService();

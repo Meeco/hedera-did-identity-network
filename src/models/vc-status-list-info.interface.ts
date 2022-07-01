@@ -1,6 +1,6 @@
 export class VcStatusListInfo {
   /**
-   * @example "https://appnet.meecoo.me/vc/status/0.0.123/614"
+   * @example "https://identity-network.meecoo.me/vc/status/0.0.123/614"
    */
   id!: string;
   type!: "RevocationList2021Status" | "SuspensionList2021Status";
@@ -9,7 +9,7 @@ export class VcStatusListInfo {
    */
   statusListIndex!: number;
   /**
-   * @example "https://appnet.meecoo.me/vc/status/0.0.123"
+   * @example "https://identity-network.meecoo.me/vc/status/0.0.123"
    */
   statusListCredential!: string;
 }

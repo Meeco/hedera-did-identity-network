@@ -31,7 +31,7 @@ async function main() {
   });
 
   /**
-   * AppNet request definition
+   * identity-network request definition
    */
   let now = new Date();
   let thirtyMinutesFromNow = now.setMinutes(now.getMinutes() + 30);

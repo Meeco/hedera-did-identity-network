@@ -17,7 +17,7 @@ describe("DID Service", () => {
   //setup in memory mongodb and mock mongoose db connection
   setupBeforeAndAfter();
 
-  describe("Claim DID Document ownership back from the AppNet", () => {
+  describe("Claim DID Document ownership back from the identity-network", () => {
     describe("given valid register DID identifier and delegate owner privatekey multibase payload", () => {
       it("returns error about expired request", async () => {
         // register new DID
@@ -65,7 +65,7 @@ describe("DID Service", () => {
         });
       });
 
-      it("should return a 200 with updated DID Document showing ownership changed to owner from AppNet.", async () => {
+      it("should return a 200 with updated DID Document showing ownership changed to owner from identity-network.", async () => {
         // register new DID
         const registeredDidDocument = await supertest(app).post("/did").send({
           publicKeyMultibase: DID_PUBLIC_KEY_MULTIBASE,
@@ -117,16 +117,16 @@ describe("DID Service", () => {
     });
   });
 
-  describe("Register an existing DID Document with AppNet", () => {
+  describe("Register an existing DID Document with identity-network", () => {
     describe("given valid register DID identifier and delegate owner privatekey multibase payload", () => {
-      it("should return a 200 with updated DID Document showing ownership changed to AppNet from external owner", async () => {
-        // generate DID outside AppNet
+      it("should return a 200 with updated DID Document showing ownership changed to identity-network from external owner", async () => {
+        // generate DID outside identity-network
 
         const didPrivateKey = PrivateKey.generate();
         const did = new HcsDid({ privateKey: didPrivateKey, client: client });
         const registeredDid = await did.register();
 
-        // register an existing DID Document with AppNet
+        // register an existing DID Document with identity-network
 
         const registeredDidPkMultibase = Hashing.multibase.encode(
           didPrivateKey.toBytes()
